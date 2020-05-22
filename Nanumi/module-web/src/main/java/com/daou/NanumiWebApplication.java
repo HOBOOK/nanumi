@@ -1,4 +1,4 @@
-package com.daou.nanumi;
+package com.daou;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,10 +11,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class NanumiWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(NanumiWebApplication.class);
-    }
-
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String test(){
-        return "Hello world";
     }
 }
