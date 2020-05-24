@@ -1,16 +1,21 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import test from '../components/test';
-
+import AuthUser from '../components/AuthUser';
+import HelloWorld from '../components/HelloWorld';
 Vue.use(VueRouter)
 
 export default new VueRouter({
   mode: "history",
   routes : [
   {
-    path: '/test',
-    name: 'test',
-    component: test
+      path: '/',
+      name: 'home',
+      component: HelloWorld
+  },
+  {
+    path: '/authuser',
+    name: 'authuser',
+    component: AuthUser
   },
   
 ]
