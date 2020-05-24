@@ -1,0 +1,11 @@
+package com.daou.authentication.exceptions;
+
+import org.springframework.security.authentication.AuthenticationServiceException;
+
+public class AuthMethodNotSupportedException extends AuthenticationServiceException {
+    private static final long serivalVersionUID = 3705043083010304496L;
+
+    public AuthMethodNotSupportedException(String msg){
+        super(msg);
+    }
+}
