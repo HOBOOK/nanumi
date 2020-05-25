@@ -13,6 +13,7 @@ import com.daou.authentication.model.token.RefreshToken;
 
 import com.daou.authentication.service.UserService;
 import com.daou.entity.TempAccount;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -36,18 +37,15 @@ import java.util.stream.Collectors;
  * 토큰 새로고침 앤드포인트
  * @author pkh879
  */
+@AllArgsConstructor
 @RestController
 public class RefreshTokenEndpoint {
-    @Autowired
-    private JwtTokenFactory tokenFactory;
-    @Autowired
-    private JwtSettings jwtSettings;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TokenVerifier tokenVerifier;
-    @Autowired @Qualifier("jwtHeaderTokenExtractor")
-    private TokenExtractor tokenExtractor;
+    private final JwtTokenFactory tokenFactory;
+    private final JwtSettings jwtSettings;
+    private final UserService userService;
+    private final TokenVerifier tokenVerifier;
+    @Qualifier("jwtHeaderTokenExtractor")
+    private final TokenExtractor tokenExtractor;
 
     @RequestMapping(value = "/api/auth/token", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

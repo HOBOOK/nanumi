@@ -1,14 +1,18 @@
 package com.daou.entity;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
+@NoArgsConstructor
 @Entity
-@Data
-@Table(name="TEST_ACCOUNT")
+@Getter
+@Setter
+@Table(name="TEST_ACCOUNT_TB")
 public class TempAccount {
     @Id
     @Column(name = "id")
@@ -21,11 +25,10 @@ public class TempAccount {
     private String password;
 
     @OneToMany
-    @JoinColumn(name = "TEST_ACCOUNT_ID", referencedColumnName = "id")
+    @JoinColumn(name = "roles", referencedColumnName = "id")
     private List<UserRole> roles;
 
-    public TempAccount(){}
-
+    @Builder
     public TempAccount(Long id, String username, String password, List<UserRole> roles)
     {
         this.id = id;
