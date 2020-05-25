@@ -4,9 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-//@AllArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@Entity(name="member")
+@Getter
 @Entity
 @Table(name="member")
 public class Member {
@@ -18,14 +16,22 @@ public class Member {
 	
 	@Column(name = "id")
 	private String id;
+
+	@Column(name = "pwd")
+	private String pwd;
 	
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "role")
+	private String role;
+
 	@Builder
-	public Member(String id, String name) {
+	public Member(String id, String pwd, String name, String role) {
 		this.id = id;
+		this.pwd = pwd;
 		this.name = name;
+		this.role = role;
 	}
 	
 	public Member() {}

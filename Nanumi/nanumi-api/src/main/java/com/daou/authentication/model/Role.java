@@ -1,4 +1,4 @@
-package com.daou.authentication.entity;
+package com.daou.authentication;
 
 public enum Role {
     ADMIN, USER;
