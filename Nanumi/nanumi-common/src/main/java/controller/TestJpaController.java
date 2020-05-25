@@ -1,6 +1,6 @@
 //package com.daou.controller;
 //
-//import com.daou.entity.BandVo;
+//import com.daou.authentication.entity.BandVo;
 //import com.daou.service.BandService;
 //
 //import org.slf4j.Logger;

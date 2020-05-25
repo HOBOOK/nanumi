@@ -1,4 +1,4 @@
-//package com.daou.entity;
+//package com.daou.authentication.entity;
 //
 //import javax.persistence.*;
 //import lombok.*;

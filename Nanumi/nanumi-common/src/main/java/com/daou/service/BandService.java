@@ -4,7 +4,7 @@ package com.daou.service;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
 //
-//import com.daou.entity.BandVo;
+//import com.daou.authentication.entity.BandVo;
 //import com.daou.repository.BandRepository;
 //
 //import java.util.ArrayList;
