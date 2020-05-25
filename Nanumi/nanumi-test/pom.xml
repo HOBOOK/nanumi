@@ -23,6 +23,13 @@
 
 	<dependencies>
 		<dependency>
+            <groupId>com.daou</groupId>
+            <artifactId>nanumi-common</artifactId>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+	
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
