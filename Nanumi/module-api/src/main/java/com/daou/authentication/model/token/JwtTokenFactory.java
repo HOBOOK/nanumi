@@ -60,7 +60,7 @@ public class JwtTokenFactory {
 
     public JwtToken createRefreshToken(UserContext userContext){
         if(StringUtils.isBlank(userContext.getUsername()))
-            throw new IllegalArgumentException("유저이름 없이 JWT 토큰을 만들 수 없습니다.");
+            throw new IllegalArgumentException("유저 이름 없이 JWT 토큰을 만들 수 없습니다.");
 
         LocalDateTime currentTime = LocalDateTime.now();
 

@@ -38,11 +38,16 @@ import java.util.stream.Collectors;
  */
 @RestController
 public class RefreshTokenEndpoint {
-    @Autowired private JwtTokenFactory tokenFactory;
-    @Autowired private JwtSettings jwtSettings;
-    @Autowired private UserService userService;
-    @Autowired private TokenVerifier tokenVerifier;
-    @Autowired @Qualifier("jwtHeaderTokenExtractor") private TokenExtractor tokenExtractor;
+    @Autowired
+    private JwtTokenFactory tokenFactory;
+    @Autowired
+    private JwtSettings jwtSettings;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private TokenVerifier tokenVerifier;
+    @Autowired @Qualifier("jwtHeaderTokenExtractor")
+    private TokenExtractor tokenExtractor;
 
     @RequestMapping(value = "/api/auth/token", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import com.daou.authentication.model.token.JwtToken;
 
 @Configuration
-@ConfigurationProperties(prefix = "nanumi.security.jwt")
 @Getter
 @Setter
 public class JwtSettings {
