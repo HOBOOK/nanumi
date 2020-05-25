@@ -7,7 +7,7 @@
 		<artifactId>Nanumi</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>module-common</artifactId>
+	<artifactId>nanumi-test</artifactId>
 
 	<dependencies>
 		<dependency>

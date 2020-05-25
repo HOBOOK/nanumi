@@ -7,6 +7,7 @@
 		<module>module-api</module>
 		<module>module-common</module>
 		<module>module-web</module>
+<!-- 		<module>nanumi-test</module> -->
 	</modules>
 	<groupId>com.daou</groupId>
 	<artifactId>Nanumi</artifactId>
@@ -42,9 +43,60 @@
 			<dependency>
 				<groupId>com.daou</groupId>
 				<artifactId>module-common</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
+
+	<!-- MariaDB -->	
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.10</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.3.0.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+<!-- 			<version>2.5.4</version> -->
+			<version>2.3.0</version>
+<!-- 			<scope>runtime</scope> -->
+		</dependency>
+
+	  	<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>2.3.0.RELEASE</version>
+        </dependency> 
+        
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <scope>provided</scope>
+		    <version>2.3.0.RELEASE</version>
+		</dependency>
+        
+        
+        <dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>5.1.6</version>
+		</dependency>
+	<!-- MariaDB -->
+	
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+			
 		</dependencies>
 	</dependencyManagement>
 
