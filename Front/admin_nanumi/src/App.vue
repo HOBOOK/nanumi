@@ -64,7 +64,7 @@
               <v-icon></v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title @click="switchPage('home')">번호대역등록</v-list-item-title>
+              <v-list-item-title @click="switchPage('rgbandwidth')">번호대역등록</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         <v-list-item>
