@@ -4,10 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 	<modules>
+<<<<<<< HEAD
 		<module>module-api</module>
 		<module>module-common</module>
 		<module>module-web</module>
 <!-- 		<module>nanumi-test</module> -->
+=======
+		<module>nanumi-api</module>
+		<module>nanumi-common</module>
+		<module>nanumi-web</module>
+>>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d
 	</modules>
 	<groupId>com.daou</groupId>
 	<artifactId>Nanumi</artifactId>
@@ -37,16 +43,21 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<artifactId>spring-boot-devtools</artifactId>
 				<version>2.3.0.RELEASE</version>
 			</dependency>
 			<dependency>
 				<groupId>com.daou</groupId>
+<<<<<<< HEAD
 				<artifactId>module-common</artifactId>
+=======
+				<artifactId>nanumi-common</artifactId>
+>>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d
 				<version>0.0.1-SNAPSHOT</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
+<<<<<<< HEAD
 
 	<!-- MariaDB -->	
 		<dependency>
@@ -97,6 +108,42 @@
 			<scope>runtime</scope>
 		</dependency>
 			
+=======
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.12</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- 데이터베이스 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<scope>provided</scope>
+				<version>2.3.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-jpa</artifactId>
+				<version>2.3.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>5.4.12.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-jdbc</artifactId>
+				<version>2.3.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mariadb.jdbc</groupId>
+				<artifactId>mariadb-java-client</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+>>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d
 		</dependencies>
 	</dependencyManagement>
 

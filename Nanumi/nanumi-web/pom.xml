@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>Nanumi</artifactId>
+        <groupId>com.daou</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nanumi-web</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.daou</groupId>
+<<<<<<< HEAD:Nanumi/module-web/pom.xml
+            <artifactId>module-common</artifactId>
+<!--             <version>0.0.1-SNAPSHOT</versison> -->
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        
+=======
+            <artifactId>nanumi-common</artifactId>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+>>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d:Nanumi/nanumi-web/pom.xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>compile</scope>
+        </dependency>
+<<<<<<< HEAD:Nanumi/module-web/pom.xml
+     
+=======
+
+>>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d:Nanumi/nanumi-web/pom.xml
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
