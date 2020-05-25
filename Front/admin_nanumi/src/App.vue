@@ -102,7 +102,7 @@ export default {
       items: [
         { text: '대시보드', icon: 'mdi-home',to:"dashboard"},
         { text: '사용자 인증 관리', icon: 'mdi-account-multiple',to:"authuser"},
-        { text: '수신번호관리', icon: 'mdi-history', to:"recive"},
+        { text: '수신번호관리', icon: 'mdi-history', to:"receive"},
       ],
   }),
    methods: {
