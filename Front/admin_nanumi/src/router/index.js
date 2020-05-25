@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import AuthUser from '../components/AuthUser';
-import Receive from '../components/Receive'
+import Receive from '../components/Receive';
 import HelloWorld from '../components/HelloWorld';
+// import test from '../components/test'
+// import test2 from '../components/test2'
 Vue.use(VueRouter)
 
 export default new VueRouter({

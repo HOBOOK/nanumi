@@ -3,7 +3,8 @@
   <v-card height="100%">
    <v-data-table
     :headers="headers"
-    :items="items"
+    :items="filteritems"
+    item-key="Seq"
     class="elevation-1"
   > 
     <template v-slot:top>
@@ -13,7 +14,7 @@
                         <v-row class="pa-3">
                             <v-select
                                     :items="countryNumberList"
-                                    v-model="countryNumberFilter"
+                                    v-model="countryNumberFilterValue"
                                     label="국제번호"
                                     dense
                                     outlined
@@ -24,7 +25,7 @@
                         <v-row class="pa-3">
                             <v-select
                                     :items="localNumberList"
-                                    v-model="localNumberFilter"
+                                    v-model="localNumberFilterValue"
                                     label="지역번호"
                                     dense
                                     outlined
@@ -37,7 +38,7 @@
                             <!-- Filter for calories -->
                              <v-select
                                     :items="baseNumberList"
-                                    v-model="baseNumberFilter"
+                                    v-model="baseNumberFilterValue"
                                     label="국번"
                                     dense
                                     outlined
@@ -49,7 +50,7 @@
                             <!-- Filter for calories -->
                              <v-select
                                     :items="categoryList"
-                                    v-model="categoryFilter"
+                                    v-model="filters.category"
                                     label="Fax/Mo"
                                     dense
                                     outlined
@@ -61,7 +62,7 @@
                             <!-- Filter for calories -->
                              <v-select
                                     :items="serviceList"
-                                    v-model="serviceFilter"
+                                    v-model="filters.service"
                                     label="뿌리오/엔팩스"
                                     dense
                                     outlined
@@ -70,7 +71,7 @@
                     </v-col>
                     <v-col cols="2">
                       <v-row class="pa-3">
-                        <v-btn>검색</v-btn>
+                        <v-btn @click="filteredItems">검색</v-btn>
                       </v-row>
                     </v-col>
                 </v-row>
@@ -150,7 +151,7 @@
     data: () => ({
       dialog: false,
       countryNumberList:[
-        {text: '+82',value:82}
+        {text: '82',value:"82"}
       ],
       localNumberList:[
         {text: "031", value: "031"},
@@ -164,17 +165,19 @@
           {text: "3444", value: "3444"},
         ],
       categoryList:[
+        {text: "All", value: "none"},
         {text: "FAX", value: "FAX"},
         {text: "MO", value: "MO"},
       ],
       serviceList:[
-        {text: "뿌리오", value: "ppurio"},
-        {text: "엔팩스", value: "enfax"},
+        {text: "All", value: "none"},
+        {text: "뿌리오", value: "뿌리오"},
+        {text: "엔팩스", value: "엔팩스"},
       ],
-      baseNumberFilter: null,
-      categoryFilter : null,
-      serviceFilter : null,
-      headers: [
+      countryNumberFilterValue : 'none',
+      localNumberFilterValue : 'none',
+      baseNumberFilterValue : 'none',
+     headers: [
         {
           text: 'Seq',
           align: 'start',
@@ -183,11 +186,17 @@
         },
         { text: '대역번호', value: 'bandNumber' },
         { text: '수신번호', value: 'receiveNumber' },
-        { text: '서비스', value: 'service' },
-        { text: '카테고리', value: 'category' },
+        { text: '서비스', value: 'service'},
+        { text: '카테고리', value: 'category'},
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       items: [],
+      filteritems:[],
+      filters:{
+        category: [],
+        service: [],
+        bandNumber: [],
+      },
       editedIndex: -1,
       editedItem: {
         seq:1,
@@ -206,6 +215,22 @@
     }),
 
     computed: {
+      // headers(){
+      //   return[
+      //   {
+      //     text: 'Seq',
+      //     align: 'start',
+      //     sortable: false,
+      //     value: 'seq',
+      //   },
+      //   { text: '대역번호', value: 'bandNumber' },
+      //   { text: '수신번호', value: 'receiveNumber' },
+      //   { text: '서비스', value: 'service', filter: this.serviceFilter},
+      //   { text: '카테고리', value: 'category', filter: this.categoryFilter},
+      //   { text: 'Actions', value: 'actions', sortable: false },
+      //   ]
+      // },
+      
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -222,25 +247,62 @@
     },
 
     methods: {
+      filteredItems() {
+
+        var temp =""
+
+        //fix me
+        //좀더 생각해보고 수정이 필요.... 일단 작성
+        if(this.countryNumberFilterValue != "none")
+        {
+          temp += this.countryNumberFilterValue + "-"
+        }
+        if(this.localNumberFilterValue != "none"){
+            temp += this.localNumberFilterValue + "-"
+        }
+        if(this.baseNumberFilterValue != "none"){
+            temp += this.baseNumberFilterValue
+        }
+        if(temp==="")
+        temp="none"
+        
+        
+        this.filters.bandNumber =temp
+        console.log(this.filters.bandNumber)
+        //d는 현재 테이블에 있는 값
+        this.filteritems = this.items.filter(d => 
+      {
+        // console.log(d)
+
+        //f는 필터 목록들
+        return Object.keys(this.filters).every(f => 
+        {
+
+          // console.log(f)
+          return this.filters[f].length < 1|| this.filters[f] == "none" || d[f].includes(this.filters[f])
+        } )
+      })
+    },
+
       initialize () {
         this.items = [
           {
             seq:1,
-            bandNumber: '82-0303-671',
+            bandNumber: '82-0303-3441',
             receiveNumber: '0000',
             service: '엔팩스',
             category: 'FAX',
           },
           {
             seq:2,
-            bandNumber: '82-0303-671',
+            bandNumber: '82-0303-3442',
             receiveNumber: '0001',
             service: '뿌리오',
             category: 'MO',
           },
           {
             seq:3,
-            bandNumber: '82-0303-671',
+            bandNumber: '82-032-671',
             receiveNumber: '0002',
             service: '뿌리오',
             category: 'MO',
@@ -294,8 +356,30 @@
             service: '뿌리오',
             category: 'MO',
           },
-        ]
+        ],
+        this.filteritems = this.items
       },
+    //   categoryFilter(value) {
+    //     // If this filter has no value we just skip the entire filter.
+    //     console.log(value + "," + this.categoryFilterValue)
+    //     if (!this.categoryFilterValue) {
+    //       return true;
+    //     }
+    //     // Check if the current loop value (The calories value)
+    //     // equals to the selected value at the <v-select>.
+    //     return value === this.categoryFilterValue;
+    //   },
+
+    //  serviceFilter(value) {
+    //     // If this filter has no value we just skip the entire filter.
+    //     console.log(value + "," + this.serviceFilterValue)
+    //     if (!this.serviceFilterValue) {
+    //       return true;
+    //     }
+    //     // Check if the current loop value (The calories value)
+    //     // equals to the selected value at the <v-select>.
+    //     return value === this.serviceFilterValue;
+    //   },
 
       editItem (item) {
         this.editedIndex = this.items.indexOf(item)
