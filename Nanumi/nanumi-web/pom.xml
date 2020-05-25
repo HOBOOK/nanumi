@@ -14,19 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>com.daou</groupId>
-<<<<<<< HEAD:Nanumi/module-web/pom.xml
-            <artifactId>module-common</artifactId>
-<!--             <version>0.0.1-SNAPSHOT</versison> -->
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        
-=======
             <artifactId>nanumi-common</artifactId>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
->>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d:Nanumi/nanumi-web/pom.xml
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
@@ -36,11 +27,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>compile</scope>
         </dependency>
-<<<<<<< HEAD:Nanumi/module-web/pom.xml
-     
-=======
-
->>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d:Nanumi/nanumi-web/pom.xml
     </dependencies>
 
     <build>

@@ -13,12 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.daou</groupId>
-<<<<<<< HEAD:Nanumi/module-api/pom.xml
-            <artifactId>module-common</artifactId>
-<!--             <version>0.0.1-SNAPSHOT</version> -->
-=======
             <artifactId>nanumi-common</artifactId>
->>>>>>> 6cc3b125f7b85facf2bdb301dfee4a61d9fd740d:Nanumi/nanumi-api/pom.xml
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -35,10 +30,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
@@ -47,17 +38,6 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
-
-
         <!--임시 (이후에 Common 모듈에 이전)-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -68,10 +48,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.11.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!--임시 끝-->
     </dependencies>
