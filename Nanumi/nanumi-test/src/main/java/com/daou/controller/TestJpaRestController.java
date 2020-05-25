@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.daou.entity.MemberVo;
+import com.daou.entity.Member;
 import com.daou.repository.MemberRepository;
 import com.daou.service.MemberService;
 
@@ -30,17 +30,17 @@ public class TestJpaRestController {
 	
 	// 모든 회원 조회 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<List<MemberVo>> getAllmembers() { 
-		List<MemberVo> member = memberService.findAll(); 
+	public ResponseEntity<List<Member>> getAllmembers() {
+		List<Member> member = memberService.findAll();
 		System.out.println(member);
-		return new ResponseEntity<List<MemberVo>>(member, HttpStatus.OK); 
+		return new ResponseEntity<List<Member>>(member, HttpStatus.OK);
 	} 
 	
 	// 회원번호로 한명의 회원 조회 
 	@GetMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<MemberVo> getMember(@PathVariable("mbrNo") Long mbrNo) { 
-		Optional<MemberVo> member = memberService.findById(mbrNo);
-		return new ResponseEntity<MemberVo>(member.get(), HttpStatus.OK); } 
+	public ResponseEntity<Member> getMember(@PathVariable("mbrNo") Long mbrNo) {
+		Optional<Member> member = memberService.findById(mbrNo);
+		return new ResponseEntity<Member>(member.get(), HttpStatus.OK); }
 	
 	// 회원번호로 회원 삭제 
 	@DeleteMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
@@ -56,20 +56,20 @@ public class TestJpaRestController {
 	
 	// 회원 입력 
 	@PostMapping 
-	public ResponseEntity<MemberVo> save(MemberVo member) { 
-		return new ResponseEntity<MemberVo>(memberService.save(member), HttpStatus.OK); 
+	public ResponseEntity<Member> save(Member member) {
+		return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
 	} 
 	
 	// 회원 입력
 	@RequestMapping(value="/saveMember", method = RequestMethod.GET) 
-	public ResponseEntity<MemberVo> save(HttpServletRequest req, MemberVo member){ 
-		return new ResponseEntity<MemberVo>(memberService.save(member), HttpStatus.OK); 
+	public ResponseEntity<Member> save(HttpServletRequest req, Member member){
+		return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
 	}
 	
 	@GetMapping("/search")
 	public String search() {
 		String result="";
-		for(MemberVo member : memberRepository.findAll() ) {
+		for(Member member : memberRepository.findAll() ) {
 			result += member +"</br>";
 		}
 		return result;

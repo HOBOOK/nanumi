@@ -9,7 +9,7 @@ import javax.persistence.*;
 //@Entity(name="member")
 @Entity
 @Table(name="member")
-public class MemberVo {
+public class Member {
 
 	@Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,12 @@ public class MemberVo {
 	private String name;
 
 	@Builder
-	public MemberVo(String id, String name) {
+	public Member(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
-	public MemberVo() {}
+	public Member() {}
 	
 	public String toString() {
 		return String.format("mbrNo=%d id=%s name=%s, ", mbrNo,id,name);

@@ -2,7 +2,7 @@ package com.daou.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.daou.entity.MemberVo;
+import com.daou.entity.Member;
 import com.daou.repository.MemberRepository;
 
 
@@ -15,18 +15,19 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public List<MemberVo> findAll() {
-		List<MemberVo> members = new ArrayList<>();
+	public List<Member> findAll() {
+		List<Member> members = new ArrayList<>();
 		memberRepository.findAll().forEach(e -> members.add(e));
-		
-//		System.out.println(members);
-
 		return members;
 	}
 
-	public Optional<MemberVo> findById(Long mbrNo) {
-		Optional<MemberVo> member = memberRepository.findById(mbrNo);
-//		System.out.println(member);
+	public Optional<Member> findByMbrNo(Long mbrNo) {
+		Optional<Member> member = memberRepository.findByMbrNo(mbrNo);
+		return member;
+	}
+
+	public Optional<Member> findById(String id) {
+		Optional<Member> member = memberRepository.findById(id);
 		return member;
 	}
 
@@ -34,7 +35,7 @@ public class MemberService {
 		memberRepository.deleteById(mbrNo);
 	}
 
-	public MemberVo save(MemberVo member) {
+	public Member save(Member member) {
 		memberRepository.save(member);
 		return member;
 	}
