@@ -1,7 +1,14 @@
    <template>
 <!-- <v-container fluid ma-0 pa-0> -->
   <v-card height="100%">
-     <v-container fluid>
+   <v-data-table
+    :headers="headers"
+    :items="filteritems"
+    item-key="Seq"
+    class="elevation-1"
+  > 
+    <template v-slot:top>
+       <v-container fluid>
                 <v-row>
                    <v-col cols="2">
                         <v-row class="pa-3">
@@ -51,36 +58,15 @@
                         </v-row>
                     </v-col>
                     <v-col cols="2">
-                        <v-row class="pa-3">
-                            <!-- Filter for calories -->
-                             <v-select
-                                    :items="serviceList"
-                                    v-model="filters.service"
-                                    label="뿌리오/엔팩스"
-                                    dense
-                                    outlined
-                            ></v-select>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="2">
                       <v-row class="pa-3">
                         <v-btn @click="filteredItems">검색</v-btn>
                       </v-row>
                     </v-col>
                 </v-row>
             </v-container>
-   <v-data-table
-    :headers="headers"
-    :items="filteritems"
-    item-key="Seq"
-    class="elevation-1"
-    v-if="showresult=== true"
-  > 
-    <template v-slot:top>
-      
 
-      <v-toolbar flat color="white" >
-        <v-toolbar-title>수신 번호 관리</v-toolbar-title>
+      <v-toolbar flat color="white">
+        <v-toolbar-title>번호대역 할당/변경</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -98,9 +84,6 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.seq" label="Seq"></v-text-field>
-                  </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.bandNumber" label="대역번호"></v-text-field>
                   </v-col>
@@ -161,11 +144,11 @@
         {text: "02", value: "02"},
       ],
       baseNumberList: [
-          {text: "671", value: "671"},
           {text: "3441", value: "3441"},
           {text: "3442", value: "3442"},
           {text: "3443", value: "3443"},
           {text: "3444", value: "3444"},
+          {text: "671", value: "671"}
         ],
       categoryList:[
         {text: "All", value: "none"},
@@ -177,44 +160,38 @@
         {text: "뿌리오", value: "뿌리오"},
         {text: "엔팩스", value: "엔팩스"},
       ],
-      countryNumberFilterValue : '82',
+      countryNumberFilterValue : 'none',
       localNumberFilterValue : 'none',
       baseNumberFilterValue : 'none',
      headers: [
-        {
-          text: 'Seq',
-          align: 'start',
-          sortable: false,
-          value: 'seq',
-        },
-        { text: '대역번호', value: 'bandNumber' },
-        { text: '수신번호', value: 'receiveNumber' },
-        { text: '서비스', value: 'service'},
         { text: '카테고리', value: 'category'},
+        { text: '대역번호', value: 'bandNumber' },
+        { text: '대역시작지점', value: 'startNumber' },
+        { text: '대역끝지점', value: 'endNumber' },
+        { text: '서비스', value: 'service'},
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      showresult: false,
       items: [],
       filteritems:[],
       filters:{
         category: [],
-        service: [],
+        // service: [],
         bandNumber: [],
       },
       editedIndex: -1,
       editedItem: {
-        seq:1,
-        bandNumber: '82-0303-671',
-        receiveNumber: '0000',
-        service: 'none',
         category: 'none',
+        bandNumber: '82-0303-671',
+        startNumber: '0000',
+        endNumber: '9999',
+        service: 'none',
       },
       defaultItem: {
-        seq:1,
-        bandNumber: '82-0303-671',
-        receiveNumber: '0000',
-        service: 'none',
         category: 'none',
+        bandNumber: '82-0303-671',
+        startNumber: '0000',
+        endNumber: '9999',
+        service: 'none',
       },
     }),
 
@@ -253,8 +230,6 @@
     methods: {
       filteredItems() {
 
-        if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
-          this.showresult =true
         var temp =""
 
         //fix me
@@ -288,85 +263,52 @@
           return this.filters[f].length < 1|| this.filters[f] == "none" || d[f].includes(this.filters[f])
         } )
       })
-      }
-      else{
-        alert('지역번호와 국번이 선택되어야합니다.')
-      }
-
     },
 
       initialize () {
         this.items = [
           {
-            seq:1,
-            bandNumber: '82-0303-3441',
-            receiveNumber: '0000',
-            service: '엔팩스',
             category: 'FAX',
-          },
-          {
-            seq:2,
-            bandNumber: '82-0303-3442',
-            receiveNumber: '0001',
-            service: '뿌리오',
-            category: 'MO',
-          },
-          {
-            seq:3,
-            bandNumber: '82-032-671',
-            receiveNumber: '0002',
-            service: '뿌리오',
-            category: 'MO',
-          },
-          {
-            seq:4,
             bandNumber: '82-0303-671',
-            receiveNumber: '0003',
+            startNumber: '0000',
+            endNumber: '3000',
             service: '뿌리오',
-            category: 'MO',
           },
           {
-            seq:5,
+           category: 'FAX',
             bandNumber: '82-0303-671',
-            receiveNumber: '0004',
+            startNumber: '3001',
+            endNumber: '7000',
             service: '뿌리오',
-            category: 'MO',
           },
           {
-            seq:6,
+            category: 'FAX',
             bandNumber: '82-0303-671',
-            receiveNumber: '0005',
-            service: '뿌리오',
-            category: 'MO',
+            startNumber: '7001',
+            endNumber: '9999',
+            service: '엔팩스',
           },
           {
-            seq: 7,
-            bandNumber: '82-0303-671',
-            receiveNumber: '0006',
-            service: '뿌리오',
             category: 'MO',
+            bandNumber: '82-0303-3444',
+            startNumber: '0000',
+            endNumber: '3000',
+            service: '엔팩스',
+          },{
+            category: 'MO',
+            bandNumber: '82-0303-3444',
+            startNumber: '3001',
+            endNumber: '6000',
+            service: '엔팩스',
           },
           {
-            seq: 8,
-            bandNumber: '82-0303-671',
-            receiveNumber: '0007',
-            service: '뿌리오',
             category: 'MO',
+            bandNumber: '82-0303-3444',
+            startNumber: '6001',
+            endNumber: '9999',
+            service: '엔팩스',
           },
-          {
-            seq: 9,
-            bandNumber: '82-0303-671',
-            receiveNumber: '0008',
-            service: '뿌리오',
-            category: 'MO',
-          },
-          {
-            seq: 10,
-            bandNumber: '82-0303-671',
-            receiveNumber: '0009',
-            service: '뿌리오',
-            category: 'MO',
-          },
+        
         ],
         this.filteritems = this.items
       },
