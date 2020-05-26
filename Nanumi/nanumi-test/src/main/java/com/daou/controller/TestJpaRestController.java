@@ -74,4 +74,11 @@ public class TestJpaRestController {
 		}
 		return result;
 	}
+
+
+//		@RequestMapping(value="/test", method = RequestMethod.GET)
+//		public String test() {
+//			return "";
+//		}
+
 }

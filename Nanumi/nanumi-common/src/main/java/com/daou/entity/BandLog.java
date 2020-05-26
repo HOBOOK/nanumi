@@ -8,11 +8,11 @@ import javax.persistence.*;
 @Entity
 @Table(name="band_Log_tb")
 public class BandLog {
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
 	@Column(name = "seq_log_no")
 	private Long seqLogNo;
-	
-	@Id
+
 	@Column(name = "serial_no")
 	private String serialNo;
 

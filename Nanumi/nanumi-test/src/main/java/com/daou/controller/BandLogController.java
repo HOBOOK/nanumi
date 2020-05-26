@@ -32,12 +32,12 @@ public class BandLogController {
 	// 모든 대역 로그 출력
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<List<BandLog>> getAllbands() {
-		List<BandLog> bandLog = bandLogService.findAll();
-		System.out.println(bandLog);
-		if(bandLog.isEmpty()) {
+		List<BandLog> bandLogs = bandLogService.findAll();
+		System.out.println(bandLogs);
+		if(bandLogs.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
+		return new ResponseEntity<List<BandLog>>(bandLogs, HttpStatus.OK);
 	} 
 	
 	// seq_log_no 대역 로그 검색 출력
@@ -57,37 +57,5 @@ public class BandLogController {
 		}
 		return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
 	}
-	
-	// 회원번호로 회원 삭제 
-//	@DeleteMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-//	public ResponseEntity<Void> deleteMember(@PathVariable("mbrNo") Long mbrNo) { 
-//		memberService.deleteById(mbrNo); 
-//		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); } 
-	
-	// 회원번호로 회원 수정(mbrNo로 회원을 찾아 Member 객체의 id, name로 수정함) 
-//	@PutMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-//	public ResponseEntity<MemberVo> updateMember(@PathVariable("mbrNo") Long mbrNo, MemberVo member) { 
-//		memberService.updateById(mbrNo, member); 
-//		return new ResponseEntity<MemberVo>(member, HttpStatus.OK); } 
-	
-	// 회원 입력 
-//	@PostMapping 
-//	public ResponseEntity<Band> save(Band band) {
-//		return new ResponseEntity<Band>(bandService.save(band), HttpStatus.OK);
-//	} 
-	
-//	// 회원 입력
-//	@RequestMapping(value="/saveMember", method = RequestMethod.GET) 
-//	public ResponseEntity<Member> save(HttpServletRequest req, Member member){
-//		return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
-//	}
-	
-//	@GetMapping("/search")
-//	public String search() {
-//		String result="";
-//		for(Member member : memberRepository.findAll() ) {
-//			result += member +"</br>";
-//		}
-//		return result;
-//	}
+
 }
