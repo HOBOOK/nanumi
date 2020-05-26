@@ -4,6 +4,7 @@ import com.daou.authentication.auth.JwtAuthenticationToken;
 import com.daou.authentication.auth.jwt.extractor.TokenExtractor;
 import com.daou.authentication.config.WebSecurityConfig;
 import com.daou.authentication.model.token.RawAccessJwtToken;
+import com.daou.common.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
