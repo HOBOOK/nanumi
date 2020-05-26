@@ -81,6 +81,7 @@ export default {
         { text: '대시보드', icon: 'mdi-home'},
         { text: '사용자 인증 관리', icon: 'mdi-account-multiple'},
         { text: '수신번호관리', icon: 'mdi-history'},
+        { text: '번호대역관리', icon: 'mdi-home'}
       ],
     }),
 

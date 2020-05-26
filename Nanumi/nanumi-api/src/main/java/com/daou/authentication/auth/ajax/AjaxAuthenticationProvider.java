@@ -2,6 +2,7 @@ package com.daou.authentication.auth.ajax;
 
 import com.daou.authentication.Role;
 import com.daou.authentication.model.UserContext;
+import com.daou.common.Logger;
 import com.daou.entity.Member;
 import com.daou.service.MemberService;
 import io.jsonwebtoken.lang.Assert;
@@ -44,7 +45,6 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         Member member = memberService.findById(username).orElseThrow(() -> new UsernameNotFoundException("사용자 정보가 없습니다 : " + username));
-
         if(!encoder.matches(password, member.getPwd())){
             throw new BadCredentialsException("사용자 인증정보가 일치하지 않습니다.");
         }

@@ -3,6 +3,7 @@ package com.daou.authentication.model.token;
 import com.daou.authentication.config.JwtSettings;
 import com.daou.authentication.model.Scopes;
 import com.daou.authentication.model.UserContext;
+import com.daou.common.Logger;
 import org.apache.commons.lang3.StringUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -51,7 +52,7 @@ public class JwtTokenFactory {
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
                 .setExpiration(Date.from(currentTime
-                        .plusMinutes(jwtSettings.getRefreshTokenExpTime())
+                        .plusMinutes(jwtSettings.getTokenExpirationTime()!=null? jwtSettings.getTokenExpirationTime() : 0)
                         .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(SignatureAlgorithm.HS512, jwtSettings.getTokenSigningKey())
                 .compact();

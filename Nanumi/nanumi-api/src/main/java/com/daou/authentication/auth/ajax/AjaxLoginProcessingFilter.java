@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -43,30 +44,31 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException{
         if(!HttpMethod.POST.name().equals(request.getMethod())){
             if(logger.isDebugEnabled()){
-                logger.debug("지원하지 않는 인증 메소드입니다. 요청 메소드 : " + request.getMethod());
+                logger.debug("지원 하지 않는 인증 메소드입니다. 요청 메소드 : " + request.getMethod());
             }
-            throw new AuthMethodNotSupportedException("지원하지 않는 인증 메소드");
+            throw new AuthMethodNotSupportedException("지원 하지 않는 인증 메소드");
         }
-
-        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+//        2020-05-26 주석 @author: pkh879
+//        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+        LoginRequest loginRequest = new LoginRequest(request.getParameter("username"), request.getParameter("password"));
         if (StringUtils.isBlank(loginRequest.getUsername()) || StringUtils.isBlank(loginRequest.getPassword())) {
-            throw new AuthenticationServiceException("사용자 정보가 모두 입력되지 않았습니다.");
+            throw new AuthenticationServiceException("사용자 정보가 모두 입력 되지 않았습니다.");
         }
-
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
-
         return this.getAuthenticationManager().authenticate(token);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
+        com.daou.common.Logger.write("성공한 인증");
         authenticationSuccessHandler.onAuthenticationSuccess(request, response, authResult);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
+        com.daou.common.Logger.write("실패한 인증");
         SecurityContextHolder.clearContext();
         authenticationFailureHandler.onAuthenticationFailure(request, response, failed);
     }
