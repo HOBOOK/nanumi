@@ -1,6 +1,13 @@
    <template>
 <!-- <v-container fluid ma-0 pa-0> -->
   <v-card height="100%">
+   <v-data-table
+    :headers="headers"
+    :items="filteritems"
+    item-key="Seq"
+    class="elevation-1"
+  > 
+    <template v-slot:top>
        <v-container fluid>
                 <v-row>
                    <v-col cols="2">
@@ -39,82 +46,27 @@
                         </v-row>
                     </v-col>
                     <v-col cols="2">
+                        <v-row class="pa-3">
+                            <!-- Filter for calories -->
+                             <v-select
+                                    :items="categoryList"
+                                    v-model="filters.category"
+                                    label="Fax/Mo"
+                                    dense
+                                    outlined
+                            ></v-select>
+                        </v-row>
+                    </v-col>
+                    <v-col cols="2">
                       <v-row class="pa-3">
                         <v-btn @click="filteredItems">검색</v-btn>
                       </v-row>
                     </v-col>
                 </v-row>
             </v-container>
-      <v-container fluid v-if="showresult === true">
-        <v-row 
-        align="start"
-        justify="start">
-          <v-col cols="1"></v-col>
-          <v-col cols ="11">
-            조회결과
-          </v-col>
-          <v-col cols="1"></v-col>
-          <v-col cols ="11">
-            +{{this.filters.bandNumber}} 대역은 0000~9999까지 사용 가능 합니다
-          </v-col>
-        </v-row>
-         <v-row>
-                   <v-col cols="2">
-                        <v-row class="pa-3">
-                          <v-text-field
-                            v-model="search"
-                            label="시작번호 4자리"
-                            single-line
-                            hide-details
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-row>
-                    </v-col>
-                    <v-col cols="2">
-                        <v-row class="pa-3">
-                           <v-text-field
-                            v-model="search"
-                            label="끝번호 4자리"
-                            single-line
-                            hide-details
-                            outlined
-                            dense
-                          ></v-text-field>
-                        </v-row>
-                    </v-col>
 
-                    <v-col cols="2">
-                        <v-row class="pa-3">
-                            <!-- Filter for calories -->
-                             <v-select
-                                    :items="categoryList"
-                                    v-model="categoryFilterValue"
-                                    label="FAX/MO"
-                                    dense
-                                    outlined
-                            ></v-select>
-                        </v-row>
-                    </v-col>
-                    
-                    <v-col cols="2">
-                      <v-row class="pa-3">
-                        <v-btn @click="filteredItems">등록하기</v-btn>
-                      </v-row>
-                    </v-col>
-
-                </v-row>
-      </v-container>
-<v-data-table
-    :headers="headers"
-    :items="filteritems"
-    item-key="Seq"
-    class="elevation-1"
-    v-if="showresult === true"
-  > 
-  <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>번호대역 등록</v-toolbar-title>
+        <v-toolbar-title>번호대역 할당/변경</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -136,16 +88,13 @@
                     <v-text-field v-model="editedItem.bandNumber" label="대역번호"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.startNumber" label="대역시작지점"></v-text-field>
+                    <v-text-field v-model="editedItem.receiveNumber" label="수신번호"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.endNumber" label="대역끝지점"></v-text-field>
+                    <v-text-field v-model="editedItem.service" label="서비스업체"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.category" label="카테고리"></v-text-field>
-                  </v-col>
-                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.service" label="서비스업체"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -159,7 +108,7 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
-  </template>
+    </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
         small
@@ -211,7 +160,7 @@
         {text: "뿌리오", value: "뿌리오"},
         {text: "엔팩스", value: "엔팩스"},
       ],
-      countryNumberFilterValue : "82",
+      countryNumberFilterValue : 'none',
       localNumberFilterValue : 'none',
       baseNumberFilterValue : 'none',
      headers: [
@@ -223,7 +172,6 @@
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       items: [],
-      showresult: false,
       filteritems:[],
       filters:{
         category: [],
@@ -282,10 +230,6 @@
     methods: {
       filteredItems() {
 
-        //select에서 값을 설정하지 않았을 때
-        if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
-          this.showresult =true
-
         var temp =""
 
         //fix me
@@ -319,12 +263,6 @@
           return this.filters[f].length < 1|| this.filters[f] == "none" || d[f].includes(this.filters[f])
         } )
       })
-      }
-      else{
-        alert('지역번호와 국번이 선택되어야합니다.')
-      }
-
-        
     },
 
       initialize () {

@@ -48,36 +48,6 @@
               <v-list-item-title @click="switchPage(item.to)" v-text="item.text"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-          <v-list-group>
-               <template v-slot:activator>
-           <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>         
-          <v-list-item-content>
-            <v-list-item-title>번호대역관리</v-list-item-title>
-          </v-list-item-content>
-        </template>
-
-         <v-list-item>
-            <v-list-item-icon>
-              <v-icon></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title @click="switchPage('rgbandwidth')">번호대역등록</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        <v-list-item>
-            <v-list-item-icon>
-              <v-icon></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title @click="switchPage('test')">번호대역 할당/변경</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          </v-list-group>
-    
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -103,6 +73,7 @@ export default {
         { text: '대시보드', icon: 'mdi-home',to:"test"},
         { text: '사용자 인증 관리', icon: 'mdi-account-multiple',to:"authuser"},
         { text: '수신번호관리', icon: 'mdi-history', to:"receive"},
+        { text: '번호대역관리', icon: 'mdi-home', to:"rgbandwidth"},
       ],
   }),
    methods: {

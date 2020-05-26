@@ -1,14 +1,7 @@
    <template>
 <!-- <v-container fluid ma-0 pa-0> -->
   <v-card height="100%">
-   <v-data-table
-    :headers="headers"
-    :items="filteritems"
-    item-key="Seq"
-    class="elevation-1"
-  > 
-    <template v-slot:top>
-       <v-container fluid>
+     <v-container fluid>
                 <v-row>
                    <v-col cols="2">
                         <v-row class="pa-3">
@@ -76,8 +69,17 @@
                     </v-col>
                 </v-row>
             </v-container>
+   <v-data-table
+    :headers="headers"
+    :items="filteritems"
+    item-key="Seq"
+    class="elevation-1"
+    v-if="showresult=== true"
+  > 
+    <template v-slot:top>
+      
 
-      <v-toolbar flat color="white">
+      <v-toolbar flat color="white" >
         <v-toolbar-title>수신 번호 관리</v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -159,6 +161,7 @@
         {text: "02", value: "02"},
       ],
       baseNumberList: [
+          {text: "671", value: "671"},
           {text: "3441", value: "3441"},
           {text: "3442", value: "3442"},
           {text: "3443", value: "3443"},
@@ -174,7 +177,7 @@
         {text: "뿌리오", value: "뿌리오"},
         {text: "엔팩스", value: "엔팩스"},
       ],
-      countryNumberFilterValue : 'none',
+      countryNumberFilterValue : '82',
       localNumberFilterValue : 'none',
       baseNumberFilterValue : 'none',
      headers: [
@@ -190,6 +193,7 @@
         { text: '카테고리', value: 'category'},
         { text: 'Actions', value: 'actions', sortable: false },
       ],
+      showresult: false,
       items: [],
       filteritems:[],
       filters:{
@@ -249,6 +253,8 @@
     methods: {
       filteredItems() {
 
+        if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
+          this.showresult =true
         var temp =""
 
         //fix me
@@ -282,6 +288,11 @@
           return this.filters[f].length < 1|| this.filters[f] == "none" || d[f].includes(this.filters[f])
         } )
       })
+      }
+      else{
+        alert('지역번호와 국번이 선택되어야합니다.')
+      }
+
     },
 
       initialize () {
