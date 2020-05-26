@@ -1,5 +1,6 @@
 package com.daou.authentication.auth.ajax;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -9,8 +10,11 @@ import lombok.Getter;
  * @author pkh879
  */
 @Getter
+@JsonAutoDetect
 public class LoginRequest {
+    @JsonProperty("username")
     private String username;
+    @JsonProperty("password")
     private String password;
 
     @JsonCreator

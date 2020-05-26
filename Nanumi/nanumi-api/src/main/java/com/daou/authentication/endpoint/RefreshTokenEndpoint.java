@@ -11,6 +11,7 @@ import com.daou.authentication.model.token.JwtToken;
 import com.daou.authentication.model.token.JwtTokenFactory;
 import com.daou.authentication.model.token.RawAccessJwtToken;
 import com.daou.authentication.model.token.RefreshToken;
+import com.daou.common.Logger;
 import com.daou.entity.Member;
 import com.daou.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,8 @@ public class RefreshTokenEndpoint {
     public @ResponseBody
     JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME));
+
+        Logger.write(tokenPayload);
 
         RawAccessJwtToken rawAccessJwtToken = new RawAccessJwtToken(tokenPayload);
         RefreshToken refreshToken = RefreshToken.create(rawAccessJwtToken, jwtSettings.getTokenSigningKey()).orElseThrow(()-> new InvalidJwtToken());

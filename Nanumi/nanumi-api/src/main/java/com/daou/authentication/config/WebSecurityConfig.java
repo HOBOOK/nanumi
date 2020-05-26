@@ -93,9 +93,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
                 .permitAll()
+
                 .and()
                 .authorizeRequests()
                 .antMatchers(API_ROOT_URL).authenticated() // Protected API End-points
+
                 .and()
                 .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildAjaxLoginProcessingFilter(AUTHENTICATION_URL), UsernamePasswordAuthenticationFilter.class)
