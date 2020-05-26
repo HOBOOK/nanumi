@@ -22,27 +22,18 @@
               </v-card-text >
               <v-list class="transparent cardtext text-center">
                 <v-list-item>
-                  <v-list-item-action>
-                    <v-icon style="color:#FF80AB;">mdi-phone</v-icon>
-                  </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title>010-1234-5678</v-list-item-title>
+                    <v-list-item-title> <v-icon style="color:#03A9F4;">mdi-phone</v-icon> 010-1234-5678</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
-                  <v-list-item-action>
-                    <v-icon style="color:#FF80AB;">mdi-map-marker</v-icon>
-                  </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title>Three brothers</v-list-item-title>
+                    <v-list-item-title>  <v-icon style="color:#03A9F4;">mdi-map-marker</v-icon> Daou Tech Inc</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item>
-                  <v-list-item-action>
-                    <v-icon style="color:#FF80AB;">mdi-email</v-icon>
-                  </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title>daou@zoayo.com</v-list-item-title>
+                    <v-list-item-title> <v-icon style="color:#03A9F4;">mdi-email</v-icon> threebrothers@daou.com</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
