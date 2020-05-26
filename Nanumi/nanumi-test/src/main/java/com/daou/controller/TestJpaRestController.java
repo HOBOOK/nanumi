@@ -39,7 +39,7 @@ public class TestJpaRestController {
 	// 회원번호로 한명의 회원 조회 
 	@GetMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<Member> getMember(@PathVariable("mbrNo") Long mbrNo) {
-		Optional<Member> member = memberService.findById(mbrNo);
+		Optional<Member> member = memberService.findByMbrNo(mbrNo);
 		return new ResponseEntity<Member>(member.get(), HttpStatus.OK); }
 	
 	// 회원번호로 회원 삭제 
