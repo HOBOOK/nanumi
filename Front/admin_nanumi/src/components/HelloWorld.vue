@@ -1,163 +1,101 @@
 <template>
-  <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-        <v-btn @click="switchPage('test')"></v-btn>
-
-        <router-view :key="$route.fullPath"></router-view>
-        <p>abc</p>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
+  <div>
+    <v-container fluid pa-0>
+      <v-row>
+        <v-col class="pa-0">
+          <v-parallax :src="getImgUrl" height="754"  align-center justify-center 
+            data-aos="zoom-out"
+            data-aos-duration="2000"
+            data-aos-delay="50"
           >
-            {{ next.text }}
-          </a>
+            <v-row align="start" justify="center" no-gutters
+        style="height: 1px; padding: 120px;" >
+              <v-col class="text-center" cols="12" >
+        <h1 style="color:#FF80AB;
+        font-size:70px; font-family:Arial;" 
+        data-aos="fade-up"
+        data-aos-duration="2000"
+        data-aos-delay="50">나누미</h1>
+        <v-row>
+        <v-col cols="3"><v-spacer/></v-col>
+        <v-col cols="6"><div id="divider" style="background-color:white; height: 5px; width:100%;" 
+        data-aos="zoom-in-right"
+        data-aos-duration="1500"
+        data-aos-delay="2000"></div></v-col>
+            
+        <v-col cols="3" lg="3" md="3" xs="2" sm="1"><v-spacer/></v-col>
         </v-row>
+        <h2 class="subheading" id="test2"
+        data-aos="fade-up"
+        data-aos-duration="2000"
+        data-aos-delay="2000">Resource Management</h2>
+        <div class="m-5 p-5"
+        data-aos="fade-up"
+        data-aos-duration="2000"
+        data-aos-delay="2000">
+          <v-btn rounded x-large style="background-color:#EB539E;padding-left:90px;padding-right:90px;" dark> 바로 시작하기 </v-btn>
+        </div>
       </v-col>
+              <v-col></v-col>
+            </v-row>
+          </v-parallax>
+        </v-col>
+      </v-row>
+    </v-container>
 
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+    <section>
+      <v-layout column wrap align-center>
+        <v-flex xs12 sm4 class="my-4">
+          <div class="text-center">
+            <h3 data-aos="fade-down"
+            data-aos-duration="1500"
+            data-aos-delay="50" 
+            style="color:#FF80AB; font-size:40px; font-weight:bold; font-family:noto sans kr; display: inline-block">API키</h3>
+            <h3 data-aos="fade-left"
+            data-aos-duration="1500"
+            data-aos-delay="50"
+            style="font-size:35px; font-family:noto sans kr; font-weight:bold; display: inline-block">를 발급받고</h3>
+            <h2  class="headline" 
+            data-aos="fade-left"
+            data-aos-duration="1500"
+            data-aos-delay="250"  style="font-size:30px; font-family:noto sans kr;">FAX번호를 자동으로 분배해 줍니다.</h2>
+            <br/>
+            <p class="subheading"
+            data-aos="fade-right"
+            data-aos-duration="2000"
+            data-aos-delay="350"
+            style="font-family:noto sans kr; "
+            ><strong>RestFul </strong>API, <strong>DB</strong>변경 유연<br/></p>
+          </div>
+        </v-flex>
+      </v-layout>
+    </section>
+      <v-row style="height: 150px; "></v-row>
+    <company></company>
+  </div>
 </template>
 
-<script>
-  export default {
-    name: 'HelloWorld',
 
-    data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/layout/pre-defined',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
-    }),
-    methods: {
-      switchPage(page) {
-      if (page == "home") {
-        page = "";
-      }
-      this.$router.push(`/${page}`);
-      },
+<script>
+import company from './footer'
+export default {
+  name: 'home',
+  components: {
+    company
+  },
+  data(){
+    return{
+    
+    };
+  },
+  methods: {
+  },
+  computed: {
+    getImgUrl: function() {
+      // return require("../assets/img/main.jpg");
+      return require("../assets/main.jpg");
     },
-  }
+  },
+}
+
 </script>
