@@ -34,10 +34,10 @@ public class BandService {
 //		memberRepository.deleteById(mbrNo);
 //	}
 //
-//	public Member save(Member member) {
-//		memberRepository.save(member);
-//		return member;
-//	}
+	public Band save(Band band) {
+		bandRepository.save(band);
+		return band;
+	}
 
 //	public void updateById(Long mbrNo, MemberVo member) {
 //		Optional<MemberVo> e = memberRepository.findById(mbrNo);

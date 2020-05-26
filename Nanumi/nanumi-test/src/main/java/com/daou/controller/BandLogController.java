@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.daou.entity.Band;
-import com.daou.repository.BandRepository;
-import com.daou.service.BandService;
+import com.daou.entity.BandLog;
+import com.daou.repository.BandLogRepository;
+import com.daou.service.BandLogService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,33 +18,44 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController 
-@RequestMapping("band") 
-public class BandController { 
+@RequestMapping("bandLog") 
+public class BandLogController { 
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	
 	@Autowired 
-	BandService bandService; 
+	BandLogService bandLogService; 
 	
 	@Autowired
-	BandRepository bandRepository;
+	BandLogRepository bandRepository;
 	
-	// 모든 회원 조회 
+	// 모든 대역 로그 출력
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<List<Band>> getAllbands() {
-		List<Band> band = bandService.findAll();
-		System.out.println(band);
-		if(band.isEmpty()) {
+	public ResponseEntity<List<BandLog>> getAllbands() {
+		List<BandLog> bandLog = bandLogService.findAll();
+		System.out.println(bandLog);
+		if(bandLog.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Band>>(band, HttpStatus.OK);
+		return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
 	} 
 	
-	// 회원번호로 한명의 회원 조회 
-	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<Band> getBand(@PathVariable("seqNo") Long seqNo) {
-		Optional<Band> band = bandService.findBySeqNo(seqNo);
-		return new ResponseEntity<Band>(band.get(), HttpStatus.OK); 
+	// seq_log_no 대역 로그 검색 출력
+	@GetMapping(value = "/{seqLogNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
+	public ResponseEntity<BandLog> getBand(@PathVariable("seqLogNo") Long seqLogNo) {
+		Optional<BandLog> bandLog = bandLogService.findBySeqLogNo(seqLogNo);
+		return new ResponseEntity<BandLog>(bandLog.get(), HttpStatus.OK); 
+	}
+	
+	// seq_log_no 대역 로그 상태 검색
+	@GetMapping(value = "/type/{revType}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
+	public ResponseEntity<List<BandLog>> getBand(@PathVariable("revType") byte revType) {
+		List<BandLog> bandLog = bandLogService.findByRevType(revType);
+		
+		if(bandLog.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
 	}
 	
 	// 회원번호로 회원 삭제 
