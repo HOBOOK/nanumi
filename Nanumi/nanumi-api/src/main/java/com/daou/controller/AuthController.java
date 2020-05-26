@@ -13,7 +13,7 @@ public class AuthController {
 
     @Autowired
     MemberService memberService;
-    @GetMapping("/")
+    @GetMapping("/api/user")
     public String getUser(){
         if(memberService.findByMbrNo((long)1).isPresent()){
             return memberService.findByMbrNo((long)1).get().getName();
