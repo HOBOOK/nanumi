@@ -63,7 +63,7 @@
             >
               <template v-slot:activator="{ on }">
                 <v-btn color="primary" v-on="on"
-              @click="errors = []; credential2.username=''; credential2.password='';">
+              @click="errors = []; username=''; password='';">
                   <span>로그인</span>
                 </v-btn>
               </template>
@@ -75,8 +75,8 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field label="ID" v-model="credential2.username" required style="padding:0px;margin:0px;"></v-text-field>
-                        <v-text-field label="Password" v-model="credential2.password" type="password" required class="p-0 m-0" style="padding:0px;margin:0px;" @keydown.enter="login()"></v-text-field>
+                        <v-text-field label="ID" v-model="username" required style="padding:0px;margin:0px;"></v-text-field>
+                        <v-text-field label="Password" v-model="password" type="password" required class="p-0 m-0" style="padding:0px;margin:0px;" @keydown.enter="login()"></v-text-field>
                       </v-col>
                     </v-row>
                     <div v-if="errors.length">
@@ -145,7 +145,7 @@
 
 
 <script>
-
+import axios from "axios";
 export default {
   name: 'App',
 
@@ -163,10 +163,9 @@ export default {
       username: '',
       password: ''
     },
-    credential2: {
+
       username: '',
-      password: ''
-    },
+      password: '',
     errors: [],
     items: [
         { text: '대시보드', icon: 'mdi-home',to:"test"},
@@ -206,7 +205,7 @@ export default {
     },
      signupCheckForm(){
         this.errors = []
-        if (this.password2.length < 8 || this.credential.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
+        // if (this.password2.length < 8 || this.credential.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
         if (!this.credential.username) {this.errors.push('아이디를 입력해주세요.')}
         if (this.password2 != this.credential.password){
           this.errors.push('비밀번호가 일치하지 않습니다.')
@@ -218,23 +217,23 @@ export default {
     login(){
       if (this.checkForm()){
         console.log('로그인 시도')
-        // axios_common.post('/api-token-auth/', this.credential2)
-        //   .then((res)=>{
-        //     console.log('로그인 성공')
+        axios.post('http://localhost:8080/api/auth/login', this.username, this.password)
+          .then((res)=>{
+            console.log('로그인 성공')
 
-        //     this.$store.dispatch('login', res.data.token)
-        //     this.loginMenu = false;
-        //   })
-        //   .catch((e)=>{
-        //     console.log(e)
-        //     this.errors.push('로그인 실패')
-        //   })
+            this.$store.dispatch('login', res.data.token)
+            this.loginMenu = false;
+          })
+          .catch((e)=>{
+            console.log(e)
+            this.errors.push('로그인 실패')
+          })
         }
     },
     checkForm(){
         this.errors = []
-        if (this.credential2.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
-        if (!this.credential2.username) {this.errors.push('아이디를 입력해주세요.')}
+        // if (this.credential2.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
+        if (!this.username) {this.errors.push('아이디를 입력해주세요.')}
         if (this.errors.length === 0) {return true}
     },
     
