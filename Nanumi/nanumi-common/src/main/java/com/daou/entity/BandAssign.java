@@ -6,14 +6,11 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
-/*
-
-	@author Song
-
+/**
+ * @author Song
  */
 
 @Data
-@Getter
 @Entity
 @Table(name="BAND_ASSIGN_TB")
 public class BandAssign {

@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
 @CrossOrigin
 @RestController 
 @RequestMapping("bandreceive")
@@ -38,7 +42,7 @@ public class BandReceiveController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceives, HttpStatus.OK);
-	} 
+	}
 	
 	// seq_log_no 대역 로그 검색 출력
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -59,6 +63,7 @@ public class BandReceiveController {
 	}
 
 
+	//band 테이블 조인 category 컬럼 추가 조회
 	@GetMapping(value = "/category", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<bandMapping>> findAllBy() {
 		List<bandMapping> bandReceives = bandReceiveService.findAllBy();
@@ -68,5 +73,4 @@ public class BandReceiveController {
 		}
 		return new ResponseEntity<List<bandMapping>>(bandReceives, HttpStatus.OK);
 	}
-
 }

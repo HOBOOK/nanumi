@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
 @CrossOrigin
 @RestController 
 @RequestMapping("bandlog")

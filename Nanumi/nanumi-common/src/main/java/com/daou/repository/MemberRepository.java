@@ -9,6 +9,9 @@ import com.daou.entity.Member;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Song
+ */
 
 @Repository 
 public interface MemberRepository extends JpaRepository<Member, Long> {

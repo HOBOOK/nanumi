@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Song
+ */
 
 @Repository 
 public interface BandAssignRepository extends JpaRepository<BandAssign, Long> {

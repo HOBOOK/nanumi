@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
+// TestController
+
 @RestController 
 @RequestMapping("memberTest") 
 public class TestJpaRestController { 
@@ -68,17 +74,11 @@ public class TestJpaRestController {
 	
 	@GetMapping("/search")
 	public String search() {
-		String result="";
-		for(Member member : memberRepository.findAll() ) {
-			result += member +"</br>";
+		String result = "";
+		for (Member member : memberRepository.findAll()) {
+			result += member + "</br>";
 		}
 		return result;
 	}
-
-
-//		@RequestMapping(value="/test", method = RequestMethod.GET)
-//		public String test() {
-//			return "";
-//		}
 
 }

@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
 @CrossOrigin
 @RestController 
 @RequestMapping("bandassign")
