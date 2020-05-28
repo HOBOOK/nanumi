@@ -1,6 +1,7 @@
 package com.daou.authentication.config;
 
 import com.daou.authentication.RestAuthenticationEntryPoint;
+import com.daou.authentication.auth.IpAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxLoginProcessingFilter;
 import com.daou.authentication.auth.jwt.JwtAuthenticationProvider;
@@ -26,6 +27,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * JWT 인증 Config
+ * @author pkh879
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -39,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private AuthenticationFailureHandler authenticationFailureHandler;
     @Autowired private AjaxAuthenticationProvider ajaxAuthenticationProvider;
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Autowired private IpAuthenticationProvider ipAuthenticationProvider;
 
     @Autowired private TokenExtractor tokenExtractor;
 
@@ -70,6 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
+        auth.authenticationProvider(ipAuthenticationProvider);
     }
 
     @Override
@@ -91,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
+                .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()])) // 모든 접근 가능한 URL 목록
                 .permitAll()
 
                 .and()

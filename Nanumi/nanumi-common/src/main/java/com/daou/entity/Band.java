@@ -52,7 +52,7 @@ public class Band {
 	
 	public Band() {}
 	
-	public String toString() {
-		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
-	}
+//	public String toString() {
+//		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
+//	}
 }

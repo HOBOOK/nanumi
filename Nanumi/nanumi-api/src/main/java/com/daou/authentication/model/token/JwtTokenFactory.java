@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 /**
  * {@link JwtToken}을 만드는데 항상 사용되는 팩토리 클래스
+ * @author pkh879
  */
 @Component
 public class JwtTokenFactory {
