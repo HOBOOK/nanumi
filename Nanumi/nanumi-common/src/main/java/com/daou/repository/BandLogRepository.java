@@ -22,7 +22,5 @@ public interface BandLogRepository extends JpaRepository<BandLog, Long> {
 	public Optional<BandLog> findBySeqLogNo(Long seqLogNo);
 	public Optional<BandLog> findBySerialNo(String serialNo);
 	public List<BandLog> findByRevType(byte revType);
-	
-	//like검색도 가능 
-//	public List<Member> findByNameLike(String keyword);
+
 }

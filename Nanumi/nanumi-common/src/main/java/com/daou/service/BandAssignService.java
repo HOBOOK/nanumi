@@ -40,5 +40,14 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
+	public void updateByBandNumberRange(Long seqNo, BandAssign bandAssign) {
+		Optional<BandAssign> e = bandAssignRepository.findById(seqNo);
+		if (e.isPresent()) {
+			e.get().setSeqNo(bandAssign.getSeqNo());
+			e.get().setStartNo(bandAssign.getStartNo());
+			e.get().setEndNo(bandAssign.getEndNo());
+			bandAssignRepository.save(bandAssign);
+		}
+	}
 
 }

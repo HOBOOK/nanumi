@@ -26,7 +26,5 @@ public interface BandReceiveRepository extends JpaRepository<BandReceive, Long> 
 	public Optional<BandReceive> findBySeqNo(Long seqLogNo);
 	public Optional<BandReceive> findBySerialNo(String serialNo);
 	public List<BandReceive> findByReceiveNo(String receiveNo);
-	
-	//like검색도 가능 
-//	public List<Member> findByNameLike(String keyword);
+
 }

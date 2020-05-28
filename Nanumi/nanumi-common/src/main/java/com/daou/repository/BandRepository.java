@@ -23,6 +23,5 @@ public interface BandRepository extends JpaRepository<Band, Long> {
 	public Optional<Band> findByCategory(String category);
 //	public Optional<Band> findByMbrNo(Long mbrNo);
 	
-	//like검색도 가능 
-//	public List<Member> findByNameLike(String keyword);
+
 }
