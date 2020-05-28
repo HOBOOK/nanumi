@@ -1,6 +1,5 @@
 package com.daou.controller;
 
-import com.daou.entity.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.daou.entity.Band;
 import com.daou.repository.BandRepository;
 import com.daou.service.BandService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 

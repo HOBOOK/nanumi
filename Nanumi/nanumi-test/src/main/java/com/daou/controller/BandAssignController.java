@@ -1,7 +1,6 @@
 package com.daou.controller;
 
 import com.daou.entity.BandAssign;
-import com.daou.entity.Member;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
 import org.slf4j.Logger;

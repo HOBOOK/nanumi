@@ -11,9 +11,8 @@ import com.daou.authentication.model.token.JwtToken;
 import com.daou.authentication.model.token.JwtTokenFactory;
 import com.daou.authentication.model.token.RawAccessJwtToken;
 import com.daou.authentication.model.token.RefreshToken;
-import com.daou.common.Logger;
-import com.daou.entity.Member;
-import com.daou.service.MemberService;
+import com.daou.entity.Account;
+import com.daou.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
 public class RefreshTokenEndpoint {
     @Autowired private JwtTokenFactory tokenFactory;
     @Autowired private JwtSettings jwtSettings;
-    @Autowired private MemberService memberService;
+    @Autowired private AccountService accountService;
     @Autowired private TokenVerifier tokenVerifier;
     @Autowired @Qualifier("jwtHeaderTokenExtractor")
     private TokenExtractor tokenExtractor;
@@ -62,16 +61,16 @@ public class RefreshTokenEndpoint {
 
         // 유저정보 추가
         String subject = refreshToken.getSubject();
-        Member member = memberService.findById(subject).orElseThrow(() -> new UsernameNotFoundException("사용자를 발견하지 못했습니다 : " + subject));
+        Account account = accountService.findById(subject).orElseThrow(() -> new UsernameNotFoundException("사용자를 발견하지 못했습니다 : " + subject));
 
-        if(member.getRole() == null) throw new InsufficientAuthenticationException("사용자의 권한이 부여되지 않았습니다");
+        if(account.getRoleCd() == null) throw new InsufficientAuthenticationException("사용자의 권한이 부여되지 않았습니다");
         List<Role> roles = new ArrayList<>();
         roles.add(Role.USER);
         List<GrantedAuthority> authorities = roles.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.authority()))
                 .collect(Collectors.toList());
 
-        UserContext userContext = UserContext.create(member.getName(), authorities);
+        UserContext userContext = UserContext.create(account.getId(), authorities);
         return tokenFactory.createAccessJwtToken(userContext);
     }
 }
