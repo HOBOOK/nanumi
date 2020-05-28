@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @CrossOrigin
 @RestController 
-@RequestMapping("/api/band")
+@RequestMapping("/api/band/log")
 public class BandLogController { 
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 

@@ -1,8 +1,8 @@
 package com.daou.controller;
 
-import com.daou.entity.Member;
-import com.daou.repository.MemberRepository;
-import com.daou.service.MemberService;
+import com.daou.entity.Account;
+import com.daou.repository.AccountRepository;
+import com.daou.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,30 +26,30 @@ public class TestJpaRestController {
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
 	
-	@Autowired 
-	MemberService memberService; 
+	@Autowired
+	AccountService accountService;
 	
 	@Autowired
-	MemberRepository memberRepository;
+	AccountRepository accountRepository;
 	
 	// 모든 회원 조회 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<List<Member>> getAllmembers() {
-		List<Member> member = memberService.findAll();
-		System.out.println(member);
-		return new ResponseEntity<List<Member>>(member, HttpStatus.OK);
+	public ResponseEntity<List<Account>> getAllmembers() {
+		List<Account> account = accountService.findAll();
+		System.out.println(account);
+		return new ResponseEntity<List<Account>>(account, HttpStatus.OK);
 	} 
 	
 	// 회원번호로 한명의 회원 조회 
 	@GetMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<Member> getMember(@PathVariable("mbrNo") Long mbrNo) {
-		Optional<Member> member = memberService.findByMbrNo(mbrNo);
-		return new ResponseEntity<Member>(member.get(), HttpStatus.OK); }
+	public ResponseEntity<Account> getMember(@PathVariable("mbrNo") String id) {
+		Optional<Account> account = accountService.findById(id);
+		return new ResponseEntity<Account>(account.get(), HttpStatus.OK); }
 	
 	// 회원번호로 회원 삭제 
 	@DeleteMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<Void> deleteMember(@PathVariable("mbrNo") Long mbrNo) { 
-		memberService.deleteById(mbrNo); 
+	public ResponseEntity<Void> deleteMember(@PathVariable("mbrNo") String id) {
+		accountService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); } 
 	
 	// 회원번호로 회원 수정(mbrNo로 회원을 찾아 Member 객체의 id, name로 수정함) 
@@ -73,8 +73,8 @@ public class TestJpaRestController {
 	@GetMapping("/search")
 	public String search() {
 		String result = "";
-		for (Member member : memberRepository.findAll()) {
-			result += member + "</br>";
+		for (Account account : accountRepository.findAll()) {
+			result += account + "</br>";
 		}
 		return result;
 	}
