@@ -39,6 +39,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException{
+        Logger.write("d1d");
         Assert.notNull(authentication, "인증 정보를 받지못했습니다.");
 
         String username = (String) authentication.getPrincipal();

@@ -1,5 +1,9 @@
 package com.daou.common;
 
+/**
+ * 콘솔 로거
+ * @author pkh879
+ */
 public class Logger {
 
     public static void write(Object...log){
