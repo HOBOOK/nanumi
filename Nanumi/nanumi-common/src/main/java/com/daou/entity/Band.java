@@ -1,6 +1,8 @@
 package com.daou.entity;
 
 import lombok.*;
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 
 @Data
@@ -20,7 +22,7 @@ public class Band {
 
 	@Column(name = "country_no")
 	private String countryNo;
-	
+
 	@Column(name = "local_no")
 	private String localNo;
 
@@ -40,7 +42,12 @@ public class Band {
 	@Builder
 	public Band(Long seqNo, String serialNo, String countryNo, String localNo, String baseNo
 			, String startNo, String endNo, com.daou.types.category category) {
-		this.seqNo = seqNo;
+	    
+	    //유효성 검사 - 객체에 필요한 값이 없는 경우에 객체 생성 진행 안됨
+        Assert.hasText(String.valueOf(seqNo), "seqNo must not be empty");
+
+
+	    this.seqNo = seqNo;
 		this.serialNo = serialNo;
 		this.countryNo = countryNo;
 		this.localNo = localNo;
@@ -51,8 +58,8 @@ public class Band {
 	}
 	
 	public Band() {}
-	
-	public String toString() {
-		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
-	}
+
+//	public String toString() {
+//		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
+//	}
 }

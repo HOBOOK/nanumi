@@ -1,5 +1,6 @@
 package com.daou.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -28,6 +29,13 @@ public class BandReceive {
 
 	@Column(name = "user_id")
 	private String userId;
+
+	@ManyToOne
+	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
+	@JsonIgnore
+	private Band band;
+
+	//insertable = false, updatable = false 읽기만 가능
 
 	@Builder
 	public BandReceive(Long seqNo, String serialNo, String receiveNo, LocalDate updateDate, String userId) {

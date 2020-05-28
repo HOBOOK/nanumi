@@ -1,6 +1,7 @@
 package com.daou.controller;
 
 import com.daou.entity.BandReceive;
+import com.daou.mapping.bandMapping;
 import com.daou.repository.BandReceiveRepository;
 import com.daou.service.BandReceiveService;
 import org.slf4j.Logger;
@@ -55,6 +56,17 @@ public class BandReceiveController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
+	}
+
+
+	@GetMapping(value = "/category", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<bandMapping>> findAllBy() {
+		List<bandMapping> bandReceives = bandReceiveService.findAllBy();
+		System.out.println(bandReceives);
+		if(bandReceives.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<bandMapping>>(bandReceives, HttpStatus.OK);
 	}
 
 }
