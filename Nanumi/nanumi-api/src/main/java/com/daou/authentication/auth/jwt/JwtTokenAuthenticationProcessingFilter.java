@@ -39,6 +39,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
+        Logger.write(getClientIpAddress(request));
         String tokenPayload = request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME);
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
@@ -58,5 +59,31 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
                                               AuthenticationException failed) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
         failureHandler.onAuthenticationFailure(request, response, failed);
+    }
+
+
+    /**
+     * 인증 요청 클라이언트의 IP주소를 얻는 메소드
+     * @param request
+     * @return
+     */
+    private String getClientIpAddress(HttpServletRequest request){
+        String ip = request.getHeader("X-Forwarded-For");
+        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }
