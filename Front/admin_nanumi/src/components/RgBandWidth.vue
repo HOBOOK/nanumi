@@ -61,8 +61,9 @@
          <v-row>
                    <v-col cols="2">
                         <v-row class="pa-3">
+                          <!-- 텍스트 필드로 내리고 주석 -->
+                            <!-- v-model="search" -->
                           <v-text-field
-                            v-model="search"
                             label="시작번호 4자리"
                             single-line
                             hide-details
@@ -73,8 +74,8 @@
                     </v-col>
                     <v-col cols="2">
                         <v-row class="pa-3">
+                            <!-- v-model="search" -->
                            <v-text-field
-                            v-model="search"
                             label="끝번호 4자리"
                             single-line
                             hide-details
@@ -214,6 +215,7 @@
       countryNumberFilterValue : "82",
       localNumberFilterValue : 'none',
       baseNumberFilterValue : 'none',
+      categoryFilterValue : 'none',
      headers: [
         { text: '카테고리', value: 'category'},
         { text: '대역번호', value: 'bandNumber' },

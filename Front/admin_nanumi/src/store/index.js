@@ -35,10 +35,10 @@ export default new Vuex.Store({
       }
     },
     userId: function(state){
-      return state.token ? jwtDecode(state.token).user_id : null
+      return state.token ? jwtDecode(state.token).sub : null
     },
     username: function(state){
-      return state.token ? jwtDecode(state.token).username : null
+      return state.token ? jwtDecode(state.token).sub : null
     },
   }
 
