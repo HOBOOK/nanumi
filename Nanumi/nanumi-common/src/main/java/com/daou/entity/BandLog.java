@@ -3,8 +3,11 @@ package com.daou.entity;
 import lombok.*;
 import javax.persistence.*;
 
+/**
+ * @author Song
+ */
+
 @Data
-@Getter
 @Entity
 @Table(name="band_Log_tb")
 public class BandLog {
@@ -31,8 +34,5 @@ public class BandLog {
 	}
 	
 	public BandLog() {}
-	
-	public String toString() {
-		return String.format("seqLogNo=%d serialNo=%s revType=%d, ", seqLogNo,serialNo,revType);
-	}
+
 }

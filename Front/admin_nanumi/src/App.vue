@@ -9,7 +9,13 @@
       
       <v-toolbar-title>나누미</v-toolbar-title>
         <v-spacer></v-spacer>
-         <div class="text-center">
+                  
+          <div v-if="isAuthenticated">
+            <span>{{username}}님 환영합니다. </span>
+            <v-btn class="ml-4" color="primary" @click="logout()">로그아웃</v-btn>
+          </div>
+
+         <div v-else class="text-center">
             <v-menu
               v-model="signupMenu"
               :close-on-content-click="false"
@@ -33,7 +39,7 @@
                     <v-row>
                       <v-col cols="12">
                         <v-text-field label="ID" v-model="credential.username" required style="padding:0px;margin:0px;"></v-text-field>
-                        <v-text-field label="Password" v-model="password2" type="password" required style="padding:0px;margin:0px;"></v-text-field>
+                        <v-text-field label="Password" v-model="credential2.password2" type="password" required style="padding:0px;margin:0px;"></v-text-field>
                         <v-text-field label="Password2" v-model="credential.password" type="password" required style="padding:0px;margin:0px;" @keydown.enter="signup()"></v-text-field>
                       </v-col>
                     </v-row>
@@ -51,8 +57,7 @@
                 </v-card-actions>
               </v-card>
             </v-menu>
-          
-          
+
             <v-menu
               v-model="loginMenu"
               :close-on-content-click="false"
@@ -63,7 +68,7 @@
             >
               <template v-slot:activator="{ on }">
                 <v-btn color="primary" v-on="on"
-              @click="errors = []; username=''; password='';">
+              @click="errors = []; credential2.username='';  credential2.password='';">
                   <span>로그인</span>
                 </v-btn>
               </template>
@@ -75,8 +80,8 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field label="ID" v-model="username" required style="padding:0px;margin:0px;"></v-text-field>
-                        <v-text-field label="Password" v-model="password" type="password" required class="p-0 m-0" style="padding:0px;margin:0px;" @keydown.enter="login()"></v-text-field>
+                        <v-text-field label="ID" v-model="credential2.username" required style="padding:0px;margin:0px;"></v-text-field>
+                        <v-text-field label="Password" v-model="credential2.password" type="password" required class="p-0 m-0" style="padding:0px;margin:0px;" @keydown.enter="login()"></v-text-field>
                       </v-col>
                     </v-row>
                     <div v-if="errors.length">
@@ -146,10 +151,18 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from 'vuex';
 export default {
   name: 'App',
-
   components: {
+  },
+  computed: {
+    ...mapGetters([
+      'isAuthenticated',
+      'requestHeader',
+      'userId',
+      'username'
+    ])
   },
 
   data: () => ({
@@ -163,9 +176,10 @@ export default {
       username: '',
       password: ''
     },
-
+    credential2: {
       username: '',
-      password: '',
+      password: ''
+    },
     errors: [],
     items: [
         { text: '대시보드', icon: 'mdi-home',to:"test"},
@@ -217,7 +231,12 @@ export default {
     login(){
       if (this.checkForm()){
         console.log('로그인 시도')
-        axios.post('http://localhost:8080/api/auth/login', this.username, this.password)
+        // console.log(this.credential2)
+          const form = new FormData()
+        form.append('username', "pkh879" )
+        form.append('password', "pkh879")
+        console.log(form)
+        axios.post('http://localhost:8080/api/auth/login', form)
           .then((res)=>{
             console.log('로그인 성공')
 
@@ -233,7 +252,7 @@ export default {
     checkForm(){
         this.errors = []
         // if (this.credential2.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
-        if (!this.username) {this.errors.push('아이디를 입력해주세요.')}
+        if (!this.credential2.username) {this.errors.push('아이디를 입력해주세요.')}
         if (this.errors.length === 0) {return true}
     },
     

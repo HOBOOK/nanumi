@@ -1,16 +1,19 @@
 package com.daou.entity;
 
 import lombok.*;
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 
+/**
+ * @author Song
+ */
+
 @Data
-@Getter
 @Entity
 @Table(name="band_tb")
 public class Band {
 
-//	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seq_no")
 	private Long seqNo;
 	
@@ -20,7 +23,7 @@ public class Band {
 
 	@Column(name = "country_no")
 	private String countryNo;
-	
+
 	@Column(name = "local_no")
 	private String localNo;
 
@@ -34,13 +37,17 @@ public class Band {
 	private String endNo;
 	
 	@Column(name = "category")
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING)	//EnumType.STRING : enum의 이름을 DB에 저장, EnumType.ORDINAL : enum 순서 값을 DB에 저장
 	private com.daou.types.category category;
 	
 	@Builder
 	public Band(Long seqNo, String serialNo, String countryNo, String localNo, String baseNo
 			, String startNo, String endNo, com.daou.types.category category) {
-		this.seqNo = seqNo;
+	    
+	    //유효성 검사 - 객체에 필요한 값이 없는 경우에 객체 생성 진행 안됨 -> NOT NULL 제약조건 컬럼들 추가 예정
+        Assert.hasText(String.valueOf(seqNo), "seqNo must not be empty");
+
+	    this.seqNo = seqNo;
 		this.serialNo = serialNo;
 		this.countryNo = countryNo;
 		this.localNo = localNo;
@@ -51,7 +58,7 @@ public class Band {
 	}
 	
 	public Band() {}
-	
+
 //	public String toString() {
 //		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
 //	}

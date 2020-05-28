@@ -3,8 +3,11 @@ package com.daou.entity;
 import lombok.*;
 import javax.persistence.*;
 
+/**
+ * @author Song
+ */
+
 @Data
-@Getter
 @Entity
 @Table(name="member")
 public class Member {

@@ -51,6 +51,10 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         }else{
             loginRequest = new LoginRequest(request.getParameter("username"), request.getParameter("password"));
         }
+//        2020-05-26 주석 @author: pkh879
+//        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+        com.daou.common.Logger.write(request.getParameter("username"),request.getParameter("password"));
+        LoginRequest loginRequest = new LoginRequest(request.getParameter("username"), request.getParameter("password"));
         if (StringUtils.isBlank(loginRequest.getUsername()) || StringUtils.isBlank(loginRequest.getPassword())) {
             Logger.write("사용자 정보가 null 입니다.");
             throw new AuthenticationServiceException("사용자 정보가 모두 입력 되지 않았습니다.");

@@ -1,6 +1,7 @@
 package com.daou.controller;
 
 import com.daou.entity.BandReceive;
+import com.daou.mapping.bandMapping;
 import com.daou.repository.BandReceiveRepository;
 import com.daou.service.BandReceiveService;
 import org.slf4j.Logger;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+/*
+	@author Song
+ */
 
 @CrossOrigin
 @RestController 
@@ -37,7 +42,7 @@ public class BandReceiveController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceives, HttpStatus.OK);
-	} 
+	}
 	
 	// seq_log_no 대역 로그 검색 출력
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -57,4 +62,15 @@ public class BandReceiveController {
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
 
+
+	//band 테이블 조인 category 컬럼 추가 조회
+	@GetMapping(value = "/category", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<bandMapping>> findAllBy() {
+		List<bandMapping> bandReceives = bandReceiveService.findAllBy();
+		System.out.println(bandReceives);
+		if(bandReceives.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<bandMapping>>(bandReceives, HttpStatus.OK);
+	}
 }
