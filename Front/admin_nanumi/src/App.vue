@@ -5,7 +5,7 @@
       dark
       max-height=64px
     >
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="open"></v-app-bar-nav-icon>
       
       <v-toolbar-title>나누미</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -231,12 +231,9 @@ export default {
     login(){
       if (this.checkForm()){
         console.log('로그인 시도')
-        // console.log(this.credential2)
-          const form = new FormData()
-        form.append('username', "pkh879" )
-        form.append('password', "pkh879")
-        console.log(form)
-        axios.post('http://localhost:8080/api/auth/login', form)
+        console.log(this.credential2)
+   
+        axios.post('http://localhost:8080/api/auth/login', this.credential2)
           .then((res)=>{
             console.log('로그인 성공')
 
@@ -254,6 +251,14 @@ export default {
         // if (this.credential2.password.length < 8) {this.errors.push('비밀번호는 8글자가 넘어야합니다.')}
         if (!this.credential2.username) {this.errors.push('아이디를 입력해주세요.')}
         if (this.errors.length === 0) {return true}
+    },
+    open(){
+      if(this.isAuthenticated){
+        this.drawer = !this.drawer ;
+      }
+      else{
+        alert("로그인 후 이용해주세요")
+      }
     },
     
     logout(){

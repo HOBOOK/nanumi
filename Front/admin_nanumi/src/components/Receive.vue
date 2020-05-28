@@ -149,6 +149,7 @@
 <!-- </v-container> -->
 </template>
 <script>
+import { mapGetters } from 'vuex';
   export default {
     data: () => ({
       dialog: false,
@@ -219,22 +220,12 @@
     }),
 
     computed: {
-      // headers(){
-      //   return[
-      //   {
-      //     text: 'Seq',
-      //     align: 'start',
-      //     sortable: false,
-      //     value: 'seq',
-      //   },
-      //   { text: '대역번호', value: 'bandNumber' },
-      //   { text: '수신번호', value: 'receiveNumber' },
-      //   { text: '서비스', value: 'service', filter: this.serviceFilter},
-      //   { text: '카테고리', value: 'category', filter: this.categoryFilter},
-      //   { text: 'Actions', value: 'actions', sortable: false },
-      //   ]
-      // },
-      
+      ...mapGetters([
+      'isAuthenticated',
+      'requestHeader',
+      'userId',
+      'username'
+    ]),
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -244,10 +235,18 @@
       dialog (val) {
         val || this.close()
       },
+      
     },
 
     created () {
       this.initialize()
+    },
+    mounted() 
+    {
+      if(!this.isAuthenticated){
+        console.log("인증안됨")
+        this.$router.push(`/`);
+      }
     },
 
     methods: {

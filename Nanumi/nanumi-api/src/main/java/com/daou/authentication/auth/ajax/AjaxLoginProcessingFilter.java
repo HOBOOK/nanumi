@@ -48,7 +48,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         LoginRequest loginRequest;
         if(request.getContentType().toLowerCase().contains("json")){
             loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
-        }else{
+        }else {
             loginRequest = new LoginRequest(request.getParameter("username"), request.getParameter("password"));
         }
         if (StringUtils.isBlank(loginRequest.getUsername()) || StringUtils.isBlank(loginRequest.getPassword())) {
