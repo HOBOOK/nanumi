@@ -1,7 +1,6 @@
 package com.daou.controller;
 
 import com.daou.entity.BandAssign;
-import com.daou.entity.Member;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController 
-@RequestMapping("assignments")
+@RequestMapping("api/assignments")
 public class BandAssignController {
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 

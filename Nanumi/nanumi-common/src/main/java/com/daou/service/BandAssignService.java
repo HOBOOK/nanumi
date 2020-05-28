@@ -34,9 +34,9 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
-	public List<BandAssign> findByServiceCode(String serviceCode) {
+	public List<BandAssign> findBySvcId(String serviceCode) {
 		List<BandAssign> bandAssigns = new ArrayList<>();
-		bandAssignRepository.findByServiceCode(serviceCode).forEach(e -> bandAssigns.add(e));
+		bandAssignRepository.findBySvcId(serviceCode).forEach(e -> bandAssigns.add(e));
 		return bandAssigns;
 	}
 

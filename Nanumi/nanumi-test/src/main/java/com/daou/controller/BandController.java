@@ -1,5 +1,6 @@
 package com.daou.controller;
 
+import com.daou.entity.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,7 @@ public class BandController {
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<Band> getBand(@PathVariable("seqNo") Long seqNo) {
 		Optional<Band> band = bandService.findBySeqNo(seqNo);
-		return new ResponseEntity<Band>(band.get(), HttpStatus.OK); 
+		return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
 	}
-	
 
 }

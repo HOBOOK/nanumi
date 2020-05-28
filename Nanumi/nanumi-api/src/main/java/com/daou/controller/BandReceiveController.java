@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @CrossOrigin //웹 페이지의 제한된 자원을 외부 도메인에서 접근을 허용
 @RestController 
-@RequestMapping("receptions")
+@RequestMapping("/api/receptions")
 
 public class BandReceiveController {
 	// 기본형 
