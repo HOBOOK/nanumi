@@ -1,7 +1,7 @@
 package com.daou.authentication.config;
 
 import com.daou.authentication.RestAuthenticationEntryPoint;
-import com.daou.authentication.auth.IpAuthenticationProvider;
+import com.daou.authentication.auth.ip.IpAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxLoginProcessingFilter;
 import com.daou.authentication.auth.jwt.JwtAuthenticationProvider;
@@ -10,7 +10,6 @@ import com.daou.authentication.auth.jwt.SkipPathRequestMatcher;
 import com.daou.authentication.auth.jwt.extractor.TokenExtractor;
 import com.daou.common.CustomCorsFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -98,6 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
+                .antMatchers(API_ROOT_URL).access("hasIpAddress('127.0.0.1')")
                 .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()])) // 모든 접근 가능한 URL 목록
                 .permitAll()
 

@@ -1,9 +1,9 @@
-package com.daou.authentication.auth;
+package com.daou.authentication.auth.ip;
 
 import com.daou.common.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -23,8 +23,7 @@ public class IpAuthenticationProvider implements AuthenticationProvider {
     Set<String> whiteList = new HashSet<String>();
 
     public IpAuthenticationProvider(){
-        whiteList.add("127.0.0.1");
-        whiteList.add("175.115.92.129");
+        whiteList.add("175.115.92.132");
     }
 
     @Override
@@ -40,6 +39,6 @@ public class IpAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return (IpAuthenticationProvider.class.isAssignableFrom(authentication));
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }
