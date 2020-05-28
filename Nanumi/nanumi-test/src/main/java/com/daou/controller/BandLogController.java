@@ -16,9 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
 @CrossOrigin
 @RestController 
-@RequestMapping("bandLog") 
+@RequestMapping("bandlog")
 public class BandLogController { 
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 

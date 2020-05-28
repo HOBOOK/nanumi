@@ -14,9 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/*
+	@author Song
+ */
+
 @CrossOrigin
 @RestController 
-@RequestMapping("bandAssign")
+@RequestMapping("bandassign")
 public class BandAssignController {
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 

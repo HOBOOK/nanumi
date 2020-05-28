@@ -9,6 +9,9 @@ import com.daou.entity.BandLog;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Song
+ */
 
 @Repository 
 public interface BandLogRepository extends JpaRepository<BandLog, Long> {
