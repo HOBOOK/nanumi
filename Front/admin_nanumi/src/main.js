@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify';
 import router from './router'
 import AOS from "aos"
 import "aos/dist/aos.css"
-
+import store from './store'
 
 
 Vue.config.productionTip = false
@@ -13,6 +13,7 @@ Vue.config.productionTip = false
 new Vue({
   vuetify,
   router,
+  store,
   created(){
     AOS.init();
   },
