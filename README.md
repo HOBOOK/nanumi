@@ -31,3 +31,27 @@
 > NanumiAPIApplication 실행후 /swagger-ui.html URL에서 확인할 수 있습니다.
 
 
+
+프론트 설정
+node.js , visual studio code 설치
+
+비쥬얼 스튜디오 코드에서 폴더 nanumi front에서 열기
+
+터미널 -> 디폴트를 git bash로 변경
+cd admin_nanumi
+
+Npm install -g npm
+Npm install -g @vue/cli
+Npm install axios --save
+Npm install vue-router --save
+Npm install vuex --save
+Npm install d3 --save
+
+Vue add element
+Y full ko 선택
+
+Npm run serve(실행방법)
+-> 실행하면 npm -ㅁㅁㅁㅁ 들이 나오는데 그거 명령어 
+npm install -ㅁㅁ 이런식으로 설치 후
+
+될때까지  npm run serve
