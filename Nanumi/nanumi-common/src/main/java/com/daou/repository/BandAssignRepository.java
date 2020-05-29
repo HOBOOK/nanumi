@@ -19,6 +19,6 @@ public interface BandAssignRepository extends JpaRepository<BandAssign, Long> {
 	
 	public Optional<BandAssign> findBySeqNo(Long seqNo);
 	public Optional<BandAssign> findBySerialNo(String serialNo);
-	public List<BandAssign> findByServiceCode(String serviceCode);
+	public List<BandAssign> findBySvcId(String serviceCode);
 
 }

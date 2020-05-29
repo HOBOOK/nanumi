@@ -34,11 +34,20 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
-	public List<BandAssign> findByServiceCode(String serviceCode) {
+	public List<BandAssign> findBySvcId(String serviceCode) {
 		List<BandAssign> bandAssigns = new ArrayList<>();
-		bandAssignRepository.findByServiceCode(serviceCode).forEach(e -> bandAssigns.add(e));
+		bandAssignRepository.findBySvcId(serviceCode).forEach(e -> bandAssigns.add(e));
 		return bandAssigns;
 	}
 
+	public void updateByBandNumberRange(Long seqNo, BandAssign bandAssign) {
+		Optional<BandAssign> e = bandAssignRepository.findById(seqNo);
+		if (e.isPresent()) {
+			e.get().setSeqNo(bandAssign.getSeqNo());
+			e.get().setStartNo(bandAssign.getStartNo());
+			e.get().setEndNo(bandAssign.getEndNo());
+			bandAssignRepository.save(bandAssign);
+		}
+	}
 
 }

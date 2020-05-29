@@ -1,7 +1,6 @@
 package com.daou.authentication.config;
 
 import com.daou.authentication.RestAuthenticationEntryPoint;
-import com.daou.authentication.auth.ip.IpAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxLoginProcessingFilter;
 import com.daou.authentication.auth.jwt.JwtAuthenticationProvider;
@@ -43,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private AuthenticationFailureHandler authenticationFailureHandler;
     @Autowired private AjaxAuthenticationProvider ajaxAuthenticationProvider;
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
-    @Autowired private IpAuthenticationProvider ipAuthenticationProvider;
 
     @Autowired private TokenExtractor tokenExtractor;
 
@@ -75,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
-        auth.authenticationProvider(ipAuthenticationProvider);
+
     }
 
     @Override

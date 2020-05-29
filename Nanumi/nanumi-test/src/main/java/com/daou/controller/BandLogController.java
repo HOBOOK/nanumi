@@ -20,6 +20,9 @@ import java.util.Optional;
 	@author Song
  */
 
+/**
+ * 해당 컨드롤러로 이동
+ */
 @CrossOrigin
 @RestController 
 @RequestMapping("bandlog")

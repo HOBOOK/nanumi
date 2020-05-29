@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController 
-@RequestMapping("assignments")
+@RequestMapping("api/assignments")
 public class BandAssignController {
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
@@ -66,11 +66,21 @@ public class BandAssignController {
 
 
 	/**
-	 *
+	 * Insert
 	 */
 	@RequestMapping(value="/a", method = RequestMethod.POST)
 	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
 		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
+	}
+
+
+	/**
+	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
+	 */
+	@PutMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<BandAssign> updateMember(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
+		bandAssignService.updateByBandNumberRange(seqNo, bandAssign);
+		return new ResponseEntity<BandAssign>(bandAssign, HttpStatus.OK);
 	}
 
 }

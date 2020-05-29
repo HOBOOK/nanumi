@@ -1,5 +1,8 @@
 package com.daou.controller;
 
+import com.daou.entity.Account;
+import com.daou.repository.AccountRepository;
+import com.daou.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.daou.entity.Account;
-import com.daou.repository.AccountRepository;
-import com.daou.service.AccountService;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,14 +42,14 @@ public class TestJpaRestController {
 	
 	// 회원번호로 한명의 회원 조회 
 	@GetMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<Account> getMember(@PathVariable("mbrNo") Long mbrNo) {
-		Optional<Account> member = accountService.findByMbrNo(mbrNo);
-		return new ResponseEntity<Account>(member.get(), HttpStatus.OK); }
+	public ResponseEntity<Account> getMember(@PathVariable("mbrNo") String id) {
+		Optional<Account> account = accountService.findById(id);
+		return new ResponseEntity<Account>(account.get(), HttpStatus.OK); }
 	
 	// 회원번호로 회원 삭제 
 	@DeleteMapping(value = "/{mbrNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<Void> deleteMember(@PathVariable("mbrNo") Long mbrNo) { 
-		accountService.deleteById(mbrNo);
+	public ResponseEntity<Void> deleteMember(@PathVariable("mbrNo") String id) {
+		accountService.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); } 
 	
 	// 회원번호로 회원 수정(mbrNo로 회원을 찾아 Member 객체의 id, name로 수정함) 

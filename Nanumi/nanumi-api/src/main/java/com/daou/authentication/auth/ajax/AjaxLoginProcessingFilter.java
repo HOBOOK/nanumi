@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -44,7 +45,6 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             Logger.write("지원 하지 않는 인증 메소드입니다. 요청 메소드 : " + request.getMethod());
             throw new AuthMethodNotSupportedException("지원 하지 않는 인증 메소드");
         }
-        Logger.write(getClientIpAddress(request));
         LoginRequest loginRequest;
         if(request.getContentType().toLowerCase().contains("json")){
             loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
@@ -72,30 +72,5 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         Logger.write("실패한 인증");
         SecurityContextHolder.clearContext();
         authenticationFailureHandler.onAuthenticationFailure(request, response, failed);
-    }
-
-    /**
-     * 인증 요청 클라이언트의 IP주소를 얻는 메소드
-     * @param request
-     * @return
-     */
-    private String getClientIpAddress(HttpServletRequest request){
-        String ip = request.getHeader("X-Forwarded-For");
-        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("HTTP_CLIENT_IP");
-        }
-        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        }
-        if(ip==null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
-            ip = request.getRemoteAddr();
-        }
-        return ip;
     }
 }

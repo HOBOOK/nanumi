@@ -44,9 +44,7 @@ public class JwtTokenFactory {
 
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
-
         LocalDateTime currentTime = LocalDateTime.now();
-
         String token =Jwts.builder()
                 .setClaims(claims)
                 .setIssuer(jwtSettings.getTokenIssuer())

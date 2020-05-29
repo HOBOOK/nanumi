@@ -12,7 +12,6 @@ import com.daou.entity.Band;
 import com.daou.repository.BandRepository;
 import com.daou.service.BandService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +46,7 @@ public class BandController {
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<Band> getBand(@PathVariable("seqNo") Long seqNo) {
 		Optional<Band> band = bandService.findBySeqNo(seqNo);
-		return new ResponseEntity<Band>(band.get(), HttpStatus.OK); 
+		return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
 	}
-	
 
 }
