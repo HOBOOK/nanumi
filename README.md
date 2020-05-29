@@ -13,10 +13,12 @@
 
 ### [사용자 토큰 발급]
 > /api/auth/login URL에 POST로
-> {
-> 	"username" : "nanumi"
-> 	"password" : " nanumi"
-> }
+```
+{
+ 	"username" : "nanumi"
+ 	"password" : "nanumi"
+}
+```
 > JSON형식으로 요청하면 token과 refreshToken이 발급됩니다.
 
 
