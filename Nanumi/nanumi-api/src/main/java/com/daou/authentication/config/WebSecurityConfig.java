@@ -3,6 +3,7 @@ package com.daou.authentication.config;
 import com.daou.authentication.RestAuthenticationEntryPoint;
 import com.daou.authentication.auth.ajax.AjaxAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxLoginProcessingFilter;
+import com.daou.authentication.auth.ip.IpWhiteList;
 import com.daou.authentication.auth.jwt.JwtAuthenticationProvider;
 import com.daou.authentication.auth.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.daou.authentication.auth.jwt.SkipPathRequestMatcher;
@@ -45,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired private TokenExtractor tokenExtractor;
 
+    @Autowired private IpWhiteList ipWhiteList;
+
     @Autowired private AuthenticationManager authenticationManager;
 
     @Autowired private ObjectMapper objectMapper;
@@ -58,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(List<String> pathsToSkip, String pattern) throws Exception {
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, pattern);
         JwtTokenAuthenticationProcessingFilter filter
-                = new JwtTokenAuthenticationProcessingFilter(authenticationFailureHandler, tokenExtractor, matcher);
+                = new JwtTokenAuthenticationProcessingFilter(authenticationFailureHandler, tokenExtractor,ipWhiteList, matcher);
         filter.setAuthenticationManager(this.authenticationManager);
         return filter;
     }
@@ -95,7 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(API_ROOT_URL).access("hasIpAddress('127.0.0.1')")
                 .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()])) // 모든 접근 가능한 URL 목록
                 .permitAll()
 
