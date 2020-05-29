@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 등록된 IP 주소만 접근가능한 IP 화이트 리스트
+ * 등록된 IP 주소만 접근 가능한 IP 화이트 리스트
  * @author pkh879
  */
 @Component
@@ -21,10 +21,13 @@ public class IpWhiteList {
     private final Set<String> ipList = new HashSet<>();
 
     IpWhiteList(){
-        ipList.add("127.0.0.2");
+        ipList.add("127.0.0.1");
+        ipList.add("172.21.25.66");
+        ipList.add("172.21.25.67");
+        ipList.add("172.21.25.75");
     }
     public boolean check(HttpServletRequest request){
-        return !ipList.contains(getClientIpAddress(request));
+        return ipList.contains(getClientIpAddress(request));
     }
 
     /**
