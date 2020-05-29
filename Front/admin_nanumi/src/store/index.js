@@ -30,7 +30,7 @@ export default new Vuex.Store({
     requestHeader: function(state){
       return {
         headers: {
-          Authorization: 'JWT ' + state.token
+          Authorization: 'Bearer ' + state.token
         }
       }
     },
