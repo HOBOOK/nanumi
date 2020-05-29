@@ -3,6 +3,7 @@ package com.daou.authentication.exceptions;
 import org.springframework.security.authentication.AuthenticationServiceException;
 
 /**
+ * 요청한 HTTP METHOD가 없을때 발생하는 예외
  * @author pkh879
  */
 public class AuthMethodNotSupportedException extends AuthenticationServiceException {

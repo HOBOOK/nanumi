@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 제공된 JWT 유효성 검증
+ * 제공된 JWT 유효성 필터
  * @author pkh879
  */
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
@@ -39,7 +39,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        Logger.write(getClientIpAddress(request));
+//        Logger.write(getClientIpAddress(request));
         String tokenPayload = request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME);
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));

@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * JWT 인증 Config
+ * 보안 처리 설정
  * @author pkh879
  */
 @Configuration

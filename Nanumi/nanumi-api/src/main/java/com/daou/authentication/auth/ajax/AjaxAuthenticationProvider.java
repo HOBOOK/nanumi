@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * {@link AuthenticationProvider} 구현
+ * Ajax 인증을 수행하는 클래스
  * @author pkh879
  */
 @Component
@@ -51,7 +53,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         if(!encoder.matches(password, account.getPwd())){
             throw new BadCredentialsException("사용자 인증정보가 일치하지 않습니다.");
         }
-        Logger.write(account.getId(), account.getPwd());
+
         if(account.getRoleCd() == null) throw new InsufficientAuthenticationException("사용자의 권한 정보가 부여되지 않았습니다.");
         List<Role> roles = new ArrayList<>();
         roles.add(Role.USER);

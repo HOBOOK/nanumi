@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
+ * Jwt 토큰 객체
  * @author pkh879
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {

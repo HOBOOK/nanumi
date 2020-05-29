@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 /**
  * {@link AuthenticationProvider} 구현
- * 인증을 수행하기 위한 인스턴스
+ * 토큰 인증을 수행하기 위한 인스턴스
  * @author pkh879
  */
 @Component

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Ajax 인증 필터
+ * Ajax 인증 유효성 필터
  * @author pkh879
  */
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {

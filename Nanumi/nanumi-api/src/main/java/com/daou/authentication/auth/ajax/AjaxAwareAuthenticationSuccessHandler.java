@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 인증 성공시 실행 되는 콜백
  * @author pkh879
  */
 @Component

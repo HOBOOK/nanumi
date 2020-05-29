@@ -1,6 +1,7 @@
 package com.daou.authentication.exceptions;
 
 /**
+ * 유효 하지 않은 토큰 예외
  * @author pkh879
  */
 public class InvalidJwtToken extends RuntimeException {
