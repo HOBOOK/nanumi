@@ -41,10 +41,15 @@ node.js , visual studio code 설치
 cd admin_nanumi
 
 Npm install -g npm
+
 Npm install -g @vue/cli
+
 Npm install axios --save
+
 Npm install vue-router --save
+
 Npm install vuex --save
+
 Npm install d3 --save
 
 Vue add element
