@@ -1,4 +1,4 @@
-package com.daou.authentication;
+package com.daou.authentication.model;
 
 /**
  * 권한 타입
@@ -8,6 +8,6 @@ public enum Role {
     ADMIN, USER;
 
     public String authority(){
-        return" ROLE_" + this.name();
+        return "ROLE_" + this.name();
     }
 }

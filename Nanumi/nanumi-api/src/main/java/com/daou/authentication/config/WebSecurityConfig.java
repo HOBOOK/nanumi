@@ -1,6 +1,8 @@
 package com.daou.authentication.config;
 
 import com.daou.authentication.RestAuthenticationEntryPoint;
+import com.daou.authentication.auth.jwt.JwtTokenAccessDeniedHandler;
+import com.daou.authentication.model.Role;
 import com.daou.authentication.auth.ajax.AjaxAuthenticationProvider;
 import com.daou.authentication.auth.ajax.AjaxLoginProcessingFilter;
 import com.daou.authentication.auth.ip.IpWhiteList;
@@ -15,10 +17,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,16 +35,19 @@ import java.util.List;
  * @author pkh879
  */
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
-    public static final String AUTHENTICATION_URL = "/api/auth/login";
-    public static final String REFRESH_TOKEN_URL = "/api/auth/token";
-    public static final String API_ROOT_URL = "/api/**";
+    public static final String AUTHENTICATION_URL = "/api/auth/login"; // 토큰 발급 URL
+    public static final String REFRESH_TOKEN_URL = "/api/auth/token"; // 토큰 재발급 URL
+    public static final String ADMIN_ROOT_URL = "/api/admin/**"; // 관리자 루트 URL
+    public static final String API_ROOT_URL = "/api/**"; // Api 루트 URL
 
     @Autowired private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
     @Autowired private AuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired private AuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired private AccessDeniedHandler accessDeniedHandler;
     @Autowired private AjaxAuthenticationProvider ajaxAuthenticationProvider;
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
 
@@ -76,7 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
-
     }
 
     @Override
@@ -103,7 +109,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers(API_ROOT_URL).authenticated() // Protected API End-points
+                .antMatchers(API_ROOT_URL).authenticated() // API 루트 경로 인증 설정
+                .antMatchers(ADMIN_ROOT_URL).hasAuthority(Role.ADMIN.name()) // ADMIN 루트 권한 설정
+
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler) // 권한 예외 핸들링
 
                 .and()
                 .addFilterBefore(new CustomCorsFilter(), UsernamePasswordAuthenticationFilter.class)

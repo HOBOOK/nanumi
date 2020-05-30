@@ -4,6 +4,7 @@ import com.daou.authentication.exceptions.AuthMethodNotSupportedException;
 import com.daou.authentication.exceptions.JwtExpiredTokenException;
 import com.daou.common.ErrorCode;
 import com.daou.common.ErrorResponse;
+import com.daou.common.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,6 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
         if (ex instanceof BadCredentialsException) {
             mapper.writeValue(response.getWriter(), ErrorResponse.of("User authentication information does not match", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
         } else if (ex instanceof JwtExpiredTokenException) {
