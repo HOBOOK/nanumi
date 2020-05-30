@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
  * @author Song
  */
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="account_tb")
 public class Account extends Time{

@@ -13,7 +13,7 @@ import javax.persistence.*;
  * @AllArgsConstructor는 필드값을 모두 포함한 생성자 자동 생성
  *
  * @DynamicInsert, @DynamicUpdate
- * set 하지 않은 변수(Null) Insert, update 시 자동생성되는 SQL 에서 제외
+ * set 하지 않은 변수(Null) Insert, update 시 자동생성되는 SQL에서 제외
  */
 @Data
 @Entity
@@ -21,7 +21,7 @@ import javax.persistence.*;
 public class BandAssign {
 
 	/**
-	 * com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'DB명.hibernate_sequence' doesn't exist
+	 * com.mysql.jdbc.exceptions.jdbc.MySQLSyntaxErrorException: Table 'DB명.hibernate_sequence' doesn't exist
 	 * @GeneratedValue(strategy = GenerationType.AUTO) 오류
 	 * hibernate ver.4 -> 5 버전업 되면서 문제 발생
 	 * Auto 지정시 자동으로 DB명.hibernate_sequence 생성하려함

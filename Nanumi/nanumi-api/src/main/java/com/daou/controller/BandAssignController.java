@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 
 @CrossOrigin
-@RestController 
+@RestController
 @RequestMapping("api/assignments")
 public class BandAssignController {
 	// 기본형 
@@ -68,7 +68,7 @@ public class BandAssignController {
 	/**
 	 * Insert
 	 */
-	@RequestMapping(value="/a", method = RequestMethod.POST)
+	@RequestMapping(value="/{seqNo}", method = RequestMethod.POST)
 	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
 		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
 	}
