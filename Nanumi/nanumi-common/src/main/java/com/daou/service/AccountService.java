@@ -6,6 +6,7 @@ import com.daou.entity.Account;
 import com.daou.repository.AccountRepository;
 
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,21 +20,25 @@ public class AccountService {
 	@Autowired
 	private AccountRepository accountRepository;
 
+	@Transactional
 	public List<Account> findAll() {
 		List<Account> accounts = new ArrayList<>();
 		accountRepository.findAll().forEach(e -> accounts.add(e));
 		return accounts;
 	}
 
+	@Transactional
 	public Optional<Account> findById(String id) {
 		Optional<Account> member = accountRepository.findById(id);
 		return member;
 	}
 
+	@Transactional
 	public void deleteById(String id) {
 		accountRepository.deleteById(id);
 	}
 
+	@Transactional
 	public Account save(Account account) {
 		accountRepository.save(account);
 		return account;

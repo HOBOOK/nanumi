@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 @Table(name="account_tb")
 public class Account extends Time{
 	@Id
-	@Column(name = "id")
+	@Column(name = "id", nullable = false, unique = true)
 	private String id;
 
-	@Column(name = "pwd")
+	@Column(name = "pwd", nullable = false)
 	private String pwd;
 	
 	@Column(name = "svc_nm")
@@ -33,7 +33,7 @@ public class Account extends Time{
 	@Column(name = "expire_dt")
 	private LocalDateTime expireDt;
 
-	@Column(name = "role_cd")
+	@Column(name = "role_cd", nullable = false)
 	private String roleCd;
 
 	@Builder
