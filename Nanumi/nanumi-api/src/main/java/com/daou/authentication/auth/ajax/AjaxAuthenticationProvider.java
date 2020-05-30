@@ -1,6 +1,6 @@
 package com.daou.authentication.auth.ajax;
 
-import com.daou.authentication.Role;
+import com.daou.authentication.model.Role;
 import com.daou.authentication.model.UserContext;
 import com.daou.common.Logger;
 import com.daou.entity.Account;
@@ -60,6 +60,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
             roles.add(Role.ADMIN);
         else
             roles.add(Role.USER);
+
         List<GrantedAuthority> authorities = roles.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.authority()))
                 .collect(Collectors.toList());

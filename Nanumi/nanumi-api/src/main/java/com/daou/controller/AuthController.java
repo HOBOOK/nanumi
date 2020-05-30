@@ -1,6 +1,6 @@
 package com.daou.controller;
 
-import com.daou.authentication.Role;
+import com.daou.authentication.model.Role;
 import com.daou.authentication.auth.ajax.LoginRequest;
 import com.daou.authentication.auth.jwt.extractor.TokenExtractor;
 import com.daou.authentication.auth.jwt.verifier.TokenVerifier;
@@ -12,6 +12,7 @@ import com.daou.authentication.model.token.JwtToken;
 import com.daou.authentication.model.token.JwtTokenFactory;
 import com.daou.authentication.model.token.RawAccessJwtToken;
 import com.daou.authentication.model.token.RefreshToken;
+import com.daou.common.Logger;
 import com.daou.entity.Account;
 import com.daou.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -60,6 +63,8 @@ public class AuthController {
         return new ResponseEntity<Object>(tokenData, HttpStatus.OK);
     }
 
+    
+    // 토큰 재발급 앤드포인트
     @RequestMapping(value = "/auth/token", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
