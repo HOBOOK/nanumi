@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 인가 되지 않은 사용자 진입 포인트
  * @author pkh879
  */
 @Component

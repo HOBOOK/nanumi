@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Response 에러 모델
+ * @author pkh879
  */
 @Getter
 public class ErrorResponse {
@@ -31,6 +32,4 @@ public class ErrorResponse {
     public static ErrorResponse of(final String message, final ErrorCode errorCode, HttpStatus httpStatus){
         return new ErrorResponse(message, errorCode, httpStatus);
     }
-
-
 }

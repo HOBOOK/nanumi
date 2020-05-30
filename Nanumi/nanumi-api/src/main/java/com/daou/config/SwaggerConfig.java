@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -36,6 +38,17 @@ public class SwaggerConfig {
 
     @Bean
     public Docket commonApi() {
+
+        ParameterBuilder parameterBuilder = new ParameterBuilder();
+        parameterBuilder.name("Authorization")
+                .description("Access Token")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(true)
+                .build();
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(parameterBuilder.build());
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Nanumi")
                 .apiInfo(this.appInfo())
@@ -44,6 +57,7 @@ public class SwaggerConfig {
                 .ignoredParameterTypes(java.sql.Date.class)
                 .securityContexts(Lists.newArrayList(securityContext()))
                 .securitySchemes(Lists.newArrayList(apiKey()))
+                .globalOperationParameters(parameters)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.daou.controller"))
                 .paths(PathSelectors.ant("/api/**"))
@@ -51,7 +65,7 @@ public class SwaggerConfig {
     }
 
     private ApiKey apiKey(){
-        return new ApiKey("JWT", "nanumiKey","header");
+        return new ApiKey("Authorization", "nanumiKey","header");
     }
     private SecurityContext securityContext(){
         return SecurityContext.builder()

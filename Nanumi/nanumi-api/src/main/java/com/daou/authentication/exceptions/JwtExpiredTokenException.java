@@ -4,6 +4,7 @@ import com.daou.authentication.model.token.JwtToken;
 import org.springframework.security.core.AuthenticationException;
 
 /**
+ * 만료된 토큰 예외
  * @author pkh879
  */
 public class JwtExpiredTokenException extends AuthenticationException {

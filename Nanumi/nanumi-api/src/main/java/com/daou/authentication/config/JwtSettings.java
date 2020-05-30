@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import com.daou.authentication.model.token.JwtToken;
 
 /**
+ * Jwt토큰 설정 클래스
  * @author pkh879
  */
 @Configuration

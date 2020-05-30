@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Ajax 인증 필터
+ * Ajax 인증 유효성 필터
  * @author pkh879
  */
 public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingFilter {
@@ -48,7 +48,7 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         LoginRequest loginRequest;
         if(request.getContentType().toLowerCase().contains("json")){
             loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
-        }else{
+        }else {
             loginRequest = new LoginRequest(request.getParameter("username"), request.getParameter("password"));
         }
         if (StringUtils.isBlank(loginRequest.getUsername()) || StringUtils.isBlank(loginRequest.getPassword())) {

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 인증 실패시 실행 되는 콜백
  * @author pkh879
  */
 @Component
@@ -37,13 +38,13 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         if (ex instanceof BadCredentialsException) {
-            mapper.writeValue(response.getWriter(), ErrorResponse.of("사용자 인증정보가 일치하지 않습니다.", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
+            mapper.writeValue(response.getWriter(), ErrorResponse.of("User authentication information does not match", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
         } else if (ex instanceof JwtExpiredTokenException) {
-            mapper.writeValue(response.getWriter(), ErrorResponse.of("토큰이 만료되었습니다.", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
+            mapper.writeValue(response.getWriter(), ErrorResponse.of("Token has expired.", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
         } else if (ex instanceof AuthMethodNotSupportedException) {
             mapper.writeValue(response.getWriter(), ErrorResponse.of(ex.getMessage(), ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
         }
 
-        mapper.writeValue(response.getWriter(), ErrorResponse.of("인증에 실패하였습니다.", ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
+        mapper.writeValue(response.getWriter(), ErrorResponse.of("Authentication failed.", ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
     }
 }
