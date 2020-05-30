@@ -59,9 +59,9 @@ public class BandController {
     @GetMapping(value = "/{serialNo}",produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Band> getBand(@PathVariable("serialNo") String serialNo) {
         Optional<Band> band = bandService.findBySerialNo(serialNo);
+
         return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
     }
-
 
 
     /**

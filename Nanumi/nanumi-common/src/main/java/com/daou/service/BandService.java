@@ -1,5 +1,6 @@
 package com.daou.service;
 
+import com.daou.entity.BandAssign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.daou.entity.Band;
@@ -56,4 +57,5 @@ public class BandService {
 //			memberRepository.save(member);
 //		}
 //	}
+
 }

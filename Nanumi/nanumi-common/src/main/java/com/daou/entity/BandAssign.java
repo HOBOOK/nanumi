@@ -1,8 +1,11 @@
 package com.daou.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Song
@@ -31,7 +34,7 @@ public class BandAssign {
 	@Id
 	//@GeneratedValue(strategy = GenerationType.AUTO)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "seq_no")
+	@Column(name = "seq_no", insertable = false)
 	private Long seqNo;
 
 	/**
@@ -50,6 +53,16 @@ public class BandAssign {
 
 	@Column(name = "svc_id", updatable = false)
 	private String svcId;
+
+	@ManyToOne
+	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
+	@JsonIgnore
+	private Band band;
+
+	@ManyToOne
+	@JoinColumn(name = "id", insertable = false, updatable = false)
+//	@JsonIgnore
+	private Account account;
 
 	@Builder
 	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId) {

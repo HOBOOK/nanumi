@@ -1,6 +1,7 @@
 package com.daou.controller;
 
 import com.daou.entity.BandAssign;
+import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
 import org.slf4j.Logger;
@@ -33,15 +34,15 @@ public class BandAssignController {
 	BandAssignRepository bandAssignRepository;
 	
 	// 모든 할당 대역 출력
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
-	public ResponseEntity<List<BandAssign>> getAllbands() {
-		List<BandAssign> bandAssigns = bandAssignService.findAll();
-		System.out.println(bandAssigns);
-		if(bandAssigns.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
-	} 
+//	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<List<BandAssign>> getAllbands() {
+//		List<BandAssign> bandAssigns = bandAssignService.findAll();
+//		System.out.println(bandAssigns);
+//		if(bandAssigns.isEmpty()) {
+//			return new ResponseEntity(HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
+//	}
 	
 	// seqNo 할당 대역 검색
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -50,7 +51,16 @@ public class BandAssignController {
 		return new ResponseEntity<BandAssign>(bandAssign.get(), HttpStatus.OK);
 	}
 
-	//serial_no 검색??
+	// 모든 대역 조회
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<AssignMapping>> findInfo() {
+		List<AssignMapping> bandAssigns = bandAssignService.findAllBy();
+		if(bandAssigns.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<AssignMapping>>(bandAssigns, HttpStatus.OK);
+	}
+
 
 
 	// service code 검색
@@ -67,8 +77,9 @@ public class BandAssignController {
 
 	/**
 	 * Insert
+	 * 사용자에게 할당
 	 */
-	@RequestMapping(value="/{seqNo}", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
 		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
 	}
@@ -78,7 +89,7 @@ public class BandAssignController {
 	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
 	 */
 	@PutMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BandAssign> updateMember(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
+	public ResponseEntity<BandAssign> updateAssignBand(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
 		bandAssignService.updateByBandNumberRange(seqNo, bandAssign);
 		return new ResponseEntity<BandAssign>(bandAssign, HttpStatus.OK);
 	}
