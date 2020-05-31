@@ -24,7 +24,6 @@
         single-line
         hide-details
       ></v-text-field>
-         
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">사용자 추가</v-btn>
@@ -38,13 +37,22 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field disabled v-model="editedItem.id" label="사용자ID"></v-text-field>
+                    <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.id" label="사용자ID"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="editedIndex===-1">
+                    <v-text-field v-model="editedItem.pwd" label="비밀번호"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.roleCd" label="권한"></v-text-field>
+                    <v-text-field v-model="editedItem.svcNm" label="업체"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.expireDt" label="만료일"></v-text-field>
+                    <v-select
+                          :items="roleList"
+                          v-model="editedItem.roleCd"
+                          label="권한"
+                          dense
+                          outlined>
+                          </v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -52,8 +60,9 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+              <v-btn color="blue darken-1" text @click="close">취소</v-btn>
+              <v-btn color="blue darken-1" text @click="save" v-if="editedIndex!==-1">저장</v-btn>
+              <v-btn color="blue darken-1" text @click="add" v-if="editedIndex===-1">추가</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -99,8 +108,9 @@ import { mapGetters } from 'vuex';
       search: '',
       headers: [
         { text: '사용자ID', value: 'id' },
+        { text: '업체', value: 'svcNm'},
         { text: '권한', value: 'roleCd' },
-        { text: '인증키', value: 'accessToken' },
+        { text: '인증토큰', value: 'accessToken' },
         { text: '생성일', value: 'create_dt' },
         { text: '만료일', value: 'expireDt' },
         { text: '', value: 'actions', sortable: false },
@@ -109,16 +119,16 @@ import { mapGetters } from 'vuex';
       editedIndex: -1,
       editedItem: {
         id: '',
-        roleCd: 0,
-        create_dt: 0,
-        expireDt: 0,
+        roleCd: 'USER',
       },
       defaultItem: {
         id: '',
-        roleCd: "user",
-        create_dt: 0,
-        expireDt: 0,
+        roleCd: "USER",
       },
+      roleList:[
+        {text: "USER", value: "USER"},
+        {text: "ADMIN", value: "ADMIN"}
+      ],
     }),
 
     computed: {
@@ -130,7 +140,7 @@ import { mapGetters } from 'vuex';
     ])
   ,
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? '새로운 계정 생성' : '사용자 정보 수정'
       },
     },
 
@@ -238,9 +248,9 @@ import { mapGetters } from 'vuex';
 
       deleteItem (item) {
         const index = this.items.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        console.log(this.editedItem)
+
         if(confirm('정말로 지우시겠습니까?')){
+          this.editedItem = Object.assign({}, item)
           axios.delete(
             'http://localhost:8080/api/admin/account',
             {
@@ -252,8 +262,10 @@ import { mapGetters } from 'vuex';
           ).then((res)=>{
             console.log(res)
             this.items.splice(index, 1)
+            this.editedItem = this.defaultItem
           })
           .catch((res)=>{
+            this.editedItem = this.defaultItem
             console.log('error > ' + res)
           })
         }
@@ -268,7 +280,7 @@ import { mapGetters } from 'vuex';
       },
 
       save () {
-          axios.post('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
+          axios.put('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
           .then((res)=>{
             console.log(res)
             if (this.editedIndex > -1) {
@@ -281,7 +293,19 @@ import { mapGetters } from 'vuex';
           .catch((e)=>{
             console.log(e)
           })
-        
+      },
+
+      add (){
+        axios.post('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
+          .then((res)=>{
+            this.editedItem = res.data;
+            this.editedItem.pwd = '';
+            this.items.push(this.editedItem)
+            this.close()
+          })
+          .catch((e)=>{
+            console.log(e)
+          })
       },
     },
   }

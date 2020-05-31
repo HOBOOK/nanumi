@@ -9,6 +9,6 @@ public class PageController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(){
-        return "index";
+        return "redirect:http://localhost:8081";
     }
 }
