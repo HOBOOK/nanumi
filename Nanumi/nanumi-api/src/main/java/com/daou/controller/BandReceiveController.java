@@ -48,6 +48,9 @@ public class BandReceiveController {
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BandReceive> getBand(@PathVariable("seqNo") Long seqNo) {
 		Optional<BandReceive> bandReceive = bandReceiveService.findBySeqNo(seqNo);
+		if(bandReceive == null ) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<BandReceive>(bandReceive.get(), HttpStatus.OK);
 	}
 	

@@ -3,6 +3,7 @@ package com.daou.controller;
 import com.daou.entity.Account;
 import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
+import com.daou.mapping.AccountMapping;
 import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
@@ -52,17 +53,20 @@ public class BandAssignController {
 	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandAssign>> findBySerialNo(@PathVariable("serialNo") String serialNo) {
 		List<BandAssign> bandAssigns = bandAssignService.findBySerialNo(serialNo);
+		if(bandAssigns.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
 		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
 	}
 
 	// 모든 대역 조회
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<AssignMapping>> findInfo() {
-		List<AssignMapping> bandAssigns = bandAssignService.findAllBy();
+	public ResponseEntity<List<AccountMapping>> findInfo() {
+		List<AccountMapping> bandAssigns = bandAssignService.findAllBy();
 		if(bandAssigns.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<AssignMapping>>(bandAssigns, HttpStatus.OK);
+		return new ResponseEntity<List<AccountMapping>>(bandAssigns, HttpStatus.OK);
 	}
 
 
@@ -71,7 +75,6 @@ public class BandAssignController {
 	@GetMapping(value = "/service/{serviceCode}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandAssign>> getBand(@PathVariable("serviceCode") String serviceCode) {
 		List<BandAssign> bandAssign = bandAssignService.findBySvcId(serviceCode);
-		
 		if(bandAssign.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
@@ -106,4 +109,13 @@ public class BandAssignController {
 		return new ResponseEntity<BandAssign>(bandAssign, HttpStatus.OK);
 	}
 
+
+	/**
+	 * Delete
+	 */
+//	@DeleteMapping(value = "/{seqNo}")
+//	public ResponseEntity<Object> delete(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign){
+//		bandAssignService.deleteByAssign(seqNo);
+//		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
+//	}
 }

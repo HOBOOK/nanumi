@@ -1,11 +1,13 @@
 package com.daou.service;
 
 import com.daou.entity.BandAssign;
+import com.daou.mapping.AccountMapping;
 import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +32,8 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
-	public List<AssignMapping> findAllBy() {
-		List<AssignMapping> bandAssigns = new ArrayList<>();
+	public List<AccountMapping> findAllBy() {
+		List<AccountMapping> bandAssigns = new ArrayList<>();
 		bandAssignRepository.findAllBy().forEach(e -> bandAssigns.add(e));
 		return bandAssigns;
 	}
@@ -48,6 +50,12 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
+//	@Transactional
+//	public void deleteByBandAssign(Long seqNo) {
+//		bandAssignRepository.deleteByBandAssign(seqNo);
+//	}
+
+	@Transactional
 	public void updateByBandNumberRange(Long seqNo, BandAssign bandAssign) {
 		Optional<BandAssign> e = bandAssignRepository.findById(seqNo);
 		if (e.isPresent()) {

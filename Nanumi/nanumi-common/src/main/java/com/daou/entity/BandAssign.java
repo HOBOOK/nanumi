@@ -54,10 +54,15 @@ public class BandAssign {
 	@Column(name = "svc_id", updatable = false)
 	private String svcId;
 
+//	@ManyToOne
+//	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
+//	@JsonIgnore
+//	private Band band;
+
 	@ManyToOne
-	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
+	@JoinColumn(name = "svc_id", insertable = false, updatable = false)
 	@JsonIgnore
-	private Band band;
+	private Account account;
 
 	@Builder
 	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.daou.entity.Band;
 import com.daou.repository.BandRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,24 +35,17 @@ public class BandService {
 		bandRepository.findByCategory(category).forEach(e -> categoryBands.add(e));
 		return categoryBands;
 	}
-//
-//	public void deleteById(Long mbrNo) {
-//		memberRepository.deleteById(mbrNo);
-//	}
-//
+
+	@Transactional
 	public Band save(Band band) {
 		bandRepository.save(band);
 		return band;
 	}
 
-//	public void updateById(Long mbrNo, MemberVo member) {
-//		Optional<MemberVo> e = memberRepository.findById(mbrNo);
-//		if (e.isPresent()) {
-//			e.get().setMbrNo(member.());
-//			e.get().setId(member.getId());
-//			e.get().setName(member.getName());
-//			memberRepository.save(member);
-//		}
+
+//	public void deleteById(Long mbrNo) {
+//		memberRepository.deleteById(mbrNo);
 //	}
+//
 
 }

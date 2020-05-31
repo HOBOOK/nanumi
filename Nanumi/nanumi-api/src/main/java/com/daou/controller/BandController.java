@@ -75,13 +75,14 @@ public class BandController {
 
         //입력 값 String category -> enum타입으로 변환하여 조회
         com.daou.types.category category_enum = com.daou.types.category.valueOf(category);
-        List<Band> band = bandService.findByCategory(category_enum);
+        List<Band> bands = bandService.findByCategory(category_enum);
 
-        return new ResponseEntity<List<Band>>(band, HttpStatus.OK);
+        if(bands.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Band>>(bands, HttpStatus.OK);
     }
-
-
-
+    
 
     /**
      * 대역 로그
