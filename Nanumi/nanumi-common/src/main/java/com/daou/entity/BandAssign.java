@@ -59,11 +59,6 @@ public class BandAssign {
 	@JsonIgnore
 	private Band band;
 
-	@ManyToOne
-	@JoinColumn(name = "id", insertable = false, updatable = false)
-//	@JsonIgnore
-	private Account account;
-
 	@Builder
 	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId) {
 		this.seqNo = seqNo;
