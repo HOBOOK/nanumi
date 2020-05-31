@@ -49,10 +49,10 @@ public class BandAssignController {
 //	}
 
 	// seqNo 할당 대역 검색
-	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BandAssign> getBand(@PathVariable("seqNo") Long seqNo) {
-		Optional<BandAssign> bandAssign = bandAssignService.findBySeqNo(seqNo);
-		return new ResponseEntity<BandAssign>(bandAssign.get(), HttpStatus.OK);
+	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<BandAssign>> findBySerialNo(@PathVariable("serialNo") String serialNo) {
+		List<BandAssign> bandAssigns = bandAssignService.findBySerialNo(serialNo);
+		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
 	}
 
 	// 모든 대역 조회
@@ -81,7 +81,8 @@ public class BandAssignController {
 
 	/**
 	 * Insert
-	 * 사용자에게 할당
+	 * 사용자에게 할당  serialNo, startNo, endNo, svcId(Account에 id사용자 아이디)
+	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. insert
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
@@ -91,9 +92,16 @@ public class BandAssignController {
 
 	/**
 	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
+	 *  1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. update
 	 */
 	@PutMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BandAssign> updateAssignBand(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
+	public ResponseEntity<BandAssign> update(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
+
+		// 1.
+
+		// 2. if()
+
+		// 3.
 		bandAssignService.updateByBandNumberRange(seqNo, bandAssign);
 		return new ResponseEntity<BandAssign>(bandAssign, HttpStatus.OK);
 	}

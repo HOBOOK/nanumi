@@ -24,20 +24,16 @@ public class BandService {
 		return bands;
 	}
 
-//	public Optional<Band> findBySeqNo(Long SeqNo) {
-//		Optional<Band> band = bandRepository.findBySeqNo(SeqNo);
-//		return band;
-//	}
-
 	public Optional<Band> findBySerialNo(String SerialNo) {
 		Optional<Band> band = bandRepository.findBySerialNo(SerialNo);
 		return band;
 	}
-//
-//	public Optional<Member> findById(String id) {
-//		Optional<Member> member = memberRepository.findById(id);
-//		return member;
-//	}
+
+	public List<Band> findByCategory(com.daou.types.category category) {
+		List<Band> categoryBands = new ArrayList<>();
+		bandRepository.findByCategory(category).forEach(e -> categoryBands.add(e));
+		return categoryBands;
+	}
 //
 //	public void deleteById(Long mbrNo) {
 //		memberRepository.deleteById(mbrNo);
