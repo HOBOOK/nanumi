@@ -26,29 +26,49 @@ import java.util.List;
 @PreAuthorize("hasRole('ROLE_ADMIN')") //토큰에 ROLE_ADMIN 권한이 있는 경우 접근 가능한 앤드 포인트
  // ADMIN 권한만 접근 가능 설정
 public class AdminController {
-    @Autowired
-    private AccountService accountService;
+    @Autowired private AccountService accountService;
     
     // 사용자 계정 추가 앤드 포인트
     @PostMapping(value="account")
-    public ResponseEntity<Object> createAccount(@RequestBody Account account, Authentication authentication){
+    public ResponseEntity<Object> create(@RequestBody Account account){
         if(accountService.findById(account.getId()).isPresent()){
             return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setPwd(encoder.encode(account.getPwd()));
-        Logger.write(account.toString());
         accountService.save(account);
         return new ResponseEntity<Object>(account, HttpStatus.OK);
     }
 
     // 모든 사용자 조회 앤드 포인트
     @GetMapping(value = "account")
-    public ResponseEntity<List<Account>> getAllAccounts(){
+    public ResponseEntity<List<Account>> read(){
         List<Account> accounts = accountService.findAll();
         if(accounts.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<Account>>(accounts, HttpStatus.OK);
     }
+
+    // 사용자 계정 수정 앤드 포인트
+    @PutMapping(value = "account")
+    public ResponseEntity<Object> update(@RequestBody Account account){
+        if(!accountService.findById(account.getId()).isPresent()){
+            return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
+        }
+        accountService.save(account);
+        return new ResponseEntity<Object>(account, HttpStatus.OK);
+    }
+    
+    // 사용자 계정 삭제 앤드 포인트
+    @DeleteMapping(value="account")
+    public ResponseEntity<Object> delete(@RequestBody Account account){
+        Logger.write(account.toString());
+        if(!accountService.findById(account.getId()).isPresent()){
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        }
+        accountService.deleteById(account.getId());
+        return new ResponseEntity<Object>(account, HttpStatus.OK);
+    }
+
 }
