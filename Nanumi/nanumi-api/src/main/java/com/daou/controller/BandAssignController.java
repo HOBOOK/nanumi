@@ -1,5 +1,7 @@
 package com.daou.controller;
 
+import com.daou.entity.Account;
+import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +47,7 @@ public class BandAssignController {
 //		}
 //		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
 //	}
-	
+
 	// seqNo 할당 대역 검색
 	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<BandAssign> getBand(@PathVariable("seqNo") Long seqNo) {
