@@ -28,7 +28,6 @@
 
                     <v-col cols="2">
                         <v-row class="pa-3">
-                            <!-- Filter for calories -->
                              <v-select
                                     :items="baseNumberList"
                                     v-model="baseNumberFilterValue"
@@ -45,20 +44,29 @@
                     </v-col>
                 </v-row>
             </v-container>
-      <v-container fluid v-if="showresult === true">
-        <v-row 
-        align="start"
-        justify="start">
-          <v-col cols="1"></v-col>
-          <v-col cols ="11">
-            조회결과
-          </v-col>
-          <v-col cols="1"></v-col>
-          <v-col cols ="11">
-            +{{this.filters.bandNumber}} 대역은 0000~9999까지 사용 가능 합니다
-          </v-col>
-        </v-row>
-         <v-row>
+<v-data-table
+    :headers="headers"
+    :items="filteritems"
+    item-key="serialNo"
+    class="elevation-1"
+  > 
+  <template v-slot:top>
+      <v-toolbar flat color="white">
+        <v-toolbar-title>번호대역 등록</v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
+        <v-spacer></v-spacer>
+
+        <v-dialog v-model="dialog" max-width="1500px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">번호 대역 등록 {{editedItem.serialNo}}</span>
+            </v-card-title>
+            <v-card-subtitle>
+ <v-row>
                    <v-col cols="2">
                         <v-row class="pa-3">
                           <!-- 텍스트 필드로 내리고 주석 -->
@@ -105,36 +113,18 @@
                     </v-col>
 
                 </v-row>
-      </v-container>
-<v-data-table
+    </v-card-subtitle>
+            <v-card-text>
+              <v-data-table
     :headers="headers"
     :items="filteritems"
-    item-key="Seq"
+    item-key="serialNo"
     class="elevation-1"
-    v-if="showresult === true"
-  > 
-  <template v-slot:top>
-      <v-toolbar flat color="white">
-        <v-toolbar-title>번호대역 등록</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
-
-        <v-dialog v-model="dialog" max-width="500px">
-         
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.bandNumber" label="대역번호"></v-text-field>
+  > </v-data-table>
+              <!-- <v-container>
+                <v-row >
+                  <v-col cols="12" sm="6" md="4" >
+                    <v-text-field v-model="editedItem.serialNo" label="대역번호"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.startNumber" label="대역시작지점"></v-text-field>
@@ -149,7 +139,7 @@
                     <v-text-field v-model="editedItem.service" label="서비스업체"></v-text-field>
                   </v-col>
                 </v-row>
-              </v-container>
+              </v-container> -->
             </v-card-text>
 
             <v-card-actions>
@@ -161,6 +151,7 @@
         </v-dialog>
       </v-toolbar>
   </template>
+  
     <template v-slot:item.actions="{ item }">
       <v-icon
         small
@@ -176,6 +167,9 @@
         mdi-delete
       </v-icon>
     </template>
+    <template v-slot:expanded-item="{ headers, item }">
+      <td :colspan="headers.length">More info about {{ item.serialNo }}</td>
+    </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
@@ -188,6 +182,18 @@ import axios from "axios"
 import { mapGetters } from 'vuex';
 
   export default {
+    mounted(){
+       axios.get('http://localhost:8080/api/band', this.requestHeader)
+          .then((res)=>{
+            console.log(res.data)
+            this.items = res.data
+            this.filteritems = res.data
+            // console.log(this.items)/
+          })
+          .catch((e)=>{
+            console.log(e)
+          })
+    },
     data: () => ({
       dialog: false,
       countryNumberList:[
@@ -221,19 +227,21 @@ import { mapGetters } from 'vuex';
       categoryFilterValue : 'none',
      headers: [
         { text: '카테고리', value: 'category'},
-        { text: '대역번호', value: 'bandNumber' },
-        { text: '대역시작지점', value: 'startNumber' },
-        { text: '대역끝지점', value: 'endNumber' },
-        { text: '서비스', value: 'service'},
+        { text: '대역번호', value: 'serialNo' },
+        { text: '대역시작지점', value: 'startNo' },
+        { text: '대역끝지점', value: 'endNo' },
+        { text: '상태', value: 'state'},
         { text: 'Actions', value: 'actions', sortable: false },
+        { text: '', value: 'data-table-expand' },
       ],
+      expanded: [],
       items: [],
       showresult: false,
       filteritems:[],
       filters:{
         category: [],
         // service: [],
-        bandNumber: [],
+        serialNo: [],
       },
       editedIndex: -1,
       editedItem: {
@@ -277,14 +285,14 @@ import { mapGetters } from 'vuex';
 
     methods: {
       filteredItems() {
-         axios.get('http://localhost:8080/api/band', this.requestHeader)
-          .then((res)=>{
-            console.log(res)
-          })
-          .catch((e)=>{
-            console.log(e)
-            this.errors.push('로그인 실패')
-          })
+        //  axios.get('http://localhost:8080/api/band', this.requestHeader)
+        //   .then((res)=>{
+        //     console.log(res)
+        //   })
+        //   .catch((e)=>{
+        //     console.log(e)
+        //     this.errors.push('로그인 실패')
+        //   })
         //select에서 값을 설정하지 않았을 때
         if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
           this.showresult =true
@@ -307,8 +315,8 @@ import { mapGetters } from 'vuex';
         temp="none"
         
         
-        this.filters.bandNumber =temp
-        console.log(this.filters.bandNumber)
+        this.filters.serialNo =temp
+        console.log(this.filters.serialNo)
         //d는 현재 테이블에 있는 값
         this.filteritems = this.items.filter(d => 
       {
