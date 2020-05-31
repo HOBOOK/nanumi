@@ -1,8 +1,11 @@
 package com.daou.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Song
@@ -13,7 +16,7 @@ import javax.persistence.*;
  * @AllArgsConstructor는 필드값을 모두 포함한 생성자 자동 생성
  *
  * @DynamicInsert, @DynamicUpdate
- * set 하지 않은 변수(Null) Insert, update 시 자동생성되는 SQL 에서 제외
+ * set 하지 않은 변수(Null) Insert, update 시 자동생성되는 SQL에서 제외
  */
 @Data
 @Entity
@@ -21,7 +24,7 @@ import javax.persistence.*;
 public class BandAssign {
 
 	/**
-	 * com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'DB명.hibernate_sequence' doesn't exist
+	 * com.mysql.jdbc.exceptions.jdbc.MySQLSyntaxErrorException: Table 'DB명.hibernate_sequence' doesn't exist
 	 * @GeneratedValue(strategy = GenerationType.AUTO) 오류
 	 * hibernate ver.4 -> 5 버전업 되면서 문제 발생
 	 * Auto 지정시 자동으로 DB명.hibernate_sequence 생성하려함
@@ -31,7 +34,7 @@ public class BandAssign {
 	@Id
 	//@GeneratedValue(strategy = GenerationType.AUTO)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "seq_no")
+	@Column(name = "seq_no", insertable = false)
 	private Long seqNo;
 
 	/**
@@ -50,6 +53,16 @@ public class BandAssign {
 
 	@Column(name = "svc_id", updatable = false)
 	private String svcId;
+
+	@ManyToOne
+	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
+	@JsonIgnore
+	private Band band;
+
+	@ManyToOne
+	@JoinColumn(name = "id", insertable = false, updatable = false)
+//	@JsonIgnore
+	private Account account;
 
 	@Builder
 	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId) {

@@ -1,5 +1,6 @@
 package com.daou.service;
 
+import com.daou.entity.BandAssign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.daou.entity.Band;
@@ -23,8 +24,13 @@ public class BandService {
 		return bands;
 	}
 
-	public Optional<Band> findBySeqNo(Long SeqNo) {
-		Optional<Band> band = bandRepository.findBySeqNo(SeqNo);
+//	public Optional<Band> findBySeqNo(Long SeqNo) {
+//		Optional<Band> band = bandRepository.findBySeqNo(SeqNo);
+//		return band;
+//	}
+
+	public Optional<Band> findBySerialNo(String SerialNo) {
+		Optional<Band> band = bandRepository.findBySerialNo(SerialNo);
 		return band;
 	}
 //
@@ -51,4 +57,5 @@ public class BandService {
 //			memberRepository.save(member);
 //		}
 //	}
+
 }

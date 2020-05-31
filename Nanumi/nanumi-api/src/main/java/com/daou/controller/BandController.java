@@ -55,13 +55,13 @@ public class BandController {
         return new ResponseEntity<List<Band>>(band, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Band> getBand(@PathVariable("seqNo") Long seqNo) {
-        Optional<Band> band = bandService.findBySeqNo(seqNo);
+    //serialNo로 대역번호 조회
+    @GetMapping(value = "/{serialNo}",produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Band> getBand(@PathVariable("serialNo") String serialNo) {
+        Optional<Band> band = bandService.findBySerialNo(serialNo);
+
         return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
     }
-
-
 
 
     /**

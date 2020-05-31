@@ -1,6 +1,6 @@
 package com.daou.authentication.auth.ajax;
 
-import com.daou.authentication.Role;
+import com.daou.authentication.model.Role;
 import com.daou.authentication.model.UserContext;
 import com.daou.common.Logger;
 import com.daou.entity.Account;
@@ -56,7 +56,11 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
         if(account.getRoleCd() == null) throw new InsufficientAuthenticationException("사용자의 권한 정보가 부여되지 않았습니다.");
         List<Role> roles = new ArrayList<>();
-        roles.add(Role.USER);
+        if(account.getRoleCd().equals("ADMIN"))
+            roles.add(Role.ADMIN);
+        else
+            roles.add(Role.USER);
+
         List<GrantedAuthority> authorities = roles.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.authority()))
                 .collect(Collectors.toList());

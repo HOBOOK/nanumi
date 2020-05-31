@@ -1,7 +1,7 @@
 package com.daou.service;
 
 import com.daou.entity.BandAssign;
-import com.daou.entity.BandLog;
+import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,21 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
+
 	public Optional<BandAssign> findBySeqNo(Long seqNo) {
 		Optional<BandAssign> bandAssigns = bandAssignRepository.findBySeqNo(seqNo);
 		return bandAssigns;
 	}
-	
-	public Optional<BandAssign> findBySerialNo(String serialNo) {
-		Optional<BandAssign> bandAssigns = bandAssignRepository.findBySerialNo(serialNo);
+
+	public List<AssignMapping> findAllBy() {
+		List<AssignMapping> bandAssigns = new ArrayList<>();
+		bandAssignRepository.findAllBy().forEach(e -> bandAssigns.add(e));
+		return bandAssigns;
+	}
+
+	public List<BandAssign> findBySerialNo(String serialNo) {
+		List<BandAssign> bandAssigns = new ArrayList<>();
+		bandAssignRepository.findBySerialNo(serialNo).forEach(e -> bandAssigns.add(e));
 		return bandAssigns;
 	}
 
