@@ -16,6 +16,7 @@
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
+    
         <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
@@ -23,8 +24,11 @@
         single-line
         hide-details
       ></v-text-field>
-        <v-dialog v-model="dialog" max-width="500px">
          
+        <v-dialog v-model="dialog" max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark class="mb-2" v-on="on">사용자 추가</v-btn>
+          </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
@@ -34,22 +38,16 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.seq" label="Seq"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.id" label="사용자ID"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.role" label="권한"></v-text-field>
+                    <v-text-field v-model="editedItem.roleCd" label="권한"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.authKey" label="인증키"></v-text-field>
+                    <v-text-field v-model="editedItem.create_dt" label="생성일"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.createDT" label="생성일"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.expireDT" label="만료일"></v-text-field>
+                    <v-text-field v-model="editedItem.expireDt" label="만료일"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -87,45 +85,54 @@
 <!-- </v-container> -->
 </template>
 <script>
+import axios from "axios"
+import { mapGetters } from 'vuex';
   export default {
+    mounted () {
+       axios.get('http://localhost:8080/api/admin/account', this.requestHeader)
+          .then((res)=>{
+            this.items = res.data
+            console.log(this.items)
+          })
+          .catch((e)=>{
+            console.log(e)
+          })
+    },
     data: () => ({
       dialog: false,
       search: '',
       headers: [
-        {
-          text: 'Seq',
-          align: 'start',
-          sortable: false,
-          value: 'seq',
-        },
         { text: '사용자ID', value: 'id' },
-        { text: '권한', value: 'role' },
-        { text: '인증키', value: 'authKey' },
-        { text: '생성일', value: 'createDT' },
-        { text: '만료일', value: 'expireDT' },
+        { text: '권한', value: 'roleCd' },
+        { text: '인증키', value: 'accessToken' },
+        { text: '생성일', value: 'create_dt' },
+        { text: '만료일', value: 'expireDt' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       items: [],
       editedIndex: -1,
       editedItem: {
-        seq:1,
         id: '',
-        role: 0,
-        authKey: 0,
-        createDT: 0,
-        expireDT: 0,
+        roleCd: 0,
+        create_dt: 0,
+        expireDt: 0,
       },
       defaultItem: {
-        seq:1,
         id: '',
-        role: 0,
-        authKey: 0,
-        createDT: 0,
-        expireDT: 0,
+        roleCd: "user",
+        create_dt: 0,
+        expireDt: 0,
       },
     }),
 
     computed: {
+    ...mapGetters([
+      'isAuthenticated',
+      'requestHeader',
+      'userId',
+      'username'
+    ])
+  ,
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -143,88 +150,88 @@
 
     methods: {
       initialize () {
-        this.items = [
-          {
-            seq: 1,
-            id: 'tmddn',
-            role: 'admin',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 2,
-            id: 'rudgh',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 3,
-            id: 'clals',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 4,
-            id: 'jsp',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 5,
-            id: 'daou',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 6,
-            id: 'ppurio',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 7,
-            id: 'sabangnet',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 8,
-            id: 'dothebest',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 9,
-            id: 'wonth',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-          {
-            seq: 10,
-            id: 'clclek',
-            role: 'user',
-            authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-            createDT: "2020-05-20" ,
-            expireDT: "2030-05-20" ,
-          },
-        ]
+        // this.items = [
+        //   {
+        //     seq: 1,
+        //     id: 'tmddn',
+        //     role: 'admin',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 2,
+        //     id: 'rudgh',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 3,
+        //     id: 'clals',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 4,
+        //     id: 'jsp',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 5,
+        //     id: 'daou',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 6,
+        //     id: 'ppurio',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 7,
+        //     id: 'sabangnet',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 8,
+        //     id: 'dothebest',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 9,
+        //     id: 'wonth',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        //   {
+        //     seq: 10,
+        //     id: 'clclek',
+        //     role: 'user',
+        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
+        //     createDT: "2020-05-20" ,
+        //     expireDT: "2030-05-20" ,
+        //   },
+        // ]
       },
 
       editItem (item) {
@@ -247,12 +254,20 @@
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem)
-        } else {
-          this.items.push(this.editedItem)
-        }
+          axios.post('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
+          .then((res)=>{
+            console.log(res)
+            if (this.editedIndex > -1) {
+           Object.assign(this.items[this.editedIndex], this.editedItem)
+         } else {
+            this.items.push(this.editedItem)
+         }
         this.close()
+          })
+          .catch((e)=>{
+            console.log(e)
+          })
+        
       },
     },
   }
