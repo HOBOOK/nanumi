@@ -184,6 +184,9 @@
 <!-- </v-container> -->
 </template>
 <script>
+import axios from "axios"
+import { mapGetters } from 'vuex';
+
   export default {
     data: () => ({
       dialog: false,
@@ -250,22 +253,13 @@
     }),
 
     computed: {
-      // headers(){
-      //   return[
-      //   {
-      //     text: 'Seq',
-      //     align: 'start',
-      //     sortable: false,
-      //     value: 'seq',
-      //   },
-      //   { text: '대역번호', value: 'bandNumber' },
-      //   { text: '수신번호', value: 'receiveNumber' },
-      //   { text: '서비스', value: 'service', filter: this.serviceFilter},
-      //   { text: '카테고리', value: 'category', filter: this.categoryFilter},
-      //   { text: 'Actions', value: 'actions', sortable: false },
-      //   ]
-      // },
-      
+    ...mapGetters([
+      'isAuthenticated',
+      'requestHeader',
+      'userId',
+      'username'
+    ])
+  ,
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -283,7 +277,14 @@
 
     methods: {
       filteredItems() {
-
+         axios.get('http://localhost:8080/api/band', this.requestHeader)
+          .then((res)=>{
+            console.log(res)
+          })
+          .catch((e)=>{
+            console.log(e)
+            this.errors.push('로그인 실패')
+          })
         //select에서 값을 설정하지 않았을 때
         if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
           this.showresult =true

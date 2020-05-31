@@ -1,4 +1,13 @@
 # nanumi
+<br>
+<br>
+
+
+## 프로젝트 진행상황 체크리스트
+https://docs.google.com/spreadsheets/d/1uy5L7eL0n1qLjw2O284XZseYmEsrvhGERsg19JEGIL8/edit?ouid=112686129255150654199&usp=sheets_home&ths=true
+
+<br>
+<br>
 
 ### [백엔드 환경 설정]
 (IntelliJ 기반)
@@ -10,6 +19,8 @@
 
 > 4. nanumi-api/src/main/java/com/daou/NanumiAPIApplication.java파일을 실행해주세요.
 
+<br>
+<br>
 
 ### [사용자 토큰 발급]
 > /api/auth/login URL에 POST로
@@ -21,18 +32,23 @@
 ```
 > JSON형식으로 요청하면 token과 refreshToken이 발급됩니다.
 
+<br>
+<br>
 
 ### [API 서비스 요청방법]
 > 서비스 요청시 Header정보에 'Authorization'에 'Bearer {토큰정보}'를 포함하여 필요한 URL에 서비스를 요청합니다.
 > 각 서비스의 URI 정보는 Swagger-ui에서 확인할 수 있습니다.
 
+<br>
+<br>
 
 ### [API 서비스 메뉴얼(SWAGGER)]
 > NanumiAPIApplication 실행후 /swagger-ui.html URL에서 확인할 수 있습니다.
 
+<br>
+<br>
 
-
-프론트 설정
+### [프론트 설정]
 node.js , visual studio code 설치
 
 비쥬얼 스튜디오 코드에서 폴더 nanumi front에서 열기
@@ -60,3 +76,6 @@ Npm run serve(실행방법)
 npm install -ㅁㅁ 이런식으로 설치 후
 
 될때까지  npm run serve
+
+<br>
+<br>
