@@ -38,13 +38,10 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.id" label="사용자ID"></v-text-field>
+                    <v-text-field disabled v-model="editedItem.id" label="사용자ID"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.roleCd" label="권한"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.create_dt" label="생성일"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.expireDt" label="만료일"></v-text-field>
@@ -92,7 +89,6 @@ import { mapGetters } from 'vuex';
        axios.get('http://localhost:8080/api/admin/account', this.requestHeader)
           .then((res)=>{
             this.items = res.data
-            console.log(this.items)
           })
           .catch((e)=>{
             console.log(e)
@@ -107,7 +103,7 @@ import { mapGetters } from 'vuex';
         { text: '인증키', value: 'accessToken' },
         { text: '생성일', value: 'create_dt' },
         { text: '만료일', value: 'expireDt' },
-        { text: 'Actions', value: 'actions', sortable: false },
+        { text: '', value: 'actions', sortable: false },
       ],
       items: [],
       editedIndex: -1,
@@ -242,7 +238,25 @@ import { mapGetters } from 'vuex';
 
       deleteItem (item) {
         const index = this.items.indexOf(item)
-        confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
+        this.editedItem = Object.assign({}, item)
+        console.log(this.editedItem)
+        if(confirm('정말로 지우시겠습니까?')){
+          axios.delete(
+            'http://localhost:8080/api/admin/account',
+            {
+              headers: {
+                Authorization: this.requestHeader.headers.Authorization
+              },
+              data: this.editedItem
+            }
+          ).then((res)=>{
+            console.log(res)
+            this.items.splice(index, 1)
+          })
+          .catch((res)=>{
+            console.log('error > ' + res)
+          })
+        }
       },
 
       close () {
@@ -272,3 +286,12 @@ import { mapGetters } from 'vuex';
     },
   }
 </script>
+<style>
+td.text-start{
+
+  max-width: 500px;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+}
+</style>

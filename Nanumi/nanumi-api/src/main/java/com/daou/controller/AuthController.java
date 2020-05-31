@@ -64,7 +64,7 @@ public class AuthController {
     }
 
     
-    // 토큰 재발급 앤드포인트
+    // 토큰 재발급 앤드 포인트
     @RequestMapping(value = "/auth/token", method = RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     JwtToken refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
