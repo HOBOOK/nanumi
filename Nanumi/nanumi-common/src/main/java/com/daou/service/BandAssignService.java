@@ -50,10 +50,10 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
-//	@Transactional
-//	public void deleteByBandAssign(Long seqNo) {
-//		bandAssignRepository.deleteByBandAssign(seqNo);
-//	}
+	@Transactional
+	public void deleteBySeqNo(Long seqNo) {
+		bandAssignRepository.deleteBySeqNo(seqNo);
+	}
 
 	@Transactional
 	public void updateByBandNumberRange(Long seqNo, BandAssign bandAssign) {

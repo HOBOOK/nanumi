@@ -29,9 +29,6 @@ public class TestJpaRestController {
 	@Autowired
 	AccountService accountService;
 	
-	@Autowired
-	AccountRepository accountRepository;
-	
 	// 모든 회원 조회 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<List<Account>> getAllmembers() {
@@ -70,13 +67,13 @@ public class TestJpaRestController {
 //		return new ResponseEntity<Member>(memberService.save(member), HttpStatus.OK);
 //	}
 	
-	@GetMapping("/search")
-	public String search() {
-		String result = "";
-		for (Account account : accountRepository.findAll()) {
-			result += account + "</br>";
-		}
-		return result;
-	}
+//	@GetMapping("/search")
+//	public String search() {
+//		String result = "";
+//		for (Account account : accountRepository.findAll()) {
+//			result += account + "</br>";
+//		}
+//		return result;
+//	}
 
 }
