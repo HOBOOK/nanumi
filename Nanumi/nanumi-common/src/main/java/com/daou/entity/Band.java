@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name="band_tb")
 public class Band {
 
-	@Column(name = "seq_no", nullable = false)
+	@Column(name = "seq_no", nullable = false, insertable = false)
 	private Long seqNo;
 	
 	@Id
@@ -43,7 +43,7 @@ public class Band {
 	@Enumerated(EnumType.STRING)	//EnumType.STRING : enum의 이름을 DB에 저장, EnumType.ORDINAL : enum 순서 값을 DB에 저장
 	private com.daou.types.category category;
 
-	@Column(name = "status", nullable = false)
+	@Column(name = "status", nullable = false, insertable = false)
 	private byte status;
 
 	//OneToMany 추가 Assign_tb 내용 조회 -> 모달 출력

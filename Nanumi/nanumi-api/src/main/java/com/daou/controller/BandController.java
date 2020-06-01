@@ -1,5 +1,6 @@
 package com.daou.controller;
 
+import com.daou.entity.BandAssign;
 import com.daou.entity.BandLog;
 import com.daou.repository.BandLogRepository;
 import com.daou.service.BandLogService;
@@ -16,6 +17,7 @@ import com.daou.entity.Band;
 import com.daou.repository.BandRepository;
 import com.daou.service.BandService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +78,16 @@ public class BandController {
         }
         return new ResponseEntity<List<Band>>(bands, HttpStatus.OK);
     }
-    
+
+    /**
+     * Insert
+     * 통신사로부터 받은 대역을 등록
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Band> save(HttpServletRequest req, @RequestBody Band band){
+        return new ResponseEntity<Band>(bandService.save(band), HttpStatus.OK);
+    }
+
 
     /**
      * 대역 로그

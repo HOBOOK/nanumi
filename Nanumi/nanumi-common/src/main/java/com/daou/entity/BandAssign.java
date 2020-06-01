@@ -55,10 +55,10 @@ public class BandAssign {
 	@Column(name = "svc_id", updatable = false)
 	private String svcId;
 
-	@Column(name = "assign_dt", nullable = false, insertable = false)
+	@Column(name = "assign_dt", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime assignDt;
 
-	@Column(name = "expire_dt", nullable = false, insertable = false)
+	@Column(name = "expire_dt", nullable = false, insertable = false, updatable = false)
 	private LocalDateTime expireDt;
 
 	@Column(name = "status", nullable = false, insertable = false)

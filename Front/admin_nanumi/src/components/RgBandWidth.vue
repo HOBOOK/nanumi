@@ -51,14 +51,75 @@
                 <v-toolbar flat="flat" color="white">
                     <v-toolbar-title>번호대역 등록</v-toolbar-title>
                     <v-divider class="mx-4" inset="inset" vertical="vertical"></v-divider>
-                    <v-spacer></v-spacer>
-            
+                    <v-spacer>
+                    </v-spacer>
+
+                    <!-- 신규 대역 입력 다이얼로그 부분 시작 -->
+                    <v-dialog v-model="dialogInput" max-width="500px">
+                            <template v-slot:activator="{ on }">
+                                <v-btn color="primary" dark class="mb-2" v-on="on">신규등록</v-btn>
+                            </template>
+                            <v-card>
+                                <v-card-title>
+                                <span class="headline">신규대역 등록</span>
+                                </v-card-title>
+
+                                <v-card-text>
+                                <v-container>
+                                    <v-row align="center" justify="center">
+                                        <v-col cols="3" class="pa-0">
+                                            <v-text-field v-model="countryNo" label="국가번호" required minlength="2" maxlength="2"></v-text-field>
+                                        </v-col>
+                                        <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
+                                        <v-col cols="3"  class="pa-0">
+                                            <v-text-field v-model="localNo" label="지역번호" required minlength="4" maxlength="4"></v-text-field>
+                                        </v-col>                       
+                                        <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
+                                        <v-col cols="3"  class="pa-0">
+                                            <v-text-field v-model="baseNo" label="대역" required minlength="4" maxlength="4"></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                    <v-row align="center" justify="center">
+                                        <v-col cols="3"  class="pa-0">
+                                            <v-text-field v-model="startNo" label="시작" required minlength="4" maxlength="4"></v-text-field>
+                                        </v-col>
+                                        <v-col cols="1"  class="pr-0 pl-4"> ~ </v-col>
+                                        <v-col cols="3"  class="pa-0">
+                                            <v-text-field v-model="endNo" label="끝" required minlength="4" maxlength="4"></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="3"  class="pa-0">
+                                            <v-select
+                                                :items="categoryList"
+                                                v-model="category"
+                                                label="카테고리"
+                                                dense
+                                                outlined>
+                                            </v-select>
+                                        </v-col>
+
+                                        
+                                    </v-row>
+                                </v-container>
+                                </v-card-text>
+
+                                <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="close">취소</v-btn>
+                                <v-btn color="blue darken-1" text @click="save" v-if="editedIndex!==-1">저장</v-btn>
+                                <v-btn color="blue darken-1" text @click="add" v-if="editedIndex===-1">추가</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    <!-- 신규 대역 입력 다이얼로그 부분 끝 -->    
+
                     <!-- 다이얼로그 부분 시작 -->
                     <v-dialog v-model="dialog" max-width="1500px">
                         <v-card>
                             <v-card-title>
                                 <span class="headline">번호 대역 등록 
-                                    {{curSerialNo}}</span>
+                                    {{curSerialNo}}( 할당 가능 범위 {{curStartNo}} ~ {{curEndNo}} ) </span>
+                                    
                             </v-card-title>
                             <v-card-subtitle>
                                 <v-row>
@@ -102,7 +163,7 @@
 
                                     <v-col cols="2">
                                         <v-row class="pa-3">
-                                            <v-btn @click="postAssignments()">등록하기</v-btn>
+                                            <v-btn @click="postAssignments()">대역할당</v-btn>
                                         </v-row>
                                     </v-col>
 
@@ -128,7 +189,7 @@
             </template>
             <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="item in items" :key="item.serialNo" @click="detail(item.serialNo)">
+                <tr v-for="item in items" :key="item.serialNo" @click="detail(item.serialNo, item.startNo, item.endNo)">
                   <td>{{ item.category }}</td>
                   <td>{{ item.serialNo }}</td>
                   <td>{{ item.startNo }}</td>
@@ -164,6 +225,14 @@
             },
         data: () => ({
             dialog: false,
+            dialogInput: false,
+            countryNo:'',
+            localNo:'',
+            baseNo:'',
+            startNo:'',
+            endNo:'',
+            category:'',
+
             assignmentItems:[],
             assignmentForm:{
               serialNo:"",
@@ -208,12 +277,28 @@
                     value: "671"
                 }
             ],
+            bandForm:{
+              serialNo:"",
+              countryNo:"",
+              localNo:"",
+              baseNo:"",
+              startNo:"",
+              endNo:"",
+              category:"",
+            },
+            categoryList:[
+                {text: "NONE", value: "NONE"},
+                {text: "FAX", value: "FAX"},
+                {text: "MO", value: "MO"}
+            ],
 
             countryNumberFilterValue: "82",
             localNumberFilterValue: 'none',
             baseNumberFilterValue: 'none',
             categoryFilterValue: 'none',
             curSerialNo:'',
+            curStartNo:'',
+            curEndNo:'',
             headers: [
                 {
                     text: '카테고리',
@@ -247,8 +332,17 @@
                     text: '대역끝지점',
                     value: 'endNo'
                 }, {
+                    text: '할당일',
+                    value: 'assignDt'
+                }, {
+                    text: '만료일',
+                    value: 'expireDt'
+                }, {
                     text: '사용자ID',
                     value: 'svcId'
+                }, {
+                    text: '상태',
+                    value: 'status'
                 },
             ],
             expanded: [],
@@ -294,9 +388,11 @@
         },
 
         methods: {
-          detail(serialNo){
+          detail(serialNo, startNo, endNo){
             this.dialog = true
             this.curSerialNo= serialNo
+            this.curStartNo= startNo
+            this.curEndNo= endNo
             this.assignmentForm.serialNo = serialNo
             axios.get("http://localhost:8080/api/assignments/"+serialNo, this.requestHeader)
             .then((res) => {
@@ -456,7 +552,46 @@
                         .push(this.editedItem)
                 }
                 this.close()
-            }
+            },
+            add (){
+                this.bandForm={
+                    serialNo:this.countryNo+"-"+this.localNo+"-"+this.baseNo,
+                    countryNo:this.countryNo,
+                    localNo:this.localNo,
+                    baseNo:this.baseNo,
+                    startNo:this.startNo,
+                    endNo:this.endNo,
+                    category:this.category
+                  }
+
+                axios.post('http://localhost:8080/api/band',this.bandForm ,this.requestHeader)
+                .then((res)=>{
+                    this.serialNo="",
+                    this.countryNo="",
+                    this.localNo="",
+                    this.baseNo="",
+                    this.startNo="",
+                    this.endNo="",
+                    this.category="",
+                    this.console.log(res)
+                })
+                .catch((e) => {
+                    console.log(e)
+                    console.log(this.bandForm)
+                })
+            },
         }
     }
+
 </script>
+
+
+// bandForm:{
+//               serialNo:"",
+//               countryNo:"",
+//               localNo:"",
+//               baseNo:"",
+//               startNo:"",
+//               endNo:"",
+//               category:""
+//             },
