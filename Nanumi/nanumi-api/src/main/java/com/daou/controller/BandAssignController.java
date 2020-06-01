@@ -34,7 +34,7 @@ public class BandAssignController {
 	
 	@Autowired
 	BandAssignService bandAssignService;
-	
+
 	@Autowired
 	BandAssignRepository bandAssignRepository;
 	
@@ -88,7 +88,7 @@ public class BandAssignController {
 	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. insert
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
+	public ResponseEntity<BandAssign> save(HttpServletRequest req, @RequestBody BandAssign bandAssign){
 		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
 	}
 
@@ -113,9 +113,9 @@ public class BandAssignController {
 	/**
 	 * Delete
 	 */
-//	@DeleteMapping(value = "/{seqNo}")
-//	public ResponseEntity<Object> delete(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign){
-//		bandAssignService.deleteByAssign(seqNo);
-//		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
-//	}
+	@DeleteMapping(value = "/{seqNo}")
+	public ResponseEntity<Object> delete(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign){
+		bandAssignService.deleteBySeqNo(seqNo);
+		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
+	}
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,15 @@ public class BandAssign {
 	@Column(name = "svc_id", updatable = false)
 	private String svcId;
 
+	@Column(name = "assign_dt", nullable = false, insertable = false)
+	private LocalDateTime assignDt;
+
+	@Column(name = "expire_dt", nullable = false, insertable = false)
+	private LocalDateTime expireDt;
+
+	@Column(name = "status", nullable = false, insertable = false)
+	private byte status;
+
 //	@ManyToOne
 //	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
 //	@JsonIgnore
@@ -65,12 +75,15 @@ public class BandAssign {
 	private Account account;
 
 	@Builder
-	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId) {
+	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId, LocalDateTime assignDt, LocalDateTime expireDt, byte status) {
 		this.seqNo = seqNo;
 		this.serialNo = serialNo;
 		this.startNo = startNo;
 		this.endNo = endNo;
 		this.svcId = svcId;
+		this.assignDt = assignDt;
+		this.expireDt = expireDt;
+		this.status = status;
 	}
 
 	public BandAssign() {}

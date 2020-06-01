@@ -30,9 +30,6 @@ public class BandReceiveController {
 	@Autowired
 	BandReceiveService bandReceiveService;
 	
-	@Autowired
-	BandReceiveRepository bandReceiveRepository;
-	
 	// 모든 대역 로그 출력
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE }) 
 	public ResponseEntity<List<BandReceive>> getAllbands() {
