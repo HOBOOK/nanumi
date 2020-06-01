@@ -35,8 +35,11 @@ public class Account extends Time{
 	@Column(name = "role_cd", nullable = false)
 	private String roleCd;
 
+	@Column(name ="request_cnt")
+	private int requestCnt;
+
 	@Builder
-	public Account(String id, String pwd, String svcNm, String accessToken, String refreshToken, LocalDateTime expireDt, String roleCd) {
+	public Account(String id, String pwd, String svcNm, String accessToken, String refreshToken, LocalDateTime expireDt, String roleCd, int requestCnt) {
 		this.id = id;
 		this.pwd = pwd;
 		this.svcNm = svcNm;
@@ -44,6 +47,7 @@ public class Account extends Time{
 		this.refreshToken = refreshToken;
 		this.expireDt = expireDt;
 		this.roleCd = roleCd;
+		this.requestCnt = requestCnt;
 	}
 
 	public Account(){}

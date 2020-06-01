@@ -44,6 +44,15 @@ public class AccountService {
 		return account;
 	}
 
+	@Transactional
+	public void saveRequestCount(String id){
+		if(accountRepository.findById(id).isPresent()){
+			Account account = accountRepository.findById(id).get();
+			account.setRequestCnt(account.getRequestCnt()+1);
+			accountRepository.save(account);
+		}
+	}
+
 //	public void updateById(Long mbrNo, MemberVo member) {
 //		Optional<MemberVo> e = memberRepository.findById(mbrNo);
 //		if (e.isPresent()) {
