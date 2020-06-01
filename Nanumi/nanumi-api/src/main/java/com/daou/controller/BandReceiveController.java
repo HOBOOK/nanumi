@@ -59,6 +59,8 @@ public class BandReceiveController {
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
+
+
 	
 	// seq_log_no 대역 로그 상태 검색
 	@GetMapping(value = "/receive/{receiveNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -69,6 +71,15 @@ public class BandReceiveController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/receive/{seqNo}")
+	public ResponseEntity<Object> update(@RequestBody BandReceive bandReceive){
+		if(!bandReceiveService.findBySeqNo(bandReceive.getSeqNo()).isPresent()){
+			return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
+		}
+		bandReceiveService.save(bandReceive);
+		return new ResponseEntity<Object>(bandReceive, HttpStatus.OK);
 	}
 
 

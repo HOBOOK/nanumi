@@ -90,7 +90,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="blue darken-1" text="text" @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text="text" @click="save">Save</v-btn>
+                                <v-btn color="blue darken-1" text="text" @click="save(editedItem.seqNo)">Save</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -333,15 +333,30 @@
                 })
             },
 
-            save() {
+            save(seqNo) {
+                console.log(this.editedItem)
+                axios.put('http://localhost:8080/api/receptions/receive/'+seqNo,this.editedItem ,this.requestHeader)
+                .then((res)=>{
+                console.log(res)
+                
                 if (this.editedIndex > -1) {
-                    Object.assign(this.items[this.editedIndex], this.editedItem)
+                Object.assign(this.filteritems[this.editedIndex], this.editedItem)
                 } else {
-                    this
-                        .items
-                        .push(this.editedItem)
+                this.filteritems.push(this.editedItem)
                 }
                 this.close()
+                })
+                .catch((e)=>{
+                console.log(e)
+                })
+                // if (this.editedIndex > -1) {
+                //     Object.assign(this.filteritems[this.editedIndex], this.editedItem)
+                // } else {
+                //     this
+                //         .filteritems
+                //         .push(this.editedItem)
+                // }
+                // this.close()
             }
         }
     }
