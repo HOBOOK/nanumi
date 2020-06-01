@@ -317,12 +317,33 @@
             },
 
             deleteItem(item) {
-                const index = this
-                    .items
-                    .indexOf(item)
-                confirm('정말로 지우시겠습니까?') && this
-                    .items
-                    .splice(index, 1)
+                // const index = this.items.indexOf(item)
+                // confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
+      
+                this.editedItem= {
+                    seqNo: item.seqNo,
+                    serialNo: item.serialNo,
+                    receiveNo: item.receiveNo,
+                    updateDate: item.updateDate,
+                    userId: 'none',
+                },
+                console.log(this.editedItem)
+
+
+                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo,this.editedItem ,this.requestHeader)
+                .then((res)=>{
+                console.log(res)
+                
+                if (this.editedIndex > -1) {
+                Object.assign(this.filteritems[this.editedIndex], this.editedItem)
+                } else {
+                this.filteritems.push(this.editedItem)
+                }
+                this.close()
+                })
+                .catch((e)=>{
+                console.log(e)
+                })
             },
 
             close() {
