@@ -74,11 +74,14 @@
     :items="filteritems"
     item-key="Seq"
     class="elevation-1"
+    :loading="loading"
     v-if="showresult=== true"
+    items-per-page:10
+    :page.sync="page"
+    @page-count="pageCount = $event"
+    hide-default-footer
   > 
     <template v-slot:top>
-      
-
       <v-toolbar flat color="white" >
         <v-toolbar-title>수신 번호 관리</v-toolbar-title>
         <v-divider
@@ -145,10 +148,12 @@
       <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
+    <v-pagination v-model="page" :length="pageCount" v-if="showresult=== true"></v-pagination>
   </v-card>
 <!-- </v-container> -->
 </template>
 <script>
+import axios from "axios"
 import { mapGetters } from 'vuex';
   export default {
     data: () => ({
@@ -186,12 +191,12 @@ import { mapGetters } from 'vuex';
           text: 'Seq',
           align: 'start',
           sortable: false,
-          value: 'seq',
+          value: 'seqNo',
         },
-        { text: '대역번호', value: 'bandNumber' },
-        { text: '수신번호', value: 'receiveNumber' },
-        { text: '서비스', value: 'service'},
-        { text: '카테고리', value: 'category'},
+        { text: '대역번호', value: 'serialNo' },
+        { text: '수신번호', value: 'receiveNo' },
+        { text: '사용자Id', value: 'userId'},
+        { text: '승인날짜', value: 'updateDate'},
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       showresult: false,
@@ -217,6 +222,9 @@ import { mapGetters } from 'vuex';
         service: 'none',
         category: 'none',
       },
+      loading:true,
+      page: 1,
+      pageCount: 0,
     }),
 
     computed: {
@@ -251,7 +259,7 @@ import { mapGetters } from 'vuex';
 
     methods: {
       filteredItems() {
-
+       
         if(this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !=="none"){
           this.showresult =true
         var temp =""
@@ -271,7 +279,17 @@ import { mapGetters } from 'vuex';
         if(temp==="")
         temp="none"
         
-        
+        console.log(temp)
+         axios
+         .get('http://localhost:8080/api/receptions/'+temp, this.requestHeader)
+                .then((res) => {
+                  this.filteritems = res.data
+                    console.log(res.data)
+                })
+                .catch((e) => {
+                    console.log(e)
+                }).finally(() => this.loading = false);
+
         this.filters.bandNumber =temp
         console.log(this.filters.bandNumber)
         //d는 현재 테이블에 있는 값

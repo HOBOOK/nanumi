@@ -24,7 +24,7 @@ public interface BandReceiveRepository extends JpaRepository<BandReceive, Long> 
 
 	public List<bandMapping> findAllBy(); // band Table과 조인후 category column만 추가 조회
 	public Optional<BandReceive> findBySeqNo(Long seqLogNo);
-	public Optional<BandReceive> findBySerialNo(String serialNo);
+	public List<BandReceive> findBySerialNo(String serialNo);
 	public List<BandReceive> findByReceiveNo(String receiveNo);
 
 }
