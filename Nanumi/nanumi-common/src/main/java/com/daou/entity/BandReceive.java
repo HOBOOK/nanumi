@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Song
@@ -28,7 +29,7 @@ public class BandReceive {
 	private String receiveNo;
 
 	@Column(name = "update_dt")
-	private LocalDate updateDate;
+	private LocalDateTime updateDate;
 
 	@Column(name = "user_id")
 	private String userId;
@@ -41,7 +42,7 @@ public class BandReceive {
 	//insertable = false, updatable = false 읽기만 가능
 
 	@Builder
-	public BandReceive(Long seqNo, String serialNo, String receiveNo, LocalDate updateDate, String userId) {
+	public BandReceive(Long seqNo, String serialNo, String receiveNo, LocalDateTime updateDate, String userId) {
 		this.seqNo = seqNo;
 		this.serialNo = serialNo;
 		this.receiveNo = receiveNo;

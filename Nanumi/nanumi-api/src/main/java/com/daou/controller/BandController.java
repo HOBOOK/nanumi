@@ -35,12 +35,6 @@ public class BandController {
     @Autowired
     BandLogService bandLogService;
 
-    @Autowired
-    BandRepository bandRepository;
-    @Autowired
-    BandLogRepository bandLogRepository;
-
-
     /**
      * Band_tb 대역
      */

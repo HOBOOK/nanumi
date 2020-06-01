@@ -34,7 +34,7 @@ public class BandAssignController {
 	
 	@Autowired
 	BandAssignService bandAssignService;
-	
+
 	@Autowired
 	BandAssignRepository bandAssignRepository;
 	
@@ -113,9 +113,9 @@ public class BandAssignController {
 	/**
 	 * Delete
 	 */
-//	@DeleteMapping(value = "/{seqNo}")
-//	public ResponseEntity<Object> delete(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign){
-//		bandAssignService.deleteByAssign(seqNo);
-//		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
-//	}
+	@DeleteMapping(value = "/{seqNo}")
+	public ResponseEntity<Object> delete(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign){
+		bandAssignService.deleteBySeqNo(seqNo);
+		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
+	}
 }
