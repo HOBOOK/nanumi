@@ -1,19 +1,17 @@
 package com.daou.controller;
 
 import com.daou.common.Logger;
+import com.daou.common.NanumiUtil;
 import com.daou.entity.Account;
-import com.daou.entity.Band;
 import com.daou.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -27,6 +25,7 @@ import java.util.List;
  // ADMIN 권한만 접근 가능 설정
 public class AdminController {
     @Autowired private AccountService accountService;
+    @Autowired private NanumiUtil nanumiUtil;
     
     // 사용자 계정 추가 앤드 포인트
     @PostMapping(value="account")
@@ -42,11 +41,15 @@ public class AdminController {
 
     // 모든 사용자 조회 앤드 포인트
     @GetMapping(value = "account")
-    public ResponseEntity<List<Account>> read(){
+    public ResponseEntity<List<Account>> read(HttpServletRequest request){
+//        API 요청수 증가 코드
+//        String requestId = nanumiDecoder.base64DecodeForRequestId(request.getHeader("Authorization"));
+//        accountService.saveRequestCount(requestId);
         List<Account> accounts = accountService.findAll();
         if(accounts.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+
         return new ResponseEntity<List<Account>>(accounts, HttpStatus.OK);
     }
 
@@ -63,7 +66,6 @@ public class AdminController {
     // 사용자 계정 삭제 앤드 포인트
     @DeleteMapping(value="account")
     public ResponseEntity<Object> delete(@RequestBody Account account){
-        Logger.write(account.toString());
         if(!accountService.findById(account.getId()).isPresent()){
             return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         }
