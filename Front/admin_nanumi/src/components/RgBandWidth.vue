@@ -65,8 +65,8 @@
                                     <v-col cols="2">
                                         <v-row class="pa-3">
                                             <!-- 텍스트 필드로 내리고 주석 -->
-                                            <!-- v-model="search" -->
                                             <v-text-field
+                                                v-model="assignmentForm.startNo"
                                                 label="시작번호 4자리"
                                                 single-line="single-line"
                                                 hide-details="hide-details"
@@ -76,8 +76,8 @@
                                     </v-col>
                                     <v-col cols="2">
                                         <v-row class="pa-3">
-                                            <!-- v-model="search" -->
                                             <v-text-field
+                                                v-model="assignmentForm.endNo"
                                                 label="끝번호 4자리"
                                                 single-line="single-line"
                                                 hide-details="hide-details"
@@ -89,17 +89,20 @@
                                     <v-col cols="2">
                                         <v-row class="pa-3">
                                             <v-text-field
+                                                v-model="assignmentForm.svcId"
                                                 label="사용자ID"
                                                 single-line="single-line"
                                                 hide-details="hide-details"
                                                 outlined="outlined"
-                                                dense="dense"></v-text-field>
+                                                dense="dense"
+                                                @keydown.enter="postAssignments()"
+                                                ></v-text-field>
                                         </v-row>
                                     </v-col>
 
                                     <v-col cols="2">
                                         <v-row class="pa-3">
-                                            <v-btn @click="filteredItems">등록하기</v-btn>
+                                            <v-btn @click="postAssignments()">등록하기</v-btn>
                                         </v-row>
                                     </v-col>
 
@@ -109,7 +112,7 @@
                                 <v-data-table
                                     :headers="assignmenHeaders"
                                     :items="assignmentItems"
-                                    item-key="serialNo"
+                                    item-key="seqNo"
                                     class="elevation-1"></v-data-table>
                             </v-card-text>
 
@@ -150,7 +153,7 @@
             axios
                 .get('http://localhost:8080/api/band', this.requestHeader)
                 .then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     this.items = res.data
                     this.filteritems = res.data
                     // console.log(this.items)/
@@ -162,6 +165,13 @@
         data: () => ({
             dialog: false,
             assignmentItems:[],
+            assignmentForm:{
+              serialNo:"",
+              startNo:"",
+              endNo:"",
+              svcId:"",
+            }
+            ,
             countryNumberList: [
                 {
                     text: '82',
@@ -287,9 +297,10 @@
           detail(serialNo){
             this.dialog = true
             this.curSerialNo= serialNo
+            this.assignmentForm.serialNo = serialNo
             axios.get("http://localhost:8080/api/assignments/"+serialNo, this.requestHeader)
             .then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     if(res.data !== ""){
                         this.assignmentItems = res.data  
                     }
@@ -303,13 +314,20 @@
                 })
           },
           postAssignments(){
-            axios.post('http://localhost:8080/api/band', this.filteredItems,this.requestHeader)
+            axios.post('http://localhost:8080/api/assignments', this.assignmentForm, this.requestHeader)
                 .then((res) => {
-                  this.assignmentItems.push()
+                   this.assignmentForm={
+                    serialNo:"",
+                    startNo:"",
+                    endNo:"",
+                    svcId:"",
+                  }
+                  this.assignmentItems.push(res.data)
                   this.console.log(res)
                 })
                 .catch((e) => {
                     console.log(e)
+                    console.log(this.assignmentForm)
                 })
             },
             filteredItems() {
@@ -417,6 +435,12 @@
 
             close() {
                 this.dialog = false
+                this.assignmentForm ={
+                  serialNo:"",
+                  startNo:"",
+                  endNo:"",
+                  svcId:"",
+                };
                 this.$nextTick(() => {
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1

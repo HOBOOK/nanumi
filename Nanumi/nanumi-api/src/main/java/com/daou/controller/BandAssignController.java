@@ -88,7 +88,7 @@ public class BandAssignController {
 	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. insert
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<BandAssign> save(HttpServletRequest req, BandAssign bandAssign){
+	public ResponseEntity<BandAssign> save(HttpServletRequest req, @RequestBody BandAssign bandAssign){
 		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
 	}
 
