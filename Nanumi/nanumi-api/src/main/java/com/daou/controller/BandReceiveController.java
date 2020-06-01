@@ -42,14 +42,25 @@ public class BandReceiveController {
 	}
 	
 	// seq_log_no 대역 로그 검색 출력
-	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BandReceive> getBand(@PathVariable("seqNo") Long seqNo) {
-		Optional<BandReceive> bandReceive = bandReceiveService.findBySeqNo(seqNo);
-		if(bandReceive == null ) {
+//	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+//	public ResponseEntity<BandReceive> getBand(@PathVariable("seqNo") Long seqNo) {
+//		Optional<BandReceive> bandReceive = bandReceiveService.findBySeqNo(seqNo);
+//		if(bandReceive == null ) {
+//			return new ResponseEntity(HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<BandReceive>(bandReceive.get(), HttpStatus.OK);
+//	}
+
+	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<BandReceive>> getBandBySerialNo(@PathVariable("serialNo") String serialNo) {
+		List<BandReceive> bandReceive = bandReceiveService.findBySerialNo(serialNo);
+		if(bandReceive.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<BandReceive>(bandReceive.get(), HttpStatus.OK);
+		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
+
+
 	
 	// seq_log_no 대역 로그 상태 검색
 	@GetMapping(value = "/receive/{receiveNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -60,6 +71,15 @@ public class BandReceiveController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/receive/{seqNo}")
+	public ResponseEntity<Object> update(@RequestBody BandReceive bandReceive){
+		if(!bandReceiveService.findBySeqNo(bandReceive.getSeqNo()).isPresent()){
+			return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
+		}
+		bandReceiveService.save(bandReceive);
+		return new ResponseEntity<Object>(bandReceive, HttpStatus.OK);
 	}
 
 
