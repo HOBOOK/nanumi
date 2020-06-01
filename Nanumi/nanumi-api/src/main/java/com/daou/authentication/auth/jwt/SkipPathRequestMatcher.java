@@ -1,9 +1,9 @@
 package com.daou.authentication.auth.jwt;
 
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
