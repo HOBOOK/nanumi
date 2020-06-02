@@ -309,17 +309,17 @@
             },
 
             editItem(item) {
-                this.editedIndex = this
-                    .filteritems
-                    .indexOf(item)
+                this.editedIndex = this.filteritems.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
 
             deleteItem(item) {
-                // const index = this.items.indexOf(item)
-                // confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
-      
+                var result = confirm('할당을 해제 하시겠습니까?')
+                //yes
+                if(result) {
+                     this.editedIndex = this.filteritems.indexOf(item)
+                this.editedItem = Object.assign({}, item)
                 this.editedItem= {
                     seqNo: item.seqNo,
                     serialNo: item.serialNo,
@@ -327,10 +327,9 @@
                     updateDate: item.updateDate,
                     userId: 'none',
                 },
-                console.log(this.editedItem)
 
 
-                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo,this.editedItem ,this.requestHeader)
+                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo, this.editedItem ,this.requestHeader)
                 .then((res)=>{
                 console.log(res)
                 
@@ -344,6 +343,8 @@
                 .catch((e)=>{
                 console.log(e)
                 })
+            }
+               
             },
 
             close() {
@@ -370,14 +371,6 @@
                 .catch((e)=>{
                 console.log(e)
                 })
-                // if (this.editedIndex > -1) {
-                //     Object.assign(this.filteritems[this.editedIndex], this.editedItem)
-                // } else {
-                //     this
-                //         .filteritems
-                //         .push(this.editedItem)
-                // }
-                // this.close()
             }
         }
     }
