@@ -1,6 +1,10 @@
 package com.daou;
 
 import com.daou.authentication.auth.ajax.LoginRequest;
+import com.daou.common.Logger;
+import com.daou.entity.BandReceive;
+import com.daou.service.BandReceiveService;
+import com.daou.service.BandService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.internal.ws.api.pipe.ContentType;
 import org.junit.Before;
@@ -13,7 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.StopWatch;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,6 +46,9 @@ public class AuthControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
+    private BandReceiveService bandReceiveService;
+
     @Before
     public void setUp() throws Exception{
         mockMvc = webAppContextSetup(webApplicationContext).build();
@@ -61,5 +71,16 @@ public class AuthControllerTest {
         mockMvc.perform(get("/api/band"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test // 조회 속도 테스트
+    public void test003AllDataReserch() throws Exception{
+        StopWatch sw = new StopWatch();
+        sw.start();
+        for(int i = 0; i < 20; i++){
+            List<BandReceive> bandServiceList = bandReceiveService.findAll();
+        }
+        sw.stop();
+        Logger.write(sw.getTotalTimeSeconds());
     }
 }

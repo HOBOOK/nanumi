@@ -1,1 +1,1 @@
-POST http://localhost:8080/api/auth/login
+GET http://123.2.134.114:8080/nanumi/api/band
