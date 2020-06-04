@@ -573,7 +573,10 @@
                     this.startNo="",
                     this.endNo="",
                     this.category="",
-                    this.console.log(res)
+                    this.bandForm = res.data;
+                    this.items.push(this.bandForm)
+                    this.close()
+
                 })
                 .catch((e) => {
                     console.log(e)
