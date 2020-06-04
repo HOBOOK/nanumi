@@ -1,1 +1,19 @@
+>{%
+client.global.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHBpcmVEYXRlIjoiMjAyMC0wMi0yNiAxNTo0MzowNyIsInVzZXJJZCI6ImxlZXNoMDQiLCJjcmVhdGVEYXRlIjoiMjAyMC0wMi0yNiAxNDo0MzowNyJ9.ohqM1_gXgNCXfjWw2fhuBbPnTi6dUBimtc64_VgR5rI");
+%}
+###
+
 GET http://123.2.134.114:8080/nanumi/api/band
+accept: application/json
+Authorization: Authorization
+X-RCS-Brandkey: BK.lSrB2204NfIdsY4
+
+###
+POST http://123.2.134.114:8080/nanumi/api/auth/login
+Content-Type: application/json
+{
+    "username": "nanumi",
+    "password": "nanumi"
+}
+
+
