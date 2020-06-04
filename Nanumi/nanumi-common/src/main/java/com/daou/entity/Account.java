@@ -23,15 +23,6 @@ public class Account extends Time{
 	@Column(name = "svc_nm")
 	private String svcNm;
 
-	@Column(name = "access_token")
-	private String accessToken;
-
-	@Column(name ="refresh_token")
-	private String refreshToken;
-
-	@Column(name = "expire_dt")
-	private LocalDateTime expireDt;
-
 	@Column(name = "role_cd", nullable = false)
 	private String roleCd;
 
@@ -39,13 +30,10 @@ public class Account extends Time{
 	private int requestCnt;
 
 	@Builder
-	public Account(String id, String pwd, String svcNm, String accessToken, String refreshToken, LocalDateTime expireDt, String roleCd, int requestCnt) {
+	public Account(String id, String pwd, String svcNm, String roleCd, int requestCnt) {
 		this.id = id;
 		this.pwd = pwd;
 		this.svcNm = svcNm;
-		this.accessToken = accessToken;
-		this.refreshToken = refreshToken;
-		this.expireDt = expireDt;
 		this.roleCd = roleCd;
 		this.requestCnt = requestCnt;
 	}

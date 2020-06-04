@@ -110,9 +110,7 @@ import { mapGetters } from 'vuex';
         { text: '사용자ID', value: 'id' },
         { text: '업체', value: 'svcNm'},
         { text: '권한', value: 'roleCd' },
-        { text: '인증토큰', value: 'accessToken' },
         { text: '생성일', value: 'create_dt' },
-        { text: '만료일', value: 'expireDt' },
         { text: '', value: 'actions', sortable: false },
       ],
       items: [],
@@ -310,12 +308,3 @@ import { mapGetters } from 'vuex';
     },
   }
 </script>
-<style>
-td.text-start{
-
-  max-width: 500px;
-  overflow: hidden !important;
-  text-overflow: ellipsis;
-  white-space:nowrap;
-}
-</style>

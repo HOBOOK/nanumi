@@ -56,15 +56,15 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("refreshToken", refreshToken.getToken());
 
-        // 사용자 DB 토큰값 입력
-        Logger.write(userContext.getUsername(), accessToken.getToken(),accessToken.getClaims().getExpiration());
-        if(accountService.findById(userContext.getUsername()).isPresent()){
-            Account account = accountService.findById(userContext.getUsername()).get();
-            account.setAccessToken(accessToken.getToken());
-            account.setRefreshToken(refreshToken.getToken());
-            account.setExpireDt(LocalDateTime.ofInstant(accessToken.getClaims().getExpiration().toInstant(), ZoneId.systemDefault()));
-            accountService.save(account);
-        }
+//        // 사용자 DB 토큰값 입력 Deprecated 2020.06.04
+//        Logger.write(userContext.getUsername(), accessToken.getToken(),accessToken.getClaims().getExpiration());
+//        if(accountService.findById(userContext.getUsername()).isPresent()){
+//            Account account = accountService.findById(userContext.getUsername()).get();
+//            account.setAccessToken(accessToken.getToken());
+//            account.setRefreshToken(refreshToken.getToken());
+//            account.setExpireDt(LocalDateTime.ofInstant(accessToken.getClaims().getExpiration().toInstant(), ZoneId.systemDefault()));
+//            accountService.save(account);
+//        }
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
