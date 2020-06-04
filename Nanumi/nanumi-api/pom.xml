@@ -71,6 +71,8 @@
         <dependency>
             <groupId>com.daou</groupId>
             <artifactId>nanumi-common</artifactId>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
