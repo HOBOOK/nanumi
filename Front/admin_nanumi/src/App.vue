@@ -190,11 +190,15 @@ export default {
   }),
    methods: {
      switchPage(page) {
-      if (page == "home") {
-        page = "";
+       
+       if (page == "home") {
+         page = "";
       }
+      this.$router.push(`/${page}`).catch(error => {
+      if (error.name != "NavigationDuplicated") {
+      throw error;
+     }})
       this.drawer = false;
-      this.$router.push(`/${page}`);
     },
      signup(){
         console.log('회원가입 시도')
