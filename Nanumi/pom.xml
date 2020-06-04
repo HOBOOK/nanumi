@@ -6,7 +6,6 @@
 	<modules>
 		<module>nanumi-api</module>
 		<module>nanumi-common</module>
-		<module>nanumi-web</module>
 	</modules>
 	<groupId>com.daou</groupId>
 	<artifactId>Nanumi</artifactId>
