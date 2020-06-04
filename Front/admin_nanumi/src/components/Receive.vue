@@ -81,7 +81,7 @@
                                             <v-text-field v-model="editedItem.userId" label="유저아이디"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.updateDate" label="승인날짜"></v-text-field>
+                                            <v-text-field v-model="editedItem.updateDate" label="업데이트날짜"></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -104,9 +104,9 @@
                     mdi-delete
                 </v-icon>
             </template>
-            <template v-slot:no-data>
+            <!-- <template v-slot:no-data>
                 <v-btn color="primary" @click="initialize">Reset</v-btn>
-            </template>
+            </template> -->
         </v-data-table>
         <v-pagination v-model="page" :length="pageCount" v-if="showresult=== true"></v-pagination>
     </v-card>
@@ -118,6 +118,7 @@
     export default {
         data: () => ({
             dialog: false,
+            
             countryNumberList: [
                 {
                     text: '82',
@@ -236,9 +237,7 @@
         computed: {
             ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
             formTitle() {
-                return this.editedIndex === -1
-                    ? 'New Item'
-                    : 'Edit Item'
+                return this.editedIndex === -1? 'New Item' : 'Edit Item'
             }
         },
 
@@ -248,7 +247,8 @@
             }
         },
         created() {},
-        mounted() {},
+        mounted() {
+        },
         methods: {
             filteredItems() {
                 this.loading = true
@@ -270,13 +270,10 @@
                         temp = "none"
 
                     console.log(temp)
-                    axios
-                        .get('http://localhost:8080/api/receptions/' + temp, this.requestHeader)
+                    axios.get('http://localhost:8080/api/receptions/' + temp, this.requestHeader)
                         .then((res) => {
-                            this.filteritems = res
-                                .data
-                                console
-                                .log(res.data)
+                            this.filteritems = res.data
+                                console.log(res.data)
                         })
                         .catch((e) => {
                             console.log(e)
@@ -290,10 +287,7 @@
                         .items
                         .filter(d => {
                             // console.log(d) f는 필터 목록들
-                            return Object
-                                .keys(this.filters)
-                                .every(f => {
-
+                            return Object.keys(this.filters).every(f => {
                                     // console.log(f)
                                     return this
                                         .filters[f]
@@ -309,17 +303,35 @@
             },
 
             editItem(item) {
-                this.editedIndex = this
-                    .filteritems
-                    .indexOf(item)
+                this.editedIndex = this.filteritems.indexOf(item)
+                //	2020-05-29T13:30:57
+                // let today = new Date()
+                // let year = today.getFullYear(); // 년도
+                // let month = today.getMonth() + 1;  // 월
+                // let date = today.getDate();  // 날짜
+                // let hours = today.getHours(); // 시
+                // let minutes = today.getMinutes();  // 분
+                // let seconds = today.getSeconds();  // 초
+                // if(month<10) {
+                //     month='0'+month
+                // } 
+
+                // if(date<10) {
+                //      date='0'+date
+                // } 
+
+                // let temp =year + "-" +month +"-"+ date +"T"+hours+":"+minutes+":"+seconds
+                // item.updateDate = temp; 
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
 
             deleteItem(item) {
-                // const index = this.items.indexOf(item)
-                // confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
-      
+                var result = confirm('할당을 해제 하시겠습니까?')
+                //yes
+                if(result) {
+                     this.editedIndex = this.filteritems.indexOf(item)
+                this.editedItem = Object.assign({}, item)
                 this.editedItem= {
                     seqNo: item.seqNo,
                     serialNo: item.serialNo,
@@ -327,10 +339,9 @@
                     updateDate: item.updateDate,
                     userId: 'none',
                 },
-                console.log(this.editedItem)
 
 
-                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo,this.editedItem ,this.requestHeader)
+                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo, this.editedItem ,this.requestHeader)
                 .then((res)=>{
                 console.log(res)
                 
@@ -344,6 +355,8 @@
                 .catch((e)=>{
                 console.log(e)
                 })
+            }
+               
             },
 
             close() {
@@ -355,10 +368,11 @@
             },
 
             save(seqNo) {
-                console.log(this.editedItem)
+                // console.log(this.editedItem)
+                
                 axios.put('http://localhost:8080/api/receptions/receive/'+seqNo,this.editedItem ,this.requestHeader)
                 .then((res)=>{
-                console.log(res)
+                this.editedItem=res.data
                 
                 if (this.editedIndex > -1) {
                 Object.assign(this.filteritems[this.editedIndex], this.editedItem)
@@ -370,14 +384,6 @@
                 .catch((e)=>{
                 console.log(e)
                 })
-                // if (this.editedIndex > -1) {
-                //     Object.assign(this.filteritems[this.editedIndex], this.editedItem)
-                // } else {
-                //     this
-                //         .filteritems
-                //         .push(this.editedItem)
-                // }
-                // this.close()
             }
         }
     }
