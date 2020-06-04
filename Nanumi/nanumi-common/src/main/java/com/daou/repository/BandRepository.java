@@ -1,7 +1,8 @@
 package com.daou.repository;
 
 
-import org.springframework.data.jpa.repository.JpaRepository; 
+import com.daou.entity.BandAssign;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.daou.entity.Band;
@@ -20,4 +21,5 @@ public interface BandRepository extends JpaRepository<Band, Long> {
 	// findBy뒤에 컬럼명을 붙여주면 이를 이용한 검색이 가능하다
 	public Optional<Band> findBySerialNo(String serialNo);
 	public List<Band> findByCategory(com.daou.types.category category);
+	public Optional<BandAssign> deleteBySerialNo(String serialNo);
 }

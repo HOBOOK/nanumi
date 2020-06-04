@@ -24,13 +24,13 @@ public class Band {
 	@Column(name = "serial_no", nullable = false)
 	private String serialNo;
 
-	@Column(name = "country_no", nullable = false)
+	@Column(name = "country_no", nullable = false, updatable = false)
 	private String countryNo;
 
-	@Column(name = "local_no", nullable = false)
+	@Column(name = "local_no", nullable = false, updatable = false)
 	private String localNo;
 
-	@Column(name = "base_no", nullable = false)
+	@Column(name = "base_no", nullable = false, updatable = false)
 	private String baseNo;
 
 	@Column(name = "start_no", nullable = false)

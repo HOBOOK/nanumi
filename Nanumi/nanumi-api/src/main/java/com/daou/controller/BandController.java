@@ -90,6 +90,29 @@ public class BandController {
 
 
     /**
+     * Update - 대역 범위, 카테고리, 상태 수정 가능
+     */
+    @PutMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<Band> update(@PathVariable("serialNo") String serialNo, Band band) {
+        bandService.updateByBandNumberRange(serialNo, band);
+        return new ResponseEntity<Band>(band, HttpStatus.OK);
+    }
+
+
+    /**
+     * Delete
+     */
+    @DeleteMapping(value = "/{serialNo}")
+    public ResponseEntity<Object> delete(@PathVariable("serialNo") String serialNo, Band band){
+        bandService.deleteBand(serialNo);
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
+    }
+
+
+
+
+
+    /**
      * 대역 로그
      */
 

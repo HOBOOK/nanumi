@@ -16,9 +16,13 @@ public interface bandMapping {
 
     String getReceiveNo();
 
+    LocalDate getCreateDate();
+
     LocalDate getUpdateDate();
 
-    String getUserId();
+    String getSvcId();
+
+    String getSvcUserId();
 
     default com.daou.types.category getCategory() {
         return getBandCategory();

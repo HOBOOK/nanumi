@@ -28,11 +28,25 @@ public class BandReceive {
 	@Column(name = "recv_no")
 	private String receiveNo;
 
+	@Column(name = "create_dt")
+	private LocalDateTime createDate;
+
 	@Column(name = "update_dt")
 	private LocalDateTime updateDate;
 
+	@Column(name = "svc_id")
+	private String svcId;
+
 	@Column(name = "user_id")
-	private String userId;
+	private String svcUserId;
+
+	
+	//계정 테이블과 조인 필요
+//	@ManyToOne // N:1 매핑
+//	@JoinColumn(name = "id", insertable = false, updatable = false)
+//	@JsonIgnore
+//	private Account account;
+
 
 	@ManyToOne // N:1 매핑
 	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
@@ -42,12 +56,15 @@ public class BandReceive {
 	//insertable = false, updatable = false 읽기만 가능
 
 	@Builder
-	public BandReceive(Long seqNo, String serialNo, String receiveNo, LocalDateTime updateDate, String userId) {
+	public BandReceive(Long seqNo, String serialNo, String receiveNo, LocalDateTime createDate,
+					   LocalDateTime updateDate, String svcId, String svcUserId) {
 		this.seqNo = seqNo;
 		this.serialNo = serialNo;
 		this.receiveNo = receiveNo;
+		this.createDate = createDate;
 		this.updateDate = updateDate;
-		this.userId = userId;
+		this.svcId = svcId;
+		this.svcUserId = svcUserId;
 	}
 
 	public BandReceive() {}

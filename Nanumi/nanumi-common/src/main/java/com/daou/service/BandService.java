@@ -42,6 +42,23 @@ public class BandService {
 		return band;
 	}
 
+	@Transactional
+	public void deleteBand(String serialNo) {
+		bandRepository.deleteBySerialNo(serialNo);
+	}
+
+	@Transactional
+	public void updateByBandNumberRange(String serialNo, Band band) {
+		Optional<Band> e = bandRepository.findBySerialNo(serialNo);
+		if (e.isPresent()) {
+			e.get().setStartNo(band.getStartNo());
+			e.get().setEndNo(band.getEndNo());
+			e.get().setCategory(band.getCategory());
+			e.get().setStatus(band.getStatus());
+			bandRepository.save(band);
+		}
+	}
+
 
 //	public void deleteById(Long mbrNo) {
 //		memberRepository.deleteById(mbrNo);

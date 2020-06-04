@@ -40,7 +40,7 @@ public class BandReceiveService {
 	
 	public List<BandReceive> findBySerialNo(String serialNo) {
 		List<BandReceive> BandReceives = new ArrayList<>();
-		bandReceiveRepository.findBySerialNo(serialNo).forEach(e -> BandReceives.add(e));;
+		bandReceiveRepository.findBySerialNo(serialNo).forEach(e -> BandReceives.add(e));
 		return BandReceives;
 	}
 	

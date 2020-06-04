@@ -2,6 +2,7 @@ package com.daou.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * @author Song
@@ -19,18 +20,26 @@ public class BandLog {
 	@Column(name = "serial_no")
 	private String serialNo;
 
+	@Column(name = "admin_id")
+	private String adminId;
+
+	@Column(name = "update_dt")
+	private LocalDateTime updateDate;
+
 	@Column(name = "rev_type")
 	private byte revType;
 	
-	@Column(name = "update_dt")
-	private String updateDate;
+	@Column(name = "description")
+	private String description;
 
 	@Builder
-	public BandLog(Long seqLogNo, String serialNo, byte revType, String updateDate) {
+	public BandLog(Long seqLogNo, String serialNo, String adminId, byte revType, LocalDateTime updateDate, String description) {
 		this.seqLogNo = seqLogNo;
 		this.serialNo = serialNo;
+		this.adminId = adminId;
 		this.revType = revType;
 		this.updateDate = updateDate;
+		this.description = description;
 	}
 	
 	public BandLog() {}
