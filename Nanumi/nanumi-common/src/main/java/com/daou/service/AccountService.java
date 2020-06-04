@@ -13,6 +13,7 @@ import java.util.Optional;
 
 /**
  * @author Song
+ * @author pkh879
  */
 
 @Service
@@ -44,6 +45,7 @@ public class AccountService {
 		return account;
 	}
 
+	// api 요청수 증가 함수
 	@Transactional
 	public void saveRequestCount(String id){
 		if(accountRepository.findById(id).isPresent()){
@@ -53,13 +55,4 @@ public class AccountService {
 		}
 	}
 
-//	public void updateById(Long mbrNo, MemberVo member) {
-//		Optional<MemberVo> e = memberRepository.findById(mbrNo);
-//		if (e.isPresent()) {
-//			e.get().setMbrNo(member.());
-//			e.get().setId(member.getId());
-//			e.get().setName(member.getName());
-//			memberRepository.save(member);
-//		}
-//	}
 }
