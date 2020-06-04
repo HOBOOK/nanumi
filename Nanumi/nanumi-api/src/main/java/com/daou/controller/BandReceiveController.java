@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,7 @@ public class BandReceiveController {
 		if(!bandReceiveService.findBySeqNo(bandReceive.getSeqNo()).isPresent()){
 			return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
 		}
+		bandReceive.setUpdateDate(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
 		bandReceiveService.save(bandReceive);
 		return new ResponseEntity<Object>(bandReceive, HttpStatus.OK);
 	}
