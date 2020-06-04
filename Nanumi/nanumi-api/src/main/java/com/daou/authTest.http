@@ -1,19 +1,67 @@
->{%
-client.global.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW51bWkiLCJzY29wZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJuYW51bWkiLCJqdGkiOiI2ZTllYjYxNS1kMDhiLTRhOGMtOGFjZC0zM2I0NTE2YjYxNzgiLCJpYXQiOjE1OTEyNTI3NDksImV4cCI6MTU5Mzg0NDc0OX0._05grS8houW32wV9gUempYQH14bXylByffNAg32QnOL-pTL9xkwvPCmFn1FunXxjyUG1gwB9_QhWMrtBBfdosA");
-%}
-###
+################## 계정, 인증 관리 #####################
 
-GET http://123.2.134.114:8080/nanumi/api/band
+### 전체 계정 조회
+GET {{Server}}/api/admin/account
 accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW51bWkiLCJzY29wZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJuYW51bWkiLCJqdGkiOiI2ZTllYjYxNS1kMDhiLTRhOGMtOGFjZC0zM2I0NTE2YjYxNzgiLCJpYXQiOjE1OTEyNTI3NDksImV4cCI6MTU5Mzg0NDc0OX0._05grS8houW32wV9gUempYQH14bXylByffNAg32QnOL-pTL9xkwvPCmFn1FunXxjyUG1gwB9_QhWMrtBBfdosA
+Authorization: {{Authorization}}
 X-RCS-Brandkey: BK.lSrB2204NfIdsY4
 
-###
-POST http://localhost:8080/api/auth/login
+### 새로운 계정 추가
+POST {{Local}}/api/admin/account
+accept: application/json
+Authorization: {{Authorization}}
 Content-Type: application/json
+
+{
+       "id": "park",
+       "pwd": "park",
+       "svcNm": "Tester",
+       "roleCd": "USER"
+}
+
+### 토큰 발급
+POST {{Local}}/api/auth/login
+Content-Type: application/json
+
 {
     "username": "nanumi",
     "password": "nanumi"
 }
 
+### 토큰 재발급
+GET {{Local}}/api/auth/token
+Content-Type: application/json
+Authorization: {{Authorization}}
 
+
+
+
+################## 대역 관리 #####################
+
+### 전체 대역 번호 조회
+GET {{Local}}/api/band
+accept: application/json
+Authorization: {{Authorization}}
+
+
+
+
+################## 수신 번호 관리 #####################
+
+### 전체 수신 번호 조회
+GET {{Local}}/api/receptions
+accept: application/json
+Authorization: {{Authorization}}
+
+
+
+# 전역 변수 #
+
+> {%
+client.global.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW51bWkiLCJzY29wZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJuYW51bWkiLCJqdGkiOiI2ZTllYjYxNS1kMDhiLTRhOGMtOGFjZC0zM2I0NTE2YjYxNzgiLCJpYXQiOjE1OTEyNTI3NDksImV4cCI6MTU5Mzg0NDc0OX0._05grS8houW32wV9gUempYQH14bXylByffNAg32QnOL-pTL9xkwvPCmFn1FunXxjyUG1gwB9_QhWMrtBBfdosA")
+
+client.global.set("Local", "localhost:8080/")
+
+client.global.set("Server", "123.2.134.114:8080/nanumi/")
+
+%}
