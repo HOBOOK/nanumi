@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * @author pkh879
  */
 public enum  ErrorCode {
+    GLOBAL(1), // 전역 오류
     AUTHENTICATION(10), // 인증 실패
     JWT_TOKEN_EXPIRED(11), // 토큰 만료
     FAIL_CREATE_ACCOUNT(100), // 계정 추가

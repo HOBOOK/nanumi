@@ -91,8 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         List<String> permitAllEndpointList = Arrays.asList(
                 AUTHENTICATION_URL,
-                REFRESH_TOKEN_URL,
-                "/console"
+                REFRESH_TOKEN_URL
         );
 
         http

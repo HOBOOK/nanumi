@@ -16,7 +16,7 @@ public class JwtSettings {
 
     /**
      * {@link JwtToken}
-     * 만료되는 시간
+     * 만료되는 시간 분 단위
      */
     private Integer tokenExpirationTime = 60 * 24 * 30;
 
