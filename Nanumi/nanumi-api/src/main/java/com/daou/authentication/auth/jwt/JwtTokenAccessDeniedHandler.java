@@ -25,9 +25,10 @@ public class JwtTokenAccessDeniedHandler implements AccessDeniedHandler {
 
     @Autowired private ObjectMapper mapper;
     @Override
-    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-        httpServletResponse.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
-        httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        mapper.writeValue(httpServletResponse.getWriter(), ErrorResponse.of("Unauthorized authority.", ErrorCode.AUTHENTICATION, HttpStatus.NOT_ACCEPTABLE));
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+        response.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("utf-8");
+        mapper.writeValue(response.getWriter(), ErrorResponse.of("접근 권한이 없음", ErrorCode.AUTHENTICATION, HttpStatus.NOT_ACCEPTABLE));
     }
 }

@@ -45,8 +45,9 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
+//        //접근이 가능한 IP 주소 인지 확인 하는 부분 (임시 해제)
 //        if(!ipWhiteList.check(request)){
-//            throw new AuthMethodNotSupportedException("IP address not allowed.");
+//            throw new AuthMethodNotSupportedException("접근이 허용된 IP 주소가 아님");
 //        }
         String tokenPayload = request.getHeader(WebSecurityConfig.AUTHENTICATION_HEADER_NAME);
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));

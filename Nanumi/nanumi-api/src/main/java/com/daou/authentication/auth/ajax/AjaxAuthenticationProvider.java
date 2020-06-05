@@ -51,7 +51,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         Account account = accountService.findById(username).orElseThrow(() ->
                 new UsernameNotFoundException("사용자 정보가 없습니다 : " + username));
         if(!encoder.matches(password, account.getPwd())){
-            throw new BadCredentialsException("사용자 인증정보가 일치하지 않습니다.");
+            throw new BadCredentialsException("사용자 인증 정보가 일치하지 않습니다.");
         }
 
         if(account.getRoleCd() == null) throw new InsufficientAuthenticationException("사용자의 권한 정보가 부여되지 않았습니다.");
