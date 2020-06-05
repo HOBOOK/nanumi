@@ -43,22 +43,34 @@ GET {{Local}}/api/band
 accept: application/json
 Authorization: {{Authorization}}
 
-###
+
+### 신규 대역  입력
 POST {{Local}}/api/band
 Content-Type: application/json
 Authorization: {{Authorization}}
 
 {
-
+  "serialNo":"82-0303-3450",
+  "countryNo":"82",
+  "localNo":"0303",
+  "baseNo":"3450",
+  "startNo":"0100",
+  "endNo":"0000",
+  "category":"FAX"
 }
 
-###
-PUT {{Local}}/api/band
+### 대역 업데이트
+PUT {{Local}}/api/band/82-0303-3440
+accept: application/json
 Content-Type: application/json
 Authorization: {{Authorization}}
 
 {
-
+  "serialNo":"82-0303-3440",
+  "startNo":"0000",
+  "endNo":"1000",
+  "category":"FAX",
+  "status": 0
 }
 
 ###
@@ -70,6 +82,7 @@ Authorization: {{Authorization}}
 
 }
 
+
 ### SerialNo 조회
 GET {{Local}}/api/band/82-0303-3450
 Content-Type: application/json
@@ -77,9 +90,24 @@ Authorization: {{Authorization}}
 
 
 ### categiry 조회
-GET {{Local}}/api/band/category/FAX
+GET {{Local}}/api/band/category/MO
 Content-Type: application/json
 Authorization: {{Authorization}}
+
+
+#############할당 대역 관리#############
+
+### 할당 대역 조회(계정)
+GET {{Local}}/api/assignments
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+
+### 할당 대역 svc_id 조회
+GET {{Local}}/api/assignments/nanumi
+Content-Type: application/json
+Authorization: {{Authorization}}
+
 
 
 

@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name="band_tb")
 public class Band {
 
-	@Column(name = "seq_no", nullable = false, insertable = false)
+	@Column(name = "seq_no", nullable = false, insertable = false, updatable = false)
 	private Long seqNo;
 	
 	@Id
@@ -69,6 +69,6 @@ public class Band {
 	public Band() {}
 
 //	public String toString() {
-//		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
+//		return String.format("%s %s %s %s %s, ", serialNo,startNo,endNo,category,status);
 //	}
 }

@@ -1,10 +1,7 @@
 package com.daou.controller;
 
-import com.daou.entity.Account;
-import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AccountMapping;
-import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
 import org.slf4j.Logger;
@@ -13,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +44,18 @@ public class BandAssignController {
 //		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
 //	}
 
-	// seqNo 할당 대역 검색
+
+	// 모든 대역 조회
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Object> findInfo() {
+		List<AccountMapping> bandAssigns = bandAssignService.findAllBy();
+		if(bandAssigns.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(bandAssigns, HttpStatus.OK);
+	}
+
+	// serialNo 할당 대역 검색
 	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandAssign>> findBySerialNo(@PathVariable("serialNo") String serialNo) {
 		List<BandAssign> bandAssigns = bandAssignService.findBySerialNo(serialNo);
@@ -58,17 +64,6 @@ public class BandAssignController {
 		}
 		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
 	}
-
-	// 모든 대역 조회
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<AccountMapping>> findInfo() {
-		List<AccountMapping> bandAssigns = bandAssignService.findAllBy();
-		if(bandAssigns.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<AccountMapping>>(bandAssigns, HttpStatus.OK);
-	}
-
 
 
 	// service code 검색
