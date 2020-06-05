@@ -1,10 +1,9 @@
 package com.daou.controller;
 
-import com.daou.entity.BandAssign;
+import com.daou.common.ErrorCode;
+import com.daou.common.ErrorResponse;
 import com.daou.entity.BandLog;
-import com.daou.repository.BandLogRepository;
 import com.daou.service.BandLogService;
-import com.daou.types.category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.daou.entity.Band;
-import com.daou.repository.BandRepository;
 import com.daou.service.BandService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
-/*
+/**
 	@author Song
  */
 
@@ -43,21 +41,23 @@ public class BandController {
 
     // 모든 대역 조회
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<Band>> getAllbands() {
+    public ResponseEntity<Object> getAllbands() {
         List<Band> band = bandService.findAll();
-        System.out.println(band);
         if(band.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<List<Band>>(band, HttpStatus.OK);
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     //serialNo로 대역번호 조회
     @GetMapping(value = "/{serialNo}",produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Band> getBand(@PathVariable("serialNo") String serialNo) {
-        Optional<Band> band = bandService.findBySerialNo(serialNo);
+    public ResponseEntity<Object> getBand(@PathVariable("serialNo") String serialNo) {
 
-        return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
+        Optional<Band> band = bandService.findBySerialNo(serialNo);
+        if(!band.isPresent()) {
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     /**
@@ -67,16 +67,16 @@ public class BandController {
      * @return
      */
     @GetMapping(value = "/category/{category}",produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<Band>> getBandFindCategory(@PathVariable("category") String category) {
+    public ResponseEntity<Object> getBandFindCategory(@PathVariable("category") String category) {
 
         //입력 값 String category -> enum타입으로 변환하여 조회
         com.daou.types.category category_enum = com.daou.types.category.valueOf(category);
         List<Band> bands = bandService.findByCategory(category_enum);
 
         if(bands.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<List<Band>>(bands, HttpStatus.OK);
+        return new ResponseEntity<Object>(bands, HttpStatus.OK);
     }
 
     /**

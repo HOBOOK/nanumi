@@ -43,6 +43,44 @@ GET {{Local}}/api/band
 accept: application/json
 Authorization: {{Authorization}}
 
+###
+POST {{Local}}/api/band
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+
+}
+
+###
+PUT {{Local}}/api/band
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+
+}
+
+###
+DELETE {{Local}}/api/band
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+
+}
+
+### SerialNo 조회
+GET {{Local}}/api/band/82-0303-3450
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+
+### categiry 조회
+GET {{Local}}/api/band/category/FAX
+Content-Type: application/json
+Authorization: {{Authorization}}
+
 
 
 

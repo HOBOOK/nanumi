@@ -38,6 +38,7 @@ public class Band {
 	private String endNo;
 	
 	@Column(name = "category", nullable = false)
+	//Enum 타입 매핑
 	@Enumerated(EnumType.STRING)	//EnumType.STRING : enum의 이름을 DB에 저장, EnumType.ORDINAL : enum 순서 값을 DB에 저장
 	private com.daou.types.category category;
 
