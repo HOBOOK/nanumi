@@ -1,7 +1,7 @@
 ################## 계정, 인증 관리 #####################
 
 ### 전체 계정 조회
-GET {{Server}}/api/admin/account
+GET {{Local}}/api/admin/account
 accept: application/json
 Authorization: {{Authorization}}
 X-RCS-Brandkey: BK.lSrB2204NfIdsY4
@@ -13,7 +13,7 @@ Authorization: {{Authorization}}
 Content-Type: application/json
 
 {
-       "id": "park",
+       "id": "nanumi",
        "pwd": "park",
        "svcNm": "Tester",
        "roleCd": "USER"
@@ -52,16 +52,3 @@ Authorization: {{Authorization}}
 GET {{Local}}/api/receptions
 accept: application/json
 Authorization: {{Authorization}}
-
-
-
-# 전역 변수 #
-
-> {%
-client.global.set("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW51bWkiLCJzY29wZXMiOlsiUk9MRV9BRE1JTiJdLCJpc3MiOiJuYW51bWkiLCJqdGkiOiI2ZTllYjYxNS1kMDhiLTRhOGMtOGFjZC0zM2I0NTE2YjYxNzgiLCJpYXQiOjE1OTEyNTI3NDksImV4cCI6MTU5Mzg0NDc0OX0._05grS8houW32wV9gUempYQH14bXylByffNAg32QnOL-pTL9xkwvPCmFn1FunXxjyUG1gwB9_QhWMrtBBfdosA")
-
-client.global.set("Local", "localhost:8080/")
-
-client.global.set("Server", "123.2.134.114:8080/nanumi/")
-
-%}

@@ -7,6 +7,7 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 /**
+ * 크로스 도메인 설정 필터
  * @author pkh879
  */
 public class CustomCorsFilter extends CorsFilter {
