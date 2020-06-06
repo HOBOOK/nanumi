@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(name="band_tb")
 public class Band {
 
-	@Column(name = "seq_no", nullable = false, insertable = false)
+	@Column(name = "seq_no", nullable = false, insertable = false, updatable = false)
 	private Long seqNo;
 	
 	@Id
@@ -38,6 +38,7 @@ public class Band {
 	private String endNo;
 	
 	@Column(name = "category", nullable = false)
+	//Enum 타입 매핑
 	@Enumerated(EnumType.STRING)	//EnumType.STRING : enum의 이름을 DB에 저장, EnumType.ORDINAL : enum 순서 값을 DB에 저장
 	private com.daou.types.category category;
 
@@ -68,6 +69,6 @@ public class Band {
 	public Band() {}
 
 //	public String toString() {
-//		return String.format("seqNo=%d serialNo=%s category=%s, ", seqNo,serialNo,category);
+//		return String.format("%s %s %s %s %s, ", serialNo,startNo,endNo,category,status);
 //	}
 }

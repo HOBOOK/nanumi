@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
-@Table(name="BAND_ASSIGN_TB")
+@Table(name="band_assign_tb")
 public class BandAssign {
 
 	/**
@@ -87,4 +87,7 @@ public class BandAssign {
 
 	public BandAssign() {}
 
+//	public String toString() {
+//		return String.format("%s %s %s %s %s, ", serialNo,svcId,startNo,endNo,status);
+//	}
 }

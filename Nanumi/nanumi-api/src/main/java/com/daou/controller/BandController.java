@@ -1,10 +1,10 @@
 package com.daou.controller;
 
-import com.daou.entity.BandAssign;
+import com.daou.common.ErrorCode;
+import com.daou.common.ErrorResponse;
+import com.daou.common.ValidationCheck;
 import com.daou.entity.BandLog;
-import com.daou.repository.BandLogRepository;
 import com.daou.service.BandLogService;
-import com.daou.types.category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.daou.entity.Band;
-import com.daou.repository.BandRepository;
 import com.daou.service.BandService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
-/*
+/**
 	@author Song
  */
 
@@ -36,6 +35,8 @@ public class BandController {
     BandService bandService;
     @Autowired
     BandLogService bandLogService;
+    @Autowired
+    ValidationCheck validationCheck;
 
     /**
      * Band_tb 대역
@@ -43,21 +44,23 @@ public class BandController {
 
     // 모든 대역 조회
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<Band>> getAllbands() {
+    public ResponseEntity<Object> getAllbands() {
         List<Band> band = bandService.findAll();
-        System.out.println(band);
         if(band.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<List<Band>>(band, HttpStatus.OK);
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     //serialNo로 대역번호 조회
     @GetMapping(value = "/{serialNo}",produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Band> getBand(@PathVariable("serialNo") String serialNo) {
-        Optional<Band> band = bandService.findBySerialNo(serialNo);
+    public ResponseEntity<Object> getBand(@PathVariable("serialNo") String serialNo) {
 
-        return new ResponseEntity<Band>(band.get(), HttpStatus.OK);
+        Optional<Band> band = bandService.findBySerialNo(serialNo);
+        if(!band.isPresent()) {
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     /**
@@ -67,16 +70,16 @@ public class BandController {
      * @return
      */
     @GetMapping(value = "/category/{category}",produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<Band>> getBandFindCategory(@PathVariable("category") String category) {
+    public ResponseEntity<Object> getBandFindCategory(@PathVariable("category") String category) {
 
         //입력 값 String category -> enum타입으로 변환하여 조회
         com.daou.types.category category_enum = com.daou.types.category.valueOf(category);
         List<Band> bands = bandService.findByCategory(category_enum);
 
         if(bands.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<List<Band>>(bands, HttpStatus.OK);
+        return new ResponseEntity<Object>(bands, HttpStatus.OK);
     }
 
     /**
@@ -84,8 +87,13 @@ public class BandController {
      * 통신사로부터 받은 대역을 등록
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Band> save(HttpServletRequest req, @RequestBody Band band){
-        return new ResponseEntity<Band>(bandService.save(band), HttpStatus.OK);
+    public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody Band band){
+
+        if(!validationCheck.validBandRange(band))
+        {
+            return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Object>(bandService.save(band), HttpStatus.OK);
     }
 
 
@@ -93,9 +101,18 @@ public class BandController {
      * Update - 대역 범위, 카테고리, 상태 수정 가능
      */
     @PutMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<Band> update(@PathVariable("serialNo") String serialNo, Band band) {
+    public ResponseEntity<Object> update(@PathVariable("serialNo") String serialNo, @RequestBody Band band) {
+        System.out.println(band.toString());
+        if(!bandService.findBySerialNo(serialNo).isPresent()){
+            return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.ACCEPTED), HttpStatus.ACCEPTED);
+        }
+
+        if(!validationCheck.validBandRange(band))
+        {
+            return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_UPDATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        }
         bandService.updateByBandNumberRange(serialNo, band);
-        return new ResponseEntity<Band>(band, HttpStatus.OK);
+        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
 
@@ -103,7 +120,7 @@ public class BandController {
      * Delete
      */
     @DeleteMapping(value = "/{serialNo}")
-    public ResponseEntity<Object> delete(@PathVariable("serialNo") String serialNo, Band band){
+    public ResponseEntity<Object> delete(@PathVariable("serialNo") String serialNo, @RequestBody Band band){
         bandService.deleteBand(serialNo);
         return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
