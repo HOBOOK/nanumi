@@ -240,8 +240,7 @@ export default {
         axios_common.post('/api/auth/login', this.credential2)
           .then((res)=>{
             console.log('로그인 성공')
-
-            this.$store.dispatch('login', res.data.token)
+            this.$store.dispatch('login', res.data)
             this.loginMenu = false;
           })
           .catch((e)=>{

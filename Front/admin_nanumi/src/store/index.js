@@ -14,9 +14,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    login: function(options, token){
-      options.commit('setToken', token)
-      localStorage.setItem("token",token);
+    login: function(options, tokenData){
+      console.log(tokenData.refreshToken)
+      options.commit('setToken', tokenData.token)
+      localStorage.setItem("token",tokenData.token)
+      localStorage.setItem("refreshToken", tokenData.refreshToken);
     },
     logout: function(options){
       options.commit('setToken', null)

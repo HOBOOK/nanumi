@@ -3,13 +3,13 @@
 ### 전체 계정 조회
 GET {{Local}}/api/admin/account
 accept: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 X-RCS-Brandkey: BK.lSrB2204NfIdsY4
 
 ### 새로운 계정 추가
 POST {{Local}}/api/admin/account
 accept: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 ### 토큰 재발급
 GET {{Local}}/api/auth/token
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{RefreshToken}}
 
 
 
@@ -41,13 +41,13 @@ Authorization: {{Authorization}}
 ### 전체 대역 번호 조회
 GET {{Local}}/api/band
 accept: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 
 ### 신규 대역  입력
 POST {{Local}}/api/band
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 {
   "serialNo":"82-0303-3450",
@@ -63,7 +63,7 @@ Authorization: {{Authorization}}
 PUT {{Local}}/api/band/82-0303-3440
 accept: application/json
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 {
   "serialNo":"82-0303-3440",
@@ -76,7 +76,7 @@ Authorization: {{Authorization}}
 ###
 DELETE {{Local}}/api/band
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 {
 
@@ -86,13 +86,13 @@ Authorization: {{Authorization}}
 ### SerialNo 조회
 GET {{Local}}/api/band/82-0303-3450
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 
 ### categiry 조회
 GET {{Local}}/api/band/category/MO
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 
 #############할당 대역 관리#############
@@ -100,13 +100,13 @@ Authorization: {{Authorization}}
 ### 할당 대역 조회(계정)
 GET {{Local}}/api/assignments
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 
 ### 할당 대역 svc_id 조회
 GET {{Local}}/api/assignments/nanumi
 Content-Type: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}
 
 
 
@@ -117,4 +117,4 @@ Authorization: {{Authorization}}
 ### 전체 수신 번호 조회
 GET {{Local}}/api/receptions
 accept: application/json
-Authorization: {{Authorization}}
+Authorization: {{AccessToken}}

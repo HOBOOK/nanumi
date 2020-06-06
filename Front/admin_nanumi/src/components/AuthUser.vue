@@ -6,6 +6,7 @@
     :items="items"
     class="elevation-1"
     :search="search"
+    :loading="loading"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
@@ -92,9 +93,34 @@ import axios_common from "../axios_common"
 import { mapGetters } from 'vuex';
   export default {
     mounted () {
+      axios_common.interceptors.response.use(function (response) {
+          // Any status code that lie within the range of 2xx cause this function to trigger
+          // Do something with response data
+          console.log("토큰 정상" + response)
+          return response;
+        }, async function (error) {
+          // Any status codes that falls outside the range of 2xx cause this function to trigger
+          // Do something with response error
+          console.log('에러일 경우', error.response);
+          const errorAPI = error.config;
+          if(error.response.status===401 && errorAPI.retry===undefined){
+            errorAPI.retry = true;
+            console.log('토큰이 이상한 오류일 경우');
+            axios_common.get('/api/auth/token', localStorage.getItem("refreshToken"))
+            .then((res)=>{
+              console.log('토큰 재발급 성공' + res.data.token)
+              localStorage.setItem("token",res.data.token)
+            })
+            .catch((e)=>{
+              console.log(e)
+            })
+          }
+          return Promise.reject(error);
+        });
        axios_common.get('/api/admin/account', this.requestHeader)
           .then((res)=>{
             this.items = res.data
+            this.loading = false
           })
           .catch((e)=>{
             console.log(e)
@@ -102,6 +128,7 @@ import { mapGetters } from 'vuex';
     },
     data: () => ({
       dialog: false,
+      loading: true,
       search: '',
       headers: [
         { text: '사용자ID', value: 'id' },
