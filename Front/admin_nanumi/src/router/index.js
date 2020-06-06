@@ -2,9 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import AuthUser from '../components/AuthUser';
 import Receive from '../components/Receive';
-import HelloWorld from '../components/HelloWorld';
+import Home from '../components/Home';
 import RgBandWidth from '../components/RgBandWidth';
-import BandWidth from '../components/BandWidth';
 import store from '../store/index';
 
 // import test from '../components/test'
@@ -29,7 +28,7 @@ export default new VueRouter({
   {
       path: '/',
       name: 'home',
-      component: HelloWorld
+      component: Home
   },
   {
     path: '/authuser',
@@ -41,12 +40,6 @@ export default new VueRouter({
     path: '/receive',
     name: 'receive',
     component: Receive,
-    beforeEnter: requireAuth()
-  },
-  {
-    path: '/bandwidth',
-    name: 'bandwidth',
-    component: BandWidth,
     beforeEnter: requireAuth()
   },
   {

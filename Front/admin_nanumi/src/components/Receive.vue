@@ -78,7 +78,7 @@
                                             <v-text-field v-model="editedItem.receiveNo" label="수신번호"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.userId" label="유저아이디"></v-text-field>
+                                            <v-text-field v-model="editedItem.svcUserId" label="유저아이디"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field v-model="editedItem.updateDate" label="업데이트날짜"></v-text-field>
@@ -113,7 +113,7 @@
     <!-- </v-container> -->
 </template>
 <script>
-    import axios from "axios"
+    import axios_common from "../axios_common"
     import {mapGetters} from 'vuex';
     export default {
         data: () => ({
@@ -196,7 +196,7 @@
                     value: 'receiveNo'
                 }, {
                     text: '사용자Id',
-                    value: 'userId'
+                    value: 'svcUserId'
                 }, {
                     text: '승인날짜',
                     value: 'updateDate'
@@ -219,14 +219,14 @@
                 seqNo: 1,
                 serialNo: '82-0303-671',
                 receiveNo: '0000',
-                userId: 'id',
+                svcUserId: 'id',
                 updateDate: 'none'
             },
             defaultItem: {
                 seqNo: 1,
                 serialNo: '82-0303-671',
                 receiveNo: '0000',
-                userId: 'id',
+                svcUserId: 'id',
                 updateDate: 'none'
             },
             loading: true,
@@ -270,7 +270,7 @@
                         temp = "none"
 
                     console.log(temp)
-                    axios.get('http://localhost:8080/api/receptions/' + temp, this.requestHeader)
+                    axios_common.get('/api/receptions/' + temp, this.requestHeader)
                         .then((res) => {
                             this.filteritems = res.data
                                 console.log(res.data)
@@ -292,6 +292,7 @@
                                     return this
                                         .filters[f]
                                         .length < 1 || this
+                                        .filters[f] ==""
                                         .filters[f] == "none" || d[f]
                                         .includes(this.filters[f])
                                 })
@@ -337,11 +338,11 @@
                     serialNo: item.serialNo,
                     receiveNo: item.receiveNo,
                     updateDate: item.updateDate,
-                    userId: 'none',
+                    svcUserId: "",
                 },
 
 
-                axios.put('http://localhost:8080/api/receptions/receive/'+item.seqNo, this.editedItem ,this.requestHeader)
+                axios_common.put('/api/receptions/receive/'+item.seqNo, this.editedItem ,this.requestHeader)
                 .then((res)=>{
                 console.log(res)
                 
@@ -370,7 +371,7 @@
             save(seqNo) {
                 // console.log(this.editedItem)
                 
-                axios.put('http://localhost:8080/api/receptions/receive/'+seqNo,this.editedItem ,this.requestHeader)
+                axios_common.put('/api/receptions/receive/'+seqNo,this.editedItem ,this.requestHeader)
                 .then((res)=>{
                 this.editedItem=res.data
                 

@@ -83,19 +83,16 @@
         mdi-delete
       </v-icon>
     </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize">Reset</v-btn>
-    </template>
   </v-data-table>
   </v-card>
 <!-- </v-container> -->
 </template>
 <script>
-import axios from "axios"
+import axios_common from "../axios_common"
 import { mapGetters } from 'vuex';
   export default {
     mounted () {
-       axios.get('http://localhost:8080/api/admin/account', this.requestHeader)
+       axios_common.get('/api/admin/account', this.requestHeader)
           .then((res)=>{
             this.items = res.data
           })
@@ -148,96 +145,7 @@ import { mapGetters } from 'vuex';
       },
     },
 
-    created () {
-      this.initialize()
-    },
-
     methods: {
-      initialize () {
-        // this.items = [
-        //   {
-        //     seq: 1,
-        //     id: 'tmddn',
-        //     role: 'admin',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 2,
-        //     id: 'rudgh',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 3,
-        //     id: 'clals',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 4,
-        //     id: 'jsp',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 5,
-        //     id: 'daou',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 6,
-        //     id: 'ppurio',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 7,
-        //     id: 'sabangnet',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 8,
-        //     id: 'dothebest',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 9,
-        //     id: 'wonth',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        //   {
-        //     seq: 10,
-        //     id: 'clclek',
-        //     role: 'user',
-        //     authKey: "p%B@?g6dm8zK,^2~9D`O2xK=Jvsv9",
-        //     createDT: "2020-05-20" ,
-        //     expireDT: "2030-05-20" ,
-        //   },
-        // ]
-      },
-
       editItem (item) {
         this.editedIndex = this.items.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -249,8 +157,8 @@ import { mapGetters } from 'vuex';
 
         if(confirm('정말로 지우시겠습니까?')){
           this.editedItem = Object.assign({}, item)
-          axios.delete(
-            'http://localhost:8080/api/admin/account',
+          axios_common.delete(
+            '/api/admin/account',
             {
               headers: {
                 Authorization: this.requestHeader.headers.Authorization
@@ -278,7 +186,7 @@ import { mapGetters } from 'vuex';
       },
 
       save () {
-          axios.put('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
+          axios_common.put('/api/admin/account',this.editedItem ,this.requestHeader)
           .then((res)=>{
             console.log(res)
             if (this.editedIndex > -1) {
@@ -294,7 +202,7 @@ import { mapGetters } from 'vuex';
       },
 
       add (){
-        axios.post('http://localhost:8080/api/admin/account',this.editedItem ,this.requestHeader)
+        axios_common.post('/api/admin/account',this.editedItem ,this.requestHeader)
           .then((res)=>{
             this.editedItem = res.data;
             this.editedItem.pwd = '';

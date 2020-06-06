@@ -150,7 +150,7 @@
 
 
 <script>
-import axios from "axios";
+import axios_common from './axios_common';
 import { mapGetters } from 'vuex';
 export default {
   name: 'App',
@@ -237,7 +237,7 @@ export default {
         console.log('로그인 시도')
         console.log(this.credential2)
    
-        axios.post('http://localhost:8080/api/auth/login', this.credential2)
+        axios_common.post('/api/auth/login', this.credential2)
           .then((res)=>{
             console.log('로그인 성공')
 

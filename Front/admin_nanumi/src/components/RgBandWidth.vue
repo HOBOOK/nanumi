@@ -105,7 +105,7 @@
 
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click="close">취소</v-btn>
+                                <v-btn color="blue darken-1" text @click="dialogInput=!dialogInput">취소</v-btn>
                                 <v-btn color="blue darken-1" text @click="save" v-if="editedIndex!==-1">저장</v-btn>
                                 <v-btn color="blue darken-1" text @click="add" v-if="editedIndex===-1">추가</v-btn>
                                 </v-card-actions>
@@ -198,26 +198,20 @@
                 </tr>
               </tbody>
             </template>
-            <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Reset</v-btn>
-            </template>
         </v-data-table>
     </v-card>
     <!-- </v-container> -->
 </template>
 <script>
-    import axios from "axios"
+    import axios_common from '../axios_common';
     import {mapGetters} from 'vuex';
 
     export default {
         mounted() {
-            axios
-                .get('http://localhost:8080/api/band', this.requestHeader)
+            axios_common.get('/api/band', this.requestHeader)
                 .then((res) => {
-                    // console.log(res.data)
                     this.items = res.data
                     this.filteritems = res.data
-                    // console.log(this.items)/
                 })
                 .catch((e) => {
                     console.log(e)
@@ -384,7 +378,6 @@
         },
 
         created() {
-            this.initialize()
         },
 
         methods: {
@@ -394,7 +387,7 @@
             this.curStartNo= startNo
             this.curEndNo= endNo
             this.assignmentForm.serialNo = serialNo
-            axios.get("http://localhost:8080/api/assignments/"+serialNo, this.requestHeader)
+            axios_common.get("/api/assignments/"+serialNo, this.requestHeader)
             .then((res) => {
                     // console.log(res.data)
                     if(res.data !== ""){
@@ -410,7 +403,7 @@
                 })
           },
           postAssignments(){
-            axios.post('http://localhost:8080/api/assignments', this.assignmentForm, this.requestHeader)
+            axios_common.post('/api/assignments', this.assignmentForm, this.requestHeader)
                 .then((res) => {
                    this.assignmentForm={
                     serialNo:"",
@@ -469,49 +462,6 @@
                 }
 
             },
-
-            initialize() {
-                this.items = [
-                    {
-                        category: 'FAX',
-                        bandNumber: '82-0303-671',
-                        startNumber: '0000',
-                        endNumber: '3000',
-                        service: '뿌리오'
-                    }, {
-                        category: 'FAX',
-                        bandNumber: '82-0303-671',
-                        startNumber: '3001',
-                        endNumber: '7000',
-                        service: '뿌리오'
-                    }, {
-                        category: 'FAX',
-                        bandNumber: '82-0303-671',
-                        startNumber: '7001',
-                        endNumber: '9999',
-                        service: '엔팩스'
-                    }, {
-                        category: 'MO',
-                        bandNumber: '82-0303-3444',
-                        startNumber: '0000',
-                        endNumber: '3000',
-                        service: '엔팩스'
-                    }, {
-                        category: 'MO',
-                        bandNumber: '82-0303-3444',
-                        startNumber: '3001',
-                        endNumber: '6000',
-                        service: '엔팩스'
-                    }, {
-                        category: 'MO',
-                        bandNumber: '82-0303-3444',
-                        startNumber: '6001',
-                        endNumber: '9999',
-                        service: '엔팩스'
-                    }
-                ],
-                this.filteritems = this.items
-            },
             editItem(item) {
                 this.editedIndex = this
                     .items
@@ -530,7 +480,6 @@
             },
 
             close() {
-                this.dialog = false
                 this.assignmentForm ={
                   serialNo:"",
                   startNo:"",
@@ -541,6 +490,7 @@
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
+                this.dialog = false
             },
 
             save() {
@@ -564,7 +514,7 @@
                     category:this.category
                   }
 
-                axios.post('http://localhost:8080/api/band',this.bandForm ,this.requestHeader)
+                axios_common.post('/api/band',this.bandForm ,this.requestHeader)
                 .then((res)=>{
                     this.serialNo="",
                     this.countryNo="",
@@ -587,14 +537,3 @@
     }
 
 </script>
-
-
-// bandForm:{
-//               serialNo:"",
-//               countryNo:"",
-//               localNo:"",
-//               baseNo:"",
-//               startNo:"",
-//               endNo:"",
-//               category:""
-//             },
