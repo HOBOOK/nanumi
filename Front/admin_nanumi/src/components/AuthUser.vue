@@ -91,29 +91,29 @@
 <script>
 import axios_common from "../axios_common"
 import { mapGetters } from 'vuex';
+
   export default {
     mounted () {
-      axios_common.interceptors.response.use(function (response) {
-          // Any status code that lie within the range of 2xx cause this function to trigger
-          // Do something with response data
-          console.log("토큰 정상" + response)
+        axios_common.interceptors.response.use(function (response) {
           return response;
         }, async function (error) {
-          // Any status codes that falls outside the range of 2xx cause this function to trigger
-          // Do something with response error
-          console.log('에러일 경우', error.response);
+          console.log('에러일 경우', error.config);
           const errorAPI = error.config;
-          if(error.response.status===401 && errorAPI.retry===undefined){
+          if(error.response.data.status==='UNAUTHORIZED' && errorAPI.retry===undefined){
             errorAPI.retry = true;
-            console.log('토큰이 이상한 오류일 경우');
-            axios_common.get('/api/auth/token', localStorage.getItem("refreshToken"))
-            .then((res)=>{
-              console.log('토큰 재발급 성공' + res.data.token)
-              localStorage.setItem("token",res.data.token)
-            })
-            .catch((e)=>{
+            console.log('만료된 토큰');
+            await axios_common.get('/api/auth/token', {
+              headers:{
+                Authorization: 'Bearer ' + localStorage.getItem("refreshToken")
+              }
+            }).then((res)=>{
+              localStorage.setItem('token', res.data.token);
+              errorAPI.headers.Authorization = "Bearer " + res.data.token
+              console.log(res);
+            }).catch((e)=>{
               console.log(e)
-            })
+            });
+            return await axios_common(errorAPI);
           }
           return Promise.reject(error);
         });
@@ -171,6 +171,8 @@ import { mapGetters } from 'vuex';
         val || this.close()
       },
     },
+
+
 
     methods: {
       editItem (item) {
