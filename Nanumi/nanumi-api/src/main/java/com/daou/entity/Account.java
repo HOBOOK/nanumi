@@ -1,12 +1,13 @@
 package com.daou.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 사용자, 관리자 계정 엔티티
@@ -23,7 +24,7 @@ public class Account extends Time{
 
 	@Column(name = "pwd", nullable = false)
 	private String pwd;
-	
+
 	@Column(name = "svc_nm")
 	private String svcNm;
 
@@ -32,6 +33,10 @@ public class Account extends Time{
 
 	@Column(name ="request_cnt")
 	private int requestCnt;
+
+	@OneToMany(mappedBy = "account")
+	@JsonIgnore
+	private List<BandAssign> bandAssign = new ArrayList<BandAssign>();
 
 	@Builder
 	public Account(String id, String pwd, String svcNm, String roleCd, int requestCnt) {

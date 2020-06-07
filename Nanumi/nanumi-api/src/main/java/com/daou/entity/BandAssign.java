@@ -34,7 +34,7 @@ public class BandAssign {
 	@Id
 	//@GeneratedValue(strategy = GenerationType.AUTO)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "seq_no", insertable = false)
+	@Column(name = "seq_no", insertable = false, updatable = false)
 	private Long seqNo;
 
 	/**
@@ -42,7 +42,7 @@ public class BandAssign {
 	 * ㄴ 쿼리에서 컬럼 제외 insertable = false, updatable = false
 	 * 쿼리에서 제외된 컬럼은 default값 삽입됨.
 	 */
-	@Column(name = "serial_no", updatable = false)
+	@Column(name = "serial_no")
 	private String serialNo;
 
 	@Column(name = "start_no")
@@ -63,15 +63,15 @@ public class BandAssign {
 	@Column(name = "status", nullable = false, insertable = false)
 	private byte status;
 
-//	@ManyToOne
-//	@JoinColumn(name = "serial_no", insertable = false, updatable = false)
-//	@JsonIgnore
-//	private Band band;
-
 	@ManyToOne
-	@JoinColumn(name = "svc_id", insertable = false, updatable = false)
+	@JoinColumn(name = "svc_id", insertable = false, updatable = false, nullable = false)
 	@JsonIgnore
 	private Account account;
+
+//	@ManyToMany
+//	@JoinColumn(name = "serial_no", insertable = false, updatable = false, nullable = false)
+//	@JsonIgnore
+//	private Band band;
 
 	@Builder
 	public BandAssign(Long seqNo, String serialNo, String startNo, String endNo, String svcId, LocalDateTime assignDt, LocalDateTime expireDt, byte status) {

@@ -89,7 +89,7 @@ public class BandController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody Band band){
 
-        if(!validationCheck.validBandRange(band))
+        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
         {
             return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         }
@@ -107,7 +107,7 @@ public class BandController {
             return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.ACCEPTED), HttpStatus.ACCEPTED);
         }
 
-        if(!validationCheck.validBandRange(band))
+        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
         {
             return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_UPDATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         }

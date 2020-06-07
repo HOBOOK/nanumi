@@ -1,7 +1,10 @@
 package com.daou.service;
 
+import com.daou.common.Logger;
+import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AccountMapping;
+import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,20 +52,42 @@ public class BandAssignService {
 		return bandAssigns;
 	}
 
+	public Optional<BandAssign> findBySerialNoAndSvcId(String serialNo, String svcId) {
+		Optional<BandAssign> bandAssign = bandAssignRepository.findBySerialNoAndSvcId(serialNo, svcId);
+
+
+
+		return bandAssign;
+	}
+
 	@Transactional
 	public void deleteBySeqNo(Long seqNo) {
 		bandAssignRepository.deleteBySeqNo(seqNo);
 	}
 
 	@Transactional
-	public void updateByBandNumberRange(Long seqNo, BandAssign bandAssign) {
-		Optional<BandAssign> e = bandAssignRepository.findById(seqNo);
+	public void insertByBandNumberRange(BandAssign bandAssign) {
+		Optional<BandAssign> e = bandAssignRepository.findBySerialNoAndSvcId(bandAssign.getSerialNo(), bandAssign.getSvcId());
 		if (e.isPresent()) {
 			e.get().setSeqNo(bandAssign.getSeqNo());
+			e.get().setSerialNo(bandAssign.getSerialNo());
 			e.get().setStartNo(bandAssign.getStartNo());
 			e.get().setEndNo(bandAssign.getEndNo());
+			e.get().setStatus(bandAssign.getStatus());
 			bandAssignRepository.save(bandAssign);
 		}
 	}
 
+
+	@Transactional
+	public void updateByBandNumberRange(BandAssign bandAssign) {
+		Optional<BandAssign> e = bandAssignRepository.findBySerialNoAndSvcId(bandAssign.getSerialNo(), bandAssign.getSvcId());
+		if (e.isPresent()) {
+			e.get().setSerialNo(bandAssign.getSerialNo());
+			e.get().setStartNo(bandAssign.getStartNo());
+			e.get().setEndNo(bandAssign.getEndNo());
+			e.get().setStatus(bandAssign.getStatus());
+			bandAssignRepository.save(e.get());
+		}
+	}
 }

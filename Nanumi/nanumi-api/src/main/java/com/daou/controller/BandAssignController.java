@@ -1,9 +1,14 @@
 package com.daou.controller;
 
+import com.daou.common.ErrorCode;
+import com.daou.common.ErrorResponse;
+import com.daou.common.ValidationCheck;
+import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AccountMapping;
 import com.daou.repository.BandAssignRepository;
 import com.daou.service.BandAssignService;
+import com.daou.service.BandService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
+
 
 /*
 	@author Song
@@ -31,8 +37,14 @@ public class BandAssignController {
 	BandAssignService bandAssignService;
 
 	@Autowired
+	BandService bandService;
+
+	@Autowired
 	BandAssignRepository bandAssignRepository;
-	
+
+	@Autowired
+	ValidationCheck validationCheck;
+
 	// 모든 할당 대역 출력
 //	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 //	public ResponseEntity<List<BandAssign>> getAllbands() {
@@ -50,30 +62,31 @@ public class BandAssignController {
 	public ResponseEntity<Object> findInfo() {
 		List<AccountMapping> bandAssigns = bandAssignService.findAllBy();
 		if(bandAssigns.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_ASSIGN_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+
 		}
 		return new ResponseEntity<Object>(bandAssigns, HttpStatus.OK);
 	}
 
 	// serialNo 할당 대역 검색
 	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<BandAssign>> findBySerialNo(@PathVariable("serialNo") String serialNo) {
+	public ResponseEntity<Object> findBySerialNo(@PathVariable("serialNo") String serialNo) {
 		List<BandAssign> bandAssigns = bandAssignService.findBySerialNo(serialNo);
 		if(bandAssigns.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_ASSIGN_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
+		return new ResponseEntity<Object>(bandAssigns, HttpStatus.OK);
 	}
 
 
 	// service code 검색
 	@GetMapping(value = "/service/{serviceCode}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<BandAssign>> getBand(@PathVariable("serviceCode") String serviceCode) {
+	public ResponseEntity<Object> getBand(@PathVariable("serviceCode") String serviceCode) {
 		List<BandAssign> bandAssign = bandAssignService.findBySvcId(serviceCode);
 		if(bandAssign.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_ASSIGN_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<List<BandAssign>>(bandAssign, HttpStatus.OK);
+		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
 	}
 
 
@@ -83,8 +96,17 @@ public class BandAssignController {
 	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. insert
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<BandAssign> save(HttpServletRequest req, @RequestBody BandAssign bandAssign){
-		return new ResponseEntity<BandAssign>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
+	public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody BandAssign bandAssign) {
+		Optional<Band> band = bandService.findBySerialNo(bandAssign.getSerialNo());
+
+		if (band.isPresent()){
+			if(!validationCheck.validBandAssignRange(band, bandAssign))
+				return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_ASSIGN_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+		}else{
+			return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 번호", ErrorCode.FAIL_UPDATE_ASSIGN_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+		}
+		bandAssignService.insertByBandNumberRange(bandAssign);
+		return new ResponseEntity<Object>(bandAssignRepository.save(bandAssign), HttpStatus.OK);
 	}
 
 
@@ -92,16 +114,19 @@ public class BandAssignController {
 	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
 	 *  1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. update
 	 */
-	@PutMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<BandAssign> update(@PathVariable("seqNo") Long seqNo, BandAssign bandAssign) {
+	@RequestMapping(method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Object> update(@RequestBody BandAssign bandAssign) {
+		Optional<Band> band = bandService.findBySerialNo(bandAssign.getSerialNo());
 
-		// 1.
+		if (band.isPresent()){
+			if(!validationCheck.validBandAssignRange(band, bandAssign))
+				return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_ASSIGN_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+		}else{
+			return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 번호", ErrorCode.FAIL_UPDATE_ASSIGN_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+		}
 
-		// 2. if()
-
-		// 3.
-		bandAssignService.updateByBandNumberRange(seqNo, bandAssign);
-		return new ResponseEntity<BandAssign>(bandAssign, HttpStatus.OK);
+		bandAssignService.updateByBandNumberRange(bandAssign);
+		return new ResponseEntity<Object>(bandAssign, HttpStatus.OK);
 	}
 
 

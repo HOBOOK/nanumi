@@ -55,7 +55,7 @@ public class BandService {
 			e.get().setEndNo(band.getEndNo());
 			e.get().setCategory(band.getCategory());
 			e.get().setStatus(band.getStatus());
-			bandRepository.save(band);
+			bandRepository.save(e.get());
 		}
 	}
 

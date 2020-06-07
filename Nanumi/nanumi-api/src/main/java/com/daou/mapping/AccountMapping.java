@@ -1,7 +1,6 @@
 package com.daou.mapping;
 
 import com.daou.entity.Account;
-import com.daou.types.category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
