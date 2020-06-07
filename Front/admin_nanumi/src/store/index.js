@@ -25,6 +25,10 @@ export default new Vuex.Store({
       options.commit('setToken', null)
       localStorage.removeItem("token");
     },
+    updateToken: function(options, token){
+      options.commit('setToken', token)
+      localStorage.setItem("token", token)
+    }
 
   },
   getters: {
