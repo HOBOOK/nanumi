@@ -72,11 +72,11 @@
                                         </v-col>
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="localNo" label="지역번호" required minlength="4" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="localNo" label="지역번호" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>                       
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="baseNo" label="대역" required minlength="4" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="baseNo" label="대역" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>
                                     </v-row>
                                     <v-row align="center" justify="center">
@@ -128,6 +128,7 @@
                                             <!-- 텍스트 필드로 내리고 주석 -->
                                             <v-text-field
                                                 v-model="assignmentForm.startNo"
+                                                required minlength="4" maxlength="4"
                                                 label="시작번호 4자리"
                                                 single-line="single-line"
                                                 hide-details="hide-details"
@@ -139,6 +140,7 @@
                                         <v-row class="pa-3">
                                             <v-text-field
                                                 v-model="assignmentForm.endNo"
+                                                required minlength="4" maxlength="4"
                                                 label="끝번호 4자리"
                                                 single-line="single-line"
                                                 hide-details="hide-details"
