@@ -61,37 +61,37 @@
                             </template>
                             <v-card>
                                 <v-card-title>
-                                <span class="headline">신규대역 등록</span>
+                                <span class="headline">{{formTitle}}</span>
                                 </v-card-title>
 
                                 <v-card-text>
                                 <v-container>
                                     <v-row align="center" justify="center">
                                         <v-col cols="3" class="pa-0">
-                                            <v-text-field v-model="countryNo" label="국가번호" required minlength="2" maxlength="2"></v-text-field>
+                                            <v-text-field v-model="editedItem.countryNo" label="국가번호" required minlength="2" maxlength="2"></v-text-field>
                                         </v-col>
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="localNo" label="지역번호" required minlength="3" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="editedItem.localNo" label="지역번호" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>                       
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="baseNo" label="대역" required minlength="3" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="editedItem.baseNo" label="대역" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>
                                     </v-row>
                                     <v-row align="center" justify="center">
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="startNo" label="시작" required minlength="4" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="editedItem.startNo" label="시작" required minlength="4" maxlength="4"></v-text-field>
                                         </v-col>
                                         <v-col cols="1"  class="pr-0 pl-4"> ~ </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="endNo" label="끝" required minlength="4" maxlength="4"></v-text-field>
+                                            <v-text-field v-model="editedItem.endNo" label="끝" required minlength="4" maxlength="4"></v-text-field>
                                         </v-col>
 
                                         <v-col cols="3"  class="pa-0">
                                             <v-select
                                                 :items="categoryList"
-                                                v-model="category"
+                                                v-model="editedItem.category"
                                                 label="카테고리"
                                                 dense
                                                 outlined>
@@ -105,7 +105,7 @@
 
                                 <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click="dialogInput=!dialogInput">취소</v-btn>
+                                <v-btn color="blue darken-1" text @click="close">취소</v-btn>
                                 <v-btn color="blue darken-1" text @click="save" v-if="editedIndex!==-1">저장</v-btn>
                                 <v-btn color="blue darken-1" text @click="add" v-if="editedIndex===-1">추가</v-btn>
                                 </v-card-actions>
@@ -113,7 +113,9 @@
                         </v-dialog>
                     <!-- 신규 대역 입력 다이얼로그 부분 끝 -->    
 
-                    <!-- 다이얼로그 부분 시작 -->
+              
+
+                    <!-- 상세 다이얼로그 부분 시작 -->
                     <v-dialog v-model="dialog" max-width="1500px">
                         <v-card>
                             <v-card-title>
@@ -125,7 +127,6 @@
                                 <v-row>
                                     <v-col cols="2">
                                         <v-row class="pa-3">
-                                            <!-- 텍스트 필드로 내리고 주석 -->
                                             <v-text-field
                                                 v-model="assignmentForm.startNo"
                                                 required minlength="4" maxlength="4"
@@ -181,25 +182,33 @@
 
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text="text" @click="close">Cancel</v-btn>
-                                <v-btn color="blue darken-1" text="text" @click="save">Save</v-btn>
+                                <v-btn color="blue darken-1" text="text" @click="complete">완료</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
-                    <!-- 다이얼로그 부분 끝 -->
+                    <!-- 상세 다이얼로그 부분 끝 -->
                 </v-toolbar>
             </template>
             <template v-slot:body="{ items }">
               <tbody>
-                <tr v-for="item in items" :key="item.serialNo" @click="detail(item.serialNo, item.startNo, item.endNo)">
-                  <td>{{ item.category }}</td>
-                  <td>{{ item.serialNo }}</td>
-                  <td>{{ item.startNo }}</td>
-                  <td>{{ item.endNo }}</td>
-                  <td>{{ item.status }}</td>
+                <tr v-for="item in items" :key="item.serialNo" >
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.category }}</td>
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.serialNo }}</td>
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.startNo }}</td>
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.endNo }}</td>
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.status }}</td>
+                  <td>
+                    <v-icon small="small" class="mr-2" @click="editItem(item)">
+                    mdi-pencil
+                </v-icon>
+                <v-icon small="small" @click="deleteItem(item)">
+                    mdi-delete
+                </v-icon>
+                  </td>
                 </tr>
               </tbody>
             </template>
+            
         </v-data-table>
     </v-card>
     <!-- </v-container> -->
@@ -212,6 +221,7 @@
         mounted() {
             axios_common.get('/api/band', this.requestHeader)
                 .then((res) => {
+                    console.log(res.data)
                     this.items = res.data
                     this.filteritems = res.data
                 })
@@ -222,12 +232,7 @@
         data: () => ({
             dialog: false,
             dialogInput: false,
-            countryNo:'',
-            localNo:'',
-            baseNo:'',
-            startNo:'',
-            endNo:'',
-            category:'',
+            editedIndex: -1,
 
             assignmentItems:[],
             assignmentForm:{
@@ -311,7 +316,11 @@
                 }, {
                     text: '상태',
                     value: 'status'
-                },
+                }, {
+                    text: 'Actions',
+                    value: 'actions',
+                    sortable: false
+                }
             ],
             assignmenHeaders: [
               {
@@ -349,28 +358,23 @@
                 category: [],
                 serialNo: []
             },
-            editedIndex: -1,
             editedItem: {
-                category: 'none',
-                bandNumber: '82-0303-671',
-                startNumber: '0000',
-                endNumber: '9999',
-                service: 'none'
+                countryNo: '',
+                localNo: '',
+                baseNo: '',
+                startNo: '',
+                endNo: '',
+                category : '',
+                seqNo: '',
+                status: '',
             },
-            defaultItem: {
-                category: 'none',
-                bandNumber: '82-0303-671',
-                startNumber: '0000',
-                endNumber: '9999',
-                service: 'none'
-            }
         }),
 
         computed: {
             ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
             formTitle() {
-                return this.editedIndex === -1? 'New Item' : 'Edit Item'
-            }
+                return this.editedIndex === -1? '신규대역 등록' : '번호대역 수정'
+            },
         },
 
         watch: {
@@ -443,14 +447,9 @@
                     this.filters.serialNo = temp
                     console.log(this.filters.serialNo)
                     //d는 현재 테이블에 있는 값
-                    this.filteritems = this
-                        .items
-                        .filter(d => {
+                    this.filteritems = this.items.filter(d => {
                             // console.log(d) f는 필터 목록들
-                            return Object
-                                .keys(this.filters)
-                                .every(f => {
-
+                            return Object.keys(this.filters).every(f => {
                                     // console.log(f)
                                     return this
                                         .filters[f]
@@ -462,26 +461,41 @@
                 } else {
                     alert('지역번호와 국번이 선택되어야합니다.')
                 }
-
             },
             editItem(item) {
-                this.editedIndex = this
-                    .items
-                    .indexOf(item)
+                this.editedIndex = this.items.indexOf(item)
                 this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                this.dialogInput = true
             },
 
             deleteItem(item) {
-                const index = this
-                    .items
-                    .indexOf(item)
-                confirm('정말로 지우시겠습니까?') && this
-                    .items
-                    .splice(index, 1)
+                const index = this.items.indexOf(item)
+                const temp = this.editedItem.countryNo+"-"+this.editedItem.localNo+"-"+this.editedItem.baseNo
+               
+                if(confirm('정말로 지우시겠습니까?')){
+                    this.editedItem = Object.assign({}, item)
+                    axios_common.delete('/api/band/' + temp ,
+                        {
+                        headers: {
+                            Authorization: this.requestHeader.headers.Authorization
+                        },
+                        data: this.editedItem
+                        }
+                    ).then((res)=>{
+                        console.log(res)
+                        this.items.splice(index, 1)
+                        this.editedItem = this.defaultItem
+                    })
+                    .catch((res)=>{
+                        this.editedItem = this.defaultItem
+                        console.log('error > ' + res)
+                    })
+                    }
+                // confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
             },
 
             close() {
+                this.dialogInput = false
                 this.assignmentForm ={
                   serialNo:"",
                   startNo:"",
@@ -492,43 +506,58 @@
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1
                 })
+            },
+            complete(){
                 this.dialog = false
             },
-
             save() {
+                this.bandForm={
+                    baseNo:this.editedItem.baseNo,
+                    category:this.editedItem.category,
+                    countryNo:this.editedItem.countryNo,
+                    endNo:this.editedItem.endNo,
+                    localNo:this.editedItem.localNo,
+                    seqNo: this.editedItem.seqNo,
+                    serialNo:this.editedItem.countryNo+"-"+this.editedItem.localNo+"-"+this.editedItem.baseNo,
+                    startNo:this.editedItem.startNo,
+                    status: this.editedItem.status,
+                  }
+                axios_common.put('/api/band/'+this.bandForm.serialNo,this.bandForm ,this.requestHeader)
+                .then((res)=>{
+                    console.log(res)
+                    if (this.editedIndex > -1) {
+                    Object.assign(this.items[this.editedIndex], this.editedItem)
+                    } else {
+                        this.items.push(this.editedItem)
+                    }
+                    this.close()
+                    })
+                .catch((e)=>{
+                    console.log(e)
+                })
                 if (this.editedIndex > -1) {
                     Object.assign(this.items[this.editedIndex], this.editedItem)
                 } else {
-                    this
-                        .items
-                        .push(this.editedItem)
+                    this.items.push(this.editedItem)
                 }
                 this.close()
             },
             add (){
                 this.bandForm={
-                    serialNo:this.countryNo+"-"+this.localNo+"-"+this.baseNo,
-                    countryNo:this.countryNo,
-                    localNo:this.localNo,
-                    baseNo:this.baseNo,
-                    startNo:this.startNo,
-                    endNo:this.endNo,
-                    category:this.category
+                    serialNo:this.editedItem.countryNo+"-"+this.editedItem.localNo+"-"+this.editedItem.baseNo,
+                    countryNo:this.editedItem.countryNo,
+                    localNo:this.editedItem.localNo,
+                    baseNo:this.editedItem.baseNo,
+                    startNo:this.editedItem.startNo,
+                    endNo:this.editedItem.endNo,
+                    category:this.editedItem.category
                   }
 
                 axios_common.post('/api/band',this.bandForm ,this.requestHeader)
                 .then((res)=>{
-                    this.serialNo="",
-                    this.countryNo="",
-                    this.localNo="",
-                    this.baseNo="",
-                    this.startNo="",
-                    this.endNo="",
-                    this.category="",
                     this.bandForm = res.data;
                     this.items.push(this.bandForm)
                     this.close()
-
                 })
                 .catch((e) => {
                     console.log(e)
