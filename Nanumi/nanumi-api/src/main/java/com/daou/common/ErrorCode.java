@@ -10,10 +10,10 @@ public enum  ErrorCode {
     GLOBAL(1), // 전역 오류
     AUTHENTICATION(10), // 인증 실패
     JWT_TOKEN_EXPIRED(11), // 토큰 만료
-    FAIL_CREATE_ACCOUNT(100), // 계정 추가
-    FAIL_READ_ACCOUNT(101), // 계정 조회
-    FAIL_UPDATE_ACCOUNT(102), // 계정 수정
-    FAIL_DELETE_ACCOUNT(103), // 계정 삭제
+    FAIL_CREATE_ACCOUNT_EXIST(101), // 이미 존재 하는 계정 생성시
+    FAIL_READ_ACCOUNT_NOT_EXIST(111), // 존재 하지 않는 계정 조회
+    FAIL_UPDATE_ACCOUNT_NOT_EXIST(121), // 존재 하지 않는 계정 수정
+    FAIL_DELETE_ACCOUNT_NOT_EXIST(131), // 존재 하지 않는 계정 삭제
     FAIL_CREATE_BAND(200), // 대역 추가
     FAIL_READ_BAND(201), // 대역 조회
     FAIL_UPDATE_BAND(202), // 대역 수정
