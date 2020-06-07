@@ -20,7 +20,7 @@ public class ExceptionController implements ErrorController {
 
     @RequestMapping(value = "/error", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT})
     public ResponseEntity<Object> error(){
-        return new ResponseEntity<>(ErrorResponse.of("존재하지 않는 URL", ErrorCode.GLOBAL, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ErrorResponse.of("존재 하지 않는 URL", ErrorCode.GLOBAL, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
     }
 
     @Override

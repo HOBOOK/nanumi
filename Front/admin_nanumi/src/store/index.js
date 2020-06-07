@@ -6,16 +6,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem("token")
+    token: localStorage.getItem("token"),
+    refreshToken: localStorage.getItem("refreshToken")
   },
   mutations: {
     setToken: function(state, token){
       state.token = token;
     },
+    
   },
   actions: {
     login: function(options, tokenData){
-      console.log(tokenData.refreshToken)
       options.commit('setToken', tokenData.token)
       localStorage.setItem("token",tokenData.token)
       localStorage.setItem("refreshToken", tokenData.refreshToken);
@@ -24,6 +25,11 @@ export default new Vuex.Store({
       options.commit('setToken', null)
       localStorage.removeItem("token");
     },
+    updateToken: function(options, token){
+      options.commit('setToken', token)
+      localStorage.setItem("token", token)
+    }
+
   },
   getters: {
     isAuthenticated: function(state){

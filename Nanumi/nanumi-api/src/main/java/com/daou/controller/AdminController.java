@@ -34,7 +34,7 @@ public class AdminController {
     @PostMapping(value="account")
     public ResponseEntity<Object> create(@RequestBody Account account){
         if(accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("계정 생성에 실패", ErrorCode.FAIL_CREATE_ACCOUNT, HttpStatus.ACCEPTED),HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("이미 존재 하는 계정 생성 시도", ErrorCode.FAIL_CREATE_ACCOUNT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setPwd(encoder.encode(account.getPwd()));
@@ -50,7 +50,7 @@ public class AdminController {
 //        accountService.saveRequestCount(requestId);
         List<Account> accounts = accountService.findAll();
         if(accounts.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 계정이 없음", ErrorCode.FAIL_READ_ACCOUNT, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 조회", ErrorCode.FAIL_READ_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<Object>(accounts, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class AdminController {
     @PutMapping(value = "account")
     public ResponseEntity<Object> update(@RequestBody Account account){
         if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("계정 정보가 없음", ErrorCode.FAIL_UPDATE_ACCOUNT, HttpStatus.ACCEPTED),HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 수정", ErrorCode.FAIL_UPDATE_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
         }
         accountService.save(account);
         return new ResponseEntity<Object>(account, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class AdminController {
     @DeleteMapping(value="account")
     public ResponseEntity<Object> delete(@RequestBody Account account){
         if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("계정 정보가 없음", ErrorCode.FAIL_DELETE_ACCOUNT, HttpStatus.ACCEPTED),HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 삭제", ErrorCode.FAIL_DELETE_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
         }
         accountService.deleteById(account.getId());
         return new ResponseEntity<Object>(account, HttpStatus.OK);

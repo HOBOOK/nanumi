@@ -16,9 +16,9 @@ public class JwtSettings {
 
     /**
      * {@link JwtToken}
-     * 토큰 만료 시간 7일
+     * 토큰 만료 시간 30분
      */
-    private Integer tokenExpirationTime = 1;
+    private Integer tokenExpirationTime = 30;
 
     /**
      * 토큰 발행자
