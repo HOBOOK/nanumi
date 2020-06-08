@@ -63,8 +63,8 @@ axios_common.interceptors.response.use(function (response) {
   }
   //그 외의 오류
   else{
-    //400에러 아무것도 값이 없을 경우는 경고창 표시X
-    if(error.response.status !==400)
+    //404에러 아무것도 값이 없을 경우는 경고창 표시X
+    if(error.response.status !==404)
       alert(error.response.status)
   }
 
