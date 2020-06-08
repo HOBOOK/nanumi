@@ -165,15 +165,15 @@ public class BandController {
 
 
     // 대역의 국번, 지번 조회
-    @GetMapping(value = "/country")
-    public ResponseEntity<List<String>> getCountryCodes(){
+    @GetMapping(value = "/local")
+    public ResponseEntity<List<String>> getLocalCodes(){
         List<Band> bands = bandService.findAll();
-        List<String> countryCodes =  new ArrayList<>();
+        List<String> localCodes =  new ArrayList<>();
         for(Band b : bands){
-            if(!countryCodes.contains(b.getCountryNo()))
-                countryCodes.add(b.getCountryNo());
+            if(!localCodes.contains(b.getLocalNo()))
+                localCodes.add(b.getLocalNo());
         }
-        return new ResponseEntity<List<String>>(countryCodes, HttpStatus.OK);
+        return new ResponseEntity<List<String>>(localCodes, HttpStatus.OK);
     }
 
     @GetMapping(value = "/base")
