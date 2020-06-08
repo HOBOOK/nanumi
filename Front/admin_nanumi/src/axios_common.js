@@ -16,9 +16,21 @@ axios_common.interceptors.response.use(function (response) {
 }, async function (error) {
   console.log('에러일 경우', error.config);
   const errorAPI = error.config;
-
   if(!error.response){
-    alert("time out")
+    // alert("서버가 응답하지 않습니다. time out")
+
+    console.log("---------------------")
+
+    
+    if(errorAPI.timeout <10000){
+      setTimeout(function () {
+        errorAPI.timeout *=2;
+        return axios_common(errorAPI);
+      }.bind(this), errorAPI.timeout);
+    }
+    else{
+      alert("서버가 응답하지 않습니다. timeout")
+    }
   }
   else if(error.response.data.status==='UNAUTHORIZED' && errorAPI.retry===undefined){
     errorAPI.retry = true;

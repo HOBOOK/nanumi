@@ -1,5 +1,6 @@
 package com.daou.entity;
 
+import com.daou.types.BandLogType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,6 +28,7 @@ public class BandLog {
 
 	@Column(name = "rev_type")
 	private byte revType;
+	private BandLogType revType;
 	
 	@Column(name = "description")
 	private String description;

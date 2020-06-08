@@ -35,10 +35,10 @@ export default new Vuex.Store({
     isAuthenticated: function(state){
       return state.token ? true : false
     },
-    requestHeader: function(state){
+    requestHeader: function(){
       return {
         headers: {
-          Authorization: 'Bearer ' + state.token
+          Authorization: 'Bearer ' + localStorage.getItem("token")
         }
       }
     },
