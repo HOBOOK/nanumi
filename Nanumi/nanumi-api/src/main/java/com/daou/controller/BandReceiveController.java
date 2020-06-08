@@ -39,7 +39,7 @@ public class BandReceiveController {
 		List<BandReceive> bandReceives = bandReceiveService.findAll();
 		System.out.println(bandReceives);
 		if(bandReceives.isEmpty()) {
-			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceives, HttpStatus.OK);
 	}
@@ -48,7 +48,7 @@ public class BandReceiveController {
 	public ResponseEntity<List<BandReceive>> getBandBySerialNo(@PathVariable("serialNo") String serialNo) {
 		List<BandReceive> bandReceive = bandReceiveService.findBySerialNo(serialNo);
 		if(bandReceive.isEmpty()) {
-			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
@@ -57,7 +57,7 @@ public class BandReceiveController {
 	public ResponseEntity<List<BandReceive>> getBand(@PathVariable("receiveNo") String receiveNo) {
 		List<BandReceive> bandReceive = bandReceiveService.findByReceiveNo(receiveNo);
 		if(bandReceive.isEmpty()) {
-			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
@@ -65,7 +65,7 @@ public class BandReceiveController {
 	@PutMapping(value = "/receive/{seqNo}")
 	public ResponseEntity<Object> update(@RequestBody BandReceive bandReceive){
 		if(!bandReceiveService.findBySeqNo(bandReceive.getSeqNo()).isPresent()){
-			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_UPDATE_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_UPDATE_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.NO_CONTENT);
 		}
 		bandReceive.setUpdateDate(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
 		bandReceiveService.save(bandReceive);

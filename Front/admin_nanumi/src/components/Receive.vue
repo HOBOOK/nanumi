@@ -1,5 +1,5 @@
+// @author jsw
 <template>
-    <!-- <v-container fluid ma-0 pa-0> -->
     <v-card height="100%">
         <v-container fluid="fluid">
             <v-row>
@@ -106,13 +106,9 @@
                     mdi-delete
                 </v-icon>
             </template>
-            <!-- <template v-slot:no-data>
-                <v-btn color="primary" @click="initialize">Reset</v-btn>
-            </template> -->
         </v-data-table>
         <v-pagination v-model="page" :length="pageCount" v-if="showresult=== true"></v-pagination>
     </v-card>
-    <!-- </v-container> -->
 </template>
 <script>
     import axios_common from "../axios_common"
