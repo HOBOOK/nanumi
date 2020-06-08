@@ -5,8 +5,9 @@ import com.daou.entity.BandLog;
 import com.daou.repository.BandLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +43,7 @@ public class BandLogService {
 		return bandLogs;
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void save(BandLog bandLog) {
 		bandLogRepository.save(bandLog);
 	}

@@ -4,6 +4,7 @@ import com.daou.entity.Band;
 import com.daou.entity.BandLog;
 import com.daou.repository.BandLogRepository;
 import com.daou.repository.BandRepository;
+import com.daou.types.BandLogType;
 import com.daou.types.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,24 @@ public class BandService {
 		return categoryBands;
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Band save(Band band) {
 		bandRepository.save(band);
+
+		BandLogType enumLog = BandLogType.INSERT;
+
+		StringBuilder str = new StringBuilder();
+		str.append(band.getStartNo())
+				.append("~")
+				.append(band.getEndNo());
+
+		BandLog bandLog = new BandLog();
+		bandLog.setSerialNo(band.getSerialNo());
+		bandLog.setRevType(enumLog);
+		bandLog.setDescription(str.toString());
+
+		bandLogRepository.save(bandLog);
+
 		return band;
 	}
 
@@ -53,9 +69,21 @@ public class BandService {
 		bandRepository.deleteBySerialNo(serialNo);
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void updateByBandNumberRange(String serialNo, Band band) {
 		Optional<Band> e = bandRepository.findBySerialNo(serialNo);
+
+		BandLogType enumLog = BandLogType.UPDATE;
+
+		StringBuilder str = new StringBuilder();
+		str.append(e.get().getStartNo())
+				.append("~")
+				.append(e.get().getEndNo())
+				.append(" -> ")
+				.append(band.getStartNo())
+				.append("~")
+				.append(band.getEndNo());
+
 		if (e.isPresent()) {
 			e.get().setStartNo(band.getStartNo());
 			e.get().setEndNo(band.getEndNo());
@@ -63,11 +91,15 @@ public class BandService {
 			e.get().setStatus(band.getStatus());
 			bandRepository.save(e.get());
 		}
+
 		BandLog bandLog = new BandLog();
 		bandLog.setSerialNo(e.get().getSerialNo());
-		bandLog.setRevType(1);
-		bandLog.setDescription("대역 업데이트");
+		bandLog.setRevType(enumLog);
+		bandLog.setDescription(str.toString());
+
 		bandLogRepository.save(bandLog);
 	}
+
+
 
 }

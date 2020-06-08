@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name="band_Log_tb")
 public class BandLog {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	//데이터베이스를 변경해도 코드 수정할 필요 없음(oracle이면 자동으로 SEQUENCE 선택)
 	@Column(name = "seq_log_no", insertable = false)
 	private Long seqLogNo;
 
@@ -27,14 +27,13 @@ public class BandLog {
 	private LocalDateTime updateDate;
 
 	@Column(name = "rev_type")
-	private byte revType;
 	private BandLogType revType;
 	
 	@Column(name = "description")
 	private String description;
 
 	@Builder
-	public BandLog(Long seqLogNo, String serialNo, byte revType, LocalDateTime updateDate, String description) {
+	public BandLog(Long seqLogNo, String serialNo, BandLogType revType, LocalDateTime updateDate, String description) {
 		this.seqLogNo = seqLogNo;
 		this.serialNo = serialNo;
 		this.revType = revType;
