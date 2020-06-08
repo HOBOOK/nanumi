@@ -318,24 +318,6 @@
 
             editItem(item) {
                 this.editedIndex = this.filteritems.indexOf(item)
-                //	2020-05-29T13:30:57
-                // let today = new Date()
-                // let year = today.getFullYear(); // 년도
-                // let month = today.getMonth() + 1;  // 월
-                // let date = today.getDate();  // 날짜
-                // let hours = today.getHours(); // 시
-                // let minutes = today.getMinutes();  // 분
-                // let seconds = today.getSeconds();  // 초
-                // if(month<10) {
-                //     month='0'+month
-                // } 
-
-                // if(date<10) {
-                //      date='0'+date
-                // } 
-
-                // let temp =year + "-" +month +"-"+ date +"T"+hours+":"+minutes+":"+seconds
-                // item.updateDate = temp; 
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },

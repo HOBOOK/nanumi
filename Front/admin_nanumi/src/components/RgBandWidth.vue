@@ -524,6 +524,7 @@
                 })
             },
             complete(){
+                this.assignmentItems=[],
                 this.dialog = false
             },
             save() {
