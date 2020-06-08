@@ -50,7 +50,7 @@ public class AdminController {
 //        accountService.saveRequestCount(requestId);
         List<Account> accounts = accountService.findAll();
         if(accounts.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 조회", ErrorCode.FAIL_READ_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 조회", ErrorCode.FAIL_READ_ACCOUNT_NOT_EXIST, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<Object>(accounts, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class AdminController {
     @PutMapping(value = "account")
     public ResponseEntity<Object> update(@RequestBody Account account){
         if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 수정", ErrorCode.FAIL_UPDATE_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 수정", ErrorCode.FAIL_UPDATE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
         }
         accountService.save(account);
         return new ResponseEntity<Object>(account, HttpStatus.OK);
@@ -70,7 +70,7 @@ public class AdminController {
     @DeleteMapping(value="account")
     public ResponseEntity<Object> delete(@RequestBody Account account){
         if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 삭제", ErrorCode.FAIL_DELETE_ACCOUNT_NOT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 삭제", ErrorCode.FAIL_DELETE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
         }
         accountService.deleteById(account.getId());
         return new ResponseEntity<Object>(account, HttpStatus.OK);

@@ -48,7 +48,7 @@ public class BandController {
     public ResponseEntity<Object> getAllbands() {
         List<Band> band = bandService.findAll();
         if(band.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
@@ -59,7 +59,7 @@ public class BandController {
 
         Optional<Band> band = bandService.findBySerialNo(serialNo);
         if(!band.isPresent()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
@@ -78,7 +78,7 @@ public class BandController {
         List<Band> bands = bandService.findByCategory(category_enum);
 
         if(bands.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Object>(bands, HttpStatus.OK);
     }
@@ -105,7 +105,7 @@ public class BandController {
     public ResponseEntity<Object> update(@PathVariable("serialNo") String serialNo, @RequestBody Band band) {
         System.out.println(band.toString());
         if(!bandService.findBySerialNo(serialNo).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.ACCEPTED), HttpStatus.ACCEPTED);
+            return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.NO_CONTENT);
         }
 
         if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
@@ -170,7 +170,7 @@ public class BandController {
         try{
             return new ResponseEntity<Object>(bandService.findLocalNumbers(), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 지번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 지번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -179,7 +179,7 @@ public class BandController {
         try{
             return new ResponseEntity<Object>(bandService.findBaseNumbers(localNumber), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 국번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 국번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
         }
     }
 }
