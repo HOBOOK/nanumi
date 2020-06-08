@@ -20,7 +20,9 @@
                             v-model="localNumberFilterValue"
                             label="지역번호"
                             dense="dense"
-                            outlined="outlined"></v-select>
+                            outlined="outlined"
+                            v-on:change="changeLocalNumber"
+                            ></v-select>
                     </v-row>
                 </v-col>
 
@@ -68,15 +70,15 @@
                                 <v-container>
                                     <v-row align="center" justify="center">
                                         <v-col cols="3" class="pa-0">
-                                            <v-text-field v-model="editedItem.countryNo" label="국가번호" required minlength="2" maxlength="2"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.countryNo" label="국가번호" required minlength="2" maxlength="2"></v-text-field>
                                         </v-col>
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="editedItem.localNo" label="지역번호" required minlength="3" maxlength="4"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.localNo" label="지역번호" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>                       
                                         <v-col cols="1"  class="pr-0 pl-4"> - </v-col>
                                         <v-col cols="3"  class="pa-0">
-                                            <v-text-field v-model="editedItem.baseNo" label="대역" required minlength="3" maxlength="4"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.baseNo" label="대역" required minlength="3" maxlength="4"></v-text-field>
                                         </v-col>
                                     </v-row>
                                     <v-row align="center" justify="center">
@@ -226,6 +228,12 @@
                     this.filteritems = res.data
                 })
                 .catch((e) => {
+                    console.log(e)
+                })
+            axios_common.get("/api/band/local", this.requestHeader)
+                .then((res) => {
+                    this.localNumberList = res.data
+                }).catch((e)=> {
                     console.log(e)
                 })
             },
@@ -387,6 +395,15 @@
         },
 
         methods: {
+            changeLocalNumber(){
+                this.baseNumberFilterValue =""
+                axios_common.get("/api/band/base/"+this.localNumberFilterValue, this.requestHeader)
+                .then((res) => {
+                    this.baseNumberList = res.data
+                }).catch((e)=> {
+                    console.log(e)
+                })
+            },
           detail(serialNo, startNo, endNo){
             this.dialog = true
             this.curSerialNo= serialNo

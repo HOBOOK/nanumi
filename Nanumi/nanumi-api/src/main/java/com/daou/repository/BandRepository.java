@@ -23,4 +23,5 @@ public interface BandRepository extends JpaRepository<Band, Long> { //JpaReposit
 	public Optional<Band> findBySerialNo(String serialNo);
 	public List<Band> findByCategory(category category);
 	public Optional<BandAssign> deleteBySerialNo(String serialNo);
+	public List<Band> findByLocalNo(String localNo);
 }

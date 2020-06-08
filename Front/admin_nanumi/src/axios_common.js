@@ -53,7 +53,8 @@ axios_common.interceptors.response.use(function (response) {
     return await axios_common(errorAPI);
   }
   else{
-    alert(error.response.status)
+    if(error.response.status !==400)
+      alert(error.response.status)
   }
   return Promise.reject(error);
 });

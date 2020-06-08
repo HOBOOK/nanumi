@@ -20,7 +20,8 @@
                             v-model="localNumberFilterValue"
                             label="지역번호"
                             dense="dense"
-                            outlined="outlined"></v-select>
+                            outlined="outlined"
+                            v-on:change="changeLocalNumber"></v-select>
                     </v-row>
                 </v-col>
 
@@ -31,7 +32,8 @@
                             v-model="baseNumberFilterValue"
                             label="국번"
                             dense="dense"
-                            outlined="outlined"></v-select>
+                            outlined="outlined"
+                            ></v-select>
                     </v-row>
                 </v-col>
                 <v-col cols="2">
@@ -69,19 +71,19 @@
                                 <v-container>
                                     <v-row>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.seqNo" label="Seq"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.seqNo" label="Seq"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.serialNo" label="대역번호"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.serialNo" label="대역번호"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.receiveNo" label="수신번호"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.receiveNo" label="수신번호"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
                                             <v-text-field v-model="editedItem.svcUserId" label="유저아이디"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" sm="6" md="4">
-                                            <v-text-field v-model="editedItem.updateDate" label="업데이트날짜"></v-text-field>
+                                            <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.updateDate" label="업데이트날짜"></v-text-field>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -248,8 +250,23 @@
         },
         created() {},
         mounted() {
+            axios_common.get("/api/band/local", this.requestHeader)
+            .then((res) => {
+                this.localNumberList = res.data
+            }).catch((e)=> {
+                console.log(e)
+            })
         },
         methods: {
+            changeLocalNumber(){
+                this.baseNumberFilterValue =""
+                axios_common.get("/api/band/base/"+this.localNumberFilterValue, this.requestHeader)
+                .then((res) => {
+                    this.baseNumberList = res.data
+                }).catch((e)=> {
+                    console.log(e)
+                })
+            },
             filteredItems() {
                 this.loading = true
                 if (this.localNumberFilterValue !== "none" && this.baseNumberFilterValue !== "none") {
