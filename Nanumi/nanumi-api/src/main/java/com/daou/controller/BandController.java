@@ -174,8 +174,8 @@ public class BandController {
         }
     }
 
-    @GetMapping(value = "/base")
-    public ResponseEntity<Object> getBaseCodes(@RequestParam String localNumber){
+    @GetMapping(value = "/base/{localNumber}")
+    public ResponseEntity<Object> getBaseCodes(@PathVariable("localNumber") String localNumber){
         try{
             return new ResponseEntity<Object>(bandService.findBaseNumbers(localNumber), HttpStatus.OK);
         }catch (Exception e){

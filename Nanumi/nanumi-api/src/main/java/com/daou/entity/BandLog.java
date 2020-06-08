@@ -27,14 +27,13 @@ public class BandLog {
 	private LocalDateTime updateDate;
 
 	@Column(name = "rev_type")
-	private byte revType;
 	private BandLogType revType;
 	
 	@Column(name = "description")
 	private String description;
 
 	@Builder
-	public BandLog(Long seqLogNo, String serialNo, byte revType, LocalDateTime updateDate, String description) {
+	public BandLog(Long seqLogNo, String serialNo, BandLogType revType, LocalDateTime updateDate, String description) {
 		this.seqLogNo = seqLogNo;
 		this.serialNo = serialNo;
 		this.revType = revType;
