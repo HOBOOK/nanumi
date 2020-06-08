@@ -1,3 +1,5 @@
+// @author jsw
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import AuthUser from '../components/AuthUser';
@@ -5,10 +7,6 @@ import Receive from '../components/Receive';
 import Home from '../components/Home';
 import RgBandWidth from '../components/RgBandWidth';
 import store from '../store/index';
-
-// import test from '../components/test'
-// import test2 from '../components/test2'
-
 
 Vue.use(VueRouter)
 
