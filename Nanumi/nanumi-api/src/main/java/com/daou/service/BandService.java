@@ -43,6 +43,7 @@ public class BandService {
 		return categoryBands;
 	}
 
+	//예외 발생시 bandRepository.save(band)와 bandLogRepository.save(bandLog) 모두 롤백 처리
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public Band save(Band band) {
 		bandRepository.save(band);
@@ -59,7 +60,7 @@ public class BandService {
 		bandLog.setSerialNo(band.getSerialNo());
 		bandLog.setRevType(enumLog);
 		bandLog.setDescription(str.toString());
-
+		
 		bandLogRepository.save(bandLog);
 
 		return band;
@@ -70,6 +71,7 @@ public class BandService {
 		bandRepository.deleteBySerialNo(serialNo);
 	}
 
+	//예외 발생시 bandRepository.save(band)와 bandLogRepository.save(bandLog) 모두 롤백 처리
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public void updateByBandNumberRange(String serialNo, Band band) {
 		Optional<Band> e = bandRepository.findBySerialNo(serialNo);

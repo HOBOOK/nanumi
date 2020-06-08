@@ -45,19 +45,8 @@ public class BandAssignController {
 	@Autowired
 	ValidationCheck validationCheck;
 
+
 	// 모든 할당 대역 출력
-//	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<List<BandAssign>> getAllbands() {
-//		List<BandAssign> bandAssigns = bandAssignService.findAll();
-//		System.out.println(bandAssigns);
-//		if(bandAssigns.isEmpty()) {
-//			return new ResponseEntity(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<List<BandAssign>>(bandAssigns, HttpStatus.OK);
-//	}
-
-
-	// 모든 대역 조회
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> findInfo() {
 		List<AccountMapping> bandAssigns = bandAssignService.findAllBy();
@@ -93,6 +82,7 @@ public class BandAssignController {
 	/**
 	 * Insert
 	 * 사용자에게 할당  serialNo, startNo, endNo, svcId(Account에 id사용자 아이디)
+	 * (validationCheck)
 	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2.입력값 유효성 검사
 	 */
 	@RequestMapping(method = RequestMethod.POST)
@@ -112,6 +102,7 @@ public class BandAssignController {
 
 	/**
 	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
+	 * (validationCheck)
 	 *  1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. 입력값 유효성 검사
 	 */
 	@RequestMapping(method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })

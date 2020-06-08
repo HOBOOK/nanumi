@@ -31,6 +31,7 @@ public class ValidationCheck{
         return true;
     }
 
+    //할당 대역 범위,길이 체크 / 입력값 유효성 검사
     public boolean validBandAssignRange(Optional<Band> band , BandAssign bandAssign){
 
         if(!validBandRange(bandAssign.getStartNo(), bandAssign.getEndNo())){

@@ -5,6 +5,7 @@ import com.daou.common.ErrorResponse;
 import com.daou.common.ValidationCheck;
 import com.daou.entity.BandLog;
 import com.daou.service.BandLogService;
+import com.daou.types.BandLogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,13 +137,13 @@ public class BandController {
 
     // 모든 대역 로그 출력
     @GetMapping(value = "/log", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<BandLog>> getAllbandLogs() {
+    public ResponseEntity<Object> getAllbandLogs() {
         List<BandLog> bandLogs = bandLogService.findAll();
 
         if(bandLogs.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<BandLog>>(bandLogs, HttpStatus.OK);
+        return new ResponseEntity<Object>(bandLogs, HttpStatus.OK);
     }
 
     // 대역 로그 검색
@@ -154,13 +155,13 @@ public class BandController {
 
     // 대역 로그 상태 검색
     @GetMapping(value = "/log/state/{revType}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<List<BandLog>> getBand(@PathVariable("revType") byte revType) {
+    public ResponseEntity<Object> getBand(@PathVariable("revType") BandLogType revType) {
         List<BandLog> bandLog = bandLogService.findByRevType(revType);
 
         if(bandLog.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
+        return new ResponseEntity<Object>(bandLog, HttpStatus.OK);
     }
 
 
