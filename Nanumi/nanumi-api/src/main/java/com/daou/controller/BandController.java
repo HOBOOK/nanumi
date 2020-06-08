@@ -17,6 +17,7 @@ import com.daou.entity.Band;
 import com.daou.service.BandService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,6 +161,30 @@ public class BandController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
+    }
+
+
+    // 대역의 국번, 지번 조회
+    @GetMapping(value = "/country")
+    public ResponseEntity<List<String>> getCountryCodes(){
+        List<Band> bands = bandService.findAll();
+        List<String> countryCodes =  new ArrayList<>();
+        for(Band b : bands){
+            if(!countryCodes.contains(b.getCountryNo()))
+                countryCodes.add(b.getCountryNo());
+        }
+        return new ResponseEntity<List<String>>(countryCodes, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/base")
+    public ResponseEntity<List<String>> getBaseCodes(){
+        List<Band> bands = bandService.findAll();
+        List<String> baseCodes =  new ArrayList<>();
+        for(Band b : bands){
+            if(!baseCodes.contains(b.getBaseNo()))
+                baseCodes.add(b.getBaseNo());
+        }
+        return new ResponseEntity<List<String>>(baseCodes, HttpStatus.OK);
     }
 
 }
