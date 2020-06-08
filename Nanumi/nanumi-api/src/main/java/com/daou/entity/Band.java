@@ -47,7 +47,6 @@ public class Band {
 
 	//OneToMany 추가 Assign_tb 내용 조회 -> 모달 출력
 
-
 	@Builder
 	public Band(Long seqNo, String serialNo, String countryNo, String localNo, String baseNo
 			, String startNo, String endNo, com.daou.types.category category, byte status) {
@@ -68,7 +67,4 @@ public class Band {
 	
 	public Band() {}
 
-//	public String toString() {
-//		return String.format("%s %s %s %s %s, ", serialNo,startNo,endNo,category,status);
-//	}
 }

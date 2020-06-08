@@ -93,6 +93,7 @@ public class BandService {
 			bandRepository.save(e.get());
 		}
 
+
 		BandLog bandLog = new BandLog();
 		bandLog.setSerialNo(e.get().getSerialNo());
 		bandLog.setRevType(enumLog);

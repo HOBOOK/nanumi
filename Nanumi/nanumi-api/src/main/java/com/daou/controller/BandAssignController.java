@@ -93,7 +93,7 @@ public class BandAssignController {
 	/**
 	 * Insert
 	 * 사용자에게 할당  serialNo, startNo, endNo, svcId(Account에 id사용자 아이디)
-	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. insert
+	 * 1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2.입력값 유효성 검사
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody BandAssign bandAssign) {
@@ -112,7 +112,7 @@ public class BandAssignController {
 
 	/**
 	 * Update - 대역 범위 수정 (SEQ_NO로 검색 START_NO, END_NO 수정)
-	 *  1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. true -> 3. update
+	 *  1. Band_tb의 Start/EndNo 범위 확인 처리 -> 2. 입력값 유효성 검사
 	 */
 	@RequestMapping(method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> update(@RequestBody BandAssign bandAssign) {

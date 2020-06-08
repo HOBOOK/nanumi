@@ -2,6 +2,7 @@ package com.daou.repository;
 
 
 import com.daou.entity.BandLog;
+import com.daou.types.BandLogType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,6 @@ public interface BandLogRepository extends JpaRepository<BandLog, Long> {
 	
 	public Optional<BandLog> findBySeqLogNo(Long seqLogNo);
 	public Optional<BandLog> findBySerialNo(String serialNo);
-	public List<BandLog> findByRevType(byte revType);
+	public List<BandLog> findByRevType(BandLogType revType);
 
 }

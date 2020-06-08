@@ -3,11 +3,11 @@ package com.daou.service;
 import com.daou.entity.Account;
 import com.daou.entity.BandLog;
 import com.daou.repository.BandLogRepository;
+import com.daou.types.BandLogType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,14 +37,9 @@ public class BandLogService {
 		return bandLogs;
 	}
 	
-	public List<BandLog> findByRevType(byte revType) {
+	public List<BandLog> findByRevType(BandLogType revType) {
 		List<BandLog> bandLogs = new ArrayList<>();
 		bandLogRepository.findByRevType(revType).forEach(e -> bandLogs.add(e));
 		return bandLogs;
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public void save(BandLog bandLog) {
-		bandLogRepository.save(bandLog);
 	}
 }
