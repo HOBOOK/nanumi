@@ -50,12 +50,12 @@ Content-Type: application/json
 Authorization: {{AccessToken}}
 
 {
-  "serialNo":"82-0303-3450",
+  "serialNo":"82-0303-3440",
   "countryNo":"82",
   "localNo":"0303",
-  "baseNo":"3450",
+  "baseNo":"3440",
   "startNo":"0000",
-  "endNo":"5000",
+  "endNo":"9999",
   "category":"FAX"
 }
 

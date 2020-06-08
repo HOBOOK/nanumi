@@ -27,6 +27,7 @@ public class BandLog {
 	private LocalDateTime updateDate;
 
 	@Column(name = "rev_type")
+	@Enumerated(EnumType.STRING)
 	private BandLogType revType;
 	
 	@Column(name = "description")

@@ -54,6 +54,7 @@ public class BandService {
 				.append("~")
 				.append(band.getEndNo());
 
+
 		BandLog bandLog = new BandLog();
 		bandLog.setSerialNo(band.getSerialNo());
 		bandLog.setRevType(enumLog);

@@ -5,8 +5,7 @@ package com.daou.types;
  */
 
 public enum BandLogType {
-	NONE,
 	INSERT,	// 새로운 대역 추가
 	UPDATE,	// 대역 할당시
-	DELETE;		// 대역 반납시
+	DELETE	// 대역 반납시
 }
