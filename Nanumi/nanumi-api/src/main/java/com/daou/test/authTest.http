@@ -50,25 +50,25 @@ Content-Type: application/json
 Authorization: {{AccessToken}}
 
 {
-  "serialNo":"82-0303-3450",
+  "serialNo":"82-0303-3440",
   "countryNo":"82",
   "localNo":"0303",
-  "baseNo":"3450",
-  "startNo":"0100",
-  "endNo":"0000",
+  "baseNo":"3440",
+  "startNo":"0000",
+  "endNo":"9999",
   "category":"FAX"
 }
 
 ### 대역 업데이트
-PUT {{Local}}/api/band/82-0303-3440
+PUT {{Local}}/api/band/82-0303-3449
 accept: application/json
 Content-Type: application/json
 Authorization: {{AccessToken}}
 
 {
-  "serialNo":"82-0303-3440",
+  "serialNo":"82-0303-3450",
   "startNo":"0000",
-  "endNo":"1000",
+  "endNo":"4000",
   "category":"FAX",
   "status": 0
 }
