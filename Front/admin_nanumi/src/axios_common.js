@@ -1,7 +1,13 @@
   
 import axios from "axios";
 
+/**
+ * @author JSW
+ */
+
 const axios_common = axios.create({
+
+  //로컬 서버용
   baseURL: "http://localhost:8080",  
   // baseURL: "http://123.2.134.114:8081/nanumi",
   headers: {
@@ -9,6 +15,7 @@ const axios_common = axios.create({
   }
 });
 
+//초기 timout 대기시간 2.5초
 axios_common.defaults.timeout = 2500;
 
 axios_common.interceptors.response.use(function (response) {
@@ -16,12 +23,12 @@ axios_common.interceptors.response.use(function (response) {
 }, async function (error) {
   console.log('에러일 경우', error.config);
   const errorAPI = error.config;
-  if(!error.response){
-    // alert("서버가 응답하지 않습니다. time out")
 
+  //타임아웃일 경우
+  if(!error.response){
     console.log("---------------------")
 
-    
+    //3번 시도 후 Alert로 표시
     if(errorAPI.timeout <10000){
       setTimeout(function () {
         errorAPI.timeout *=2;
@@ -32,6 +39,8 @@ axios_common.interceptors.response.use(function (response) {
       alert("서버가 응답하지 않습니다. timeout")
     }
   }
+
+  //인증처리(401) 에러
   else if(error.response.data.status==='UNAUTHORIZED' && errorAPI.retry===undefined){
     errorAPI.retry = true;
     console.log('만료된 토큰');
@@ -52,19 +61,15 @@ axios_common.interceptors.response.use(function (response) {
     });
     return await axios_common(errorAPI);
   }
+  //그 외의 오류
   else{
+    //400에러 아무것도 값이 없을 경우는 경고창 표시X
     if(error.response.status !==400)
       alert(error.response.status)
   }
+
+
   return Promise.reject(error);
 });
 
 export default axios_common
-
-// export default axios.create({
-//   baseURL: "http://localhost:8080",  
-//   // baseURL: "http://123.2.134.114:8081/nanumi",
-//   headers: {
-//     "Content-type": "application/json",
-//   }
-// });

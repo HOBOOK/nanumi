@@ -1,5 +1,5 @@
+// @author jsw
 <template>
-    <!-- <v-container fluid ma-0 pa-0> -->
     <v-card height="100%">
         <v-container fluid="fluid">
             <v-row>
@@ -388,7 +388,7 @@
         watch: {
             dialog(val) {
                 val || this.close()
-            }
+            },
         },
 
         created() {
@@ -508,7 +508,6 @@
                         console.log('error > ' + res)
                     })
                     }
-                // confirm('정말로 지우시겠습니까?') && this.items.splice(index, 1)
             },
 
             close() {

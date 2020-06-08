@@ -1,5 +1,5 @@
-   <template>
-<!-- <v-container fluid ma-0 pa-0> -->
+// @author jsw
+<template>
   <v-card height="100%">
    <v-data-table
     :headers="headers"
@@ -94,29 +94,6 @@ import { mapGetters } from 'vuex';
 
   export default {
     mounted () {
-        // axios_common.interceptors.response.use(function (response) {
-        //   return response;
-        // }, async function (error) {
-        //   console.log('에러일 경우', error.config);
-        //   const errorAPI = error.config;
-        //   if(error.response.data.status==='UNAUTHORIZED' && errorAPI.retry===undefined){
-        //     errorAPI.retry = true;
-        //     console.log('만료된 토큰');
-        //     await axios_common.get('/api/auth/token', {
-        //       headers:{
-        //         Authorization: 'Bearer ' + localStorage.getItem("refreshToken")
-        //       }
-        //     }).then((res)=>{
-        //       localStorage.setItem('token', res.data.token);
-        //       errorAPI.headers.Authorization = "Bearer " + res.data.token
-        //       console.log(res);
-        //     }).catch((e)=>{
-        //       console.log(e)
-        //     });
-        //     return await axios_common(errorAPI);
-        //   }
-        //   return Promise.reject(error);
-        // });
        axios_common.get('/api/admin/account', this.requestHeader)
           .then((res)=>{
             this.items = res.data

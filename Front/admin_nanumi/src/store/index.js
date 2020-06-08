@@ -1,3 +1,4 @@
+// @author jsw
 import Vue from 'vue'
 import Vuex from 'vuex'
 import jwtDecode from 'jwt-decode'
