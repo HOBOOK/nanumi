@@ -1,12 +1,16 @@
 package com.daou.service;
 
 import com.daou.entity.Band;
+import com.daou.entity.BandLog;
+import com.daou.repository.BandLogRepository;
 import com.daou.repository.BandRepository;
 import com.daou.types.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,8 @@ import java.util.Optional;
 public class BandService {
 	@Autowired
 	private BandRepository bandRepository;
+	@Autowired
+	private BandLogRepository bandLogRepository;
 
 	public List<Band> findAll() {
 		List<Band> bands = new ArrayList<>();
@@ -36,7 +42,7 @@ public class BandService {
 		return categoryBands;
 	}
 
-	@Transactional
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRES_NEW)
 	public Band save(Band band) {
 		bandRepository.save(band);
 		return band;
@@ -47,7 +53,7 @@ public class BandService {
 		bandRepository.deleteBySerialNo(serialNo);
 	}
 
-	@Transactional
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRES_NEW)
 	public void updateByBandNumberRange(String serialNo, Band band) {
 		Optional<Band> e = bandRepository.findBySerialNo(serialNo);
 		if (e.isPresent()) {
@@ -57,12 +63,11 @@ public class BandService {
 			e.get().setStatus(band.getStatus());
 			bandRepository.save(e.get());
 		}
+		BandLog bandLog = new BandLog();
+		bandLog.setSerialNo(e.get().getSerialNo());
+		bandLog.setRevType(1);
+		bandLog.setDescription("대역 업데이트");
+		bandLogRepository.save(bandLog);
 	}
-
-
-//	public void deleteById(Long mbrNo) {
-//		memberRepository.deleteById(mbrNo);
-//	}
-//
 
 }

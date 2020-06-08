@@ -124,7 +124,7 @@ Authorization: {{AccessToken}}
 {
   "serialNo":"82-0303-3440",
   "startNo":"0000",
-  "endNo":"6000",
+  "endNo":"8000",
   "status":"0",
   "svcId":"nanumi"
 }
