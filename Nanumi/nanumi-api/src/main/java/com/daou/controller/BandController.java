@@ -166,20 +166,20 @@ public class BandController {
 
     // 대역의 국번, 지번 조회
     @GetMapping(value = "/local")
-    public ResponseEntity<List<String>> getLocalCodes(){
+    public ResponseEntity<Object> getLocalCodes(){
         try{
-            return new ResponseEntity<List<String>>(bandService.findLocalNumbers(), HttpStatus.OK);
+            return new ResponseEntity<Object>(bandService.findLocalNumbers(), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(ErrorResponse.of("조회된 지번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 지번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/base")
-    public ResponseEntity<List<String>> getBaseCodes(@RequestParam String localNumber){
+    public ResponseEntity<Object> getBaseCodes(@RequestParam String localNumber){
         try{
-            return new ResponseEntity<List<String>>(bandService.findBaseNumbers(localNumber), HttpStatus.OK);
+            return new ResponseEntity<Object>(bandService.findBaseNumbers(localNumber), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<>(ErrorResponse.of("조회된 국번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Object>(ErrorResponse.of("조회된 국번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -1,15 +1,15 @@
 package com.daou.service;
 
-import com.daou.common.Logger;
-import com.daou.entity.Band;
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AccountMapping;
 import com.daou.mapping.AssignMapping;
 import com.daou.repository.BandAssignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +79,7 @@ public class BandAssignService {
 	}
 
 
-	@Transactional
+	@Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRES_NEW)
 	public void updateByBandNumberRange(BandAssign bandAssign) {
 		Optional<BandAssign> e = bandAssignRepository.findBySerialNoAndSvcId(bandAssign.getSerialNo(), bandAssign.getSvcId());
 		if (e.isPresent()) {

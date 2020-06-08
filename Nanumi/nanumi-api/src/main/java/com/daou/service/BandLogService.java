@@ -1,10 +1,12 @@
 package com.daou.service;
 
+import com.daou.entity.Account;
 import com.daou.entity.BandLog;
 import com.daou.repository.BandLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,24 +41,9 @@ public class BandLogService {
 		bandLogRepository.findByRevType(revType).forEach(e -> bandLogs.add(e));
 		return bandLogs;
 	}
-	
-//
-//	public Optional<Member> findById(String id) {
-//		Optional<Member> member = memberRepository.findById(id);
-//		return member;
-//	}
-//
-//	public void deleteById(Long mbrNo) {
-//		memberRepository.deleteById(mbrNo);
-//	}
-//
-//	public void updateById(Long mbrNo, MemberVo member) {
-//		Optional<MemberVo> e = memberRepository.findById(mbrNo);
-//		if (e.isPresent()) {
-//			e.get().setMbrNo(member.());
-//			e.get().setId(member.getId());
-//			e.get().setName(member.getName());
-//			memberRepository.save(member);
-//		}
-//	}
+
+	@Transactional
+	public void save(BandLog bandLog) {
+		bandLogRepository.save(bandLog);
+	}
 }
