@@ -17,6 +17,7 @@ import com.daou.entity.Band;
 import com.daou.service.BandService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,7 +90,7 @@ public class BandController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody Band band){
 
-        if(!validationCheck.validBandRange(band))
+        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
         {
             return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         }
@@ -107,7 +108,7 @@ public class BandController {
             return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.ACCEPTED), HttpStatus.ACCEPTED);
         }
 
-        if(!validationCheck.validBandRange(band))
+        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
         {
             return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_UPDATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
         }
@@ -160,6 +161,30 @@ public class BandController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<BandLog>>(bandLog, HttpStatus.OK);
+    }
+
+
+    // 대역의 국번, 지번 조회
+    @GetMapping(value = "/country")
+    public ResponseEntity<List<String>> getCountryCodes(){
+        List<Band> bands = bandService.findAll();
+        List<String> countryCodes =  new ArrayList<>();
+        for(Band b : bands){
+            if(!countryCodes.contains(b.getCountryNo()))
+                countryCodes.add(b.getCountryNo());
+        }
+        return new ResponseEntity<List<String>>(countryCodes, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/base")
+    public ResponseEntity<List<String>> getBaseCodes(){
+        List<Band> bands = bandService.findAll();
+        List<String> baseCodes =  new ArrayList<>();
+        for(Band b : bands){
+            if(!baseCodes.contains(b.getBaseNo()))
+                baseCodes.add(b.getBaseNo());
+        }
+        return new ResponseEntity<List<String>>(baseCodes, HttpStatus.OK);
     }
 
 }

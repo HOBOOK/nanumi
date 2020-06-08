@@ -1,5 +1,7 @@
 package com.daou.controller;
 
+import com.daou.common.ErrorCode;
+import com.daou.common.ErrorResponse;
 import com.daou.entity.BandReceive;
 import com.daou.mapping.bandMapping;
 import com.daou.repository.BandReceiveRepository;
@@ -16,14 +18,14 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-/*
+/**
 	@author Song
+ 	@author jsw
  */
 
 @CrossOrigin //웹 페이지의 제한된 자원을 외부 도메인에서 접근을 허용
 @RestController 
 @RequestMapping("/api/receptions")
-
 public class BandReceiveController {
 	// 기본형 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
@@ -37,39 +39,25 @@ public class BandReceiveController {
 		List<BandReceive> bandReceives = bandReceiveService.findAll();
 		System.out.println(bandReceives);
 		if(bandReceives.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceives, HttpStatus.OK);
 	}
 	
-	// seq_log_no 대역 로그 검색 출력
-//	@GetMapping(value = "/{seqNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-//	public ResponseEntity<BandReceive> getBand(@PathVariable("seqNo") Long seqNo) {
-//		Optional<BandReceive> bandReceive = bandReceiveService.findBySeqNo(seqNo);
-//		if(bandReceive == null ) {
-//			return new ResponseEntity(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<BandReceive>(bandReceive.get(), HttpStatus.OK);
-//	}
-
 	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandReceive>> getBandBySerialNo(@PathVariable("serialNo") String serialNo) {
 		List<BandReceive> bandReceive = bandReceiveService.findBySerialNo(serialNo);
 		if(bandReceive.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(ErrorResponse.of("조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
 
-
-	
-	// seq_log_no 대역 로그 상태 검색
 	@GetMapping(value = "/receive/{receiveNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandReceive>> getBand(@PathVariable("receiveNo") String receiveNo) {
 		List<BandReceive> bandReceive = bandReceiveService.findByReceiveNo(receiveNo);
-		
 		if(bandReceive.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<List<BandReceive>>(bandReceive, HttpStatus.OK);
 	}
@@ -77,22 +65,10 @@ public class BandReceiveController {
 	@PutMapping(value = "/receive/{seqNo}")
 	public ResponseEntity<Object> update(@RequestBody BandReceive bandReceive){
 		if(!bandReceiveService.findBySeqNo(bandReceive.getSeqNo()).isPresent()){
-			return new ResponseEntity<Object>(HttpStatus.NOT_IMPLEMENTED);
+			return new ResponseEntity(ErrorResponse.of("조회된 수신 번호 없음", ErrorCode.FAIL_UPDATE_RECEIVING_NUMBER, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
 		}
 		bandReceive.setUpdateDate(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
 		bandReceiveService.save(bandReceive);
 		return new ResponseEntity<Object>(bandReceive, HttpStatus.OK);
-	}
-
-
-	//band 테이블 조인 category 컬럼 추가 조회
-	@GetMapping(value = "/category", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<List<bandMapping>> findAllBy() {
-		List<bandMapping> bandReceives = bandReceiveService.findAllBy();
-		System.out.println(bandReceives);
-		if(bandReceives.isEmpty()) {
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<bandMapping>>(bandReceives, HttpStatus.OK);
 	}
 }

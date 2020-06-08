@@ -103,14 +103,31 @@ Content-Type: application/json
 Authorization: {{AccessToken}}
 
 
-### 할당 대역 svc_id 조회
-GET {{Local}}/api/assignments/nanumi
+###
+POST {{Local}}/api/assignments
 Content-Type: application/json
 Authorization: {{AccessToken}}
 
+{
+  "serialNo":"82-0303-3440",
+  "startNo":"4000",
+  "endNo":"5000",
+  "svcId":"nanumi"
+}
 
 
+###
+PUT {{Local}}/api/assignments
+Content-Type: application/json
+Authorization: {{AccessToken}}
 
+{
+  "serialNo":"82-0303-3440",
+  "startNo":"0000",
+  "endNo":"6000",
+  "status":"0",
+  "svcId":"nanumi"
+}
 
 ################## 수신 번호 관리 #####################
 

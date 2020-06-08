@@ -2,6 +2,7 @@ package com.daou.repository;
 
 import com.daou.entity.BandAssign;
 import com.daou.mapping.AccountMapping;
+import com.daou.mapping.AssignMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,5 @@ public interface BandAssignRepository extends JpaRepository<BandAssign, Long> {
 	public List<BandAssign> findBySerialNo(String serialNo);
 	public List<BandAssign> findBySvcId(String serviceCode);
 	public Optional<BandAssign> deleteBySeqNo(Long seqNo);
+	public Optional<BandAssign> findBySerialNoAndSvcId(String serialNo, String svcId);
 }
