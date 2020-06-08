@@ -167,24 +167,19 @@ public class BandController {
     // 대역의 국번, 지번 조회
     @GetMapping(value = "/local")
     public ResponseEntity<List<String>> getLocalCodes(){
-        List<Band> bands = bandService.findAll();
-        List<String> localCodes =  new ArrayList<>();
-        for(Band b : bands){
-            if(!localCodes.contains(b.getLocalNo()))
-                localCodes.add(b.getLocalNo());
+        try{
+            return new ResponseEntity<List<String>>(bandService.findLocalNumbers(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(ErrorResponse.of("조회된 지번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<List<String>>(localCodes, HttpStatus.OK);
     }
 
     @GetMapping(value = "/base")
-    public ResponseEntity<List<String>> getBaseCodes(){
-        List<Band> bands = bandService.findAll();
-        List<String> baseCodes =  new ArrayList<>();
-        for(Band b : bands){
-            if(!baseCodes.contains(b.getBaseNo()))
-                baseCodes.add(b.getBaseNo());
+    public ResponseEntity<List<String>> getBaseCodes(@RequestParam String localNumber){
+        try{
+            return new ResponseEntity<List<String>>(bandService.findBaseNumbers(localNumber), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(ErrorResponse.of("조회된 국번 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<List<String>>(baseCodes, HttpStatus.OK);
     }
-
 }

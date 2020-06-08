@@ -60,6 +60,31 @@ public class BandService {
 	}
 
 
+	// 모든 지번 조회
+	@Transactional
+	public List<String> findLocalNumbers(){
+		List<String> localNumbers = new ArrayList<>();
+		for(Band band : bandRepository.findAll()){
+			if(!localNumbers.contains(band.getLocalNo())){
+				localNumbers.add(band.getLocalNo());
+			}
+		}
+		return localNumbers;
+	}
+
+	// 지번에 따른 국번 조회
+	@Transactional
+	public List<String> findBaseNumbers(String localNumber){
+		List<String> baseNumbers = new ArrayList<>();
+		for(Band band : bandRepository.findByLocalNo(localNumber)){
+			if(!baseNumbers.contains(band.getBaseNo())){
+				baseNumbers.add(band.getBaseNo());
+			}
+		}
+		return baseNumbers;
+	}
+
+
 //	public void deleteById(Long mbrNo) {
 //		memberRepository.deleteById(mbrNo);
 //	}
