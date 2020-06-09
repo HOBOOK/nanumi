@@ -200,13 +200,12 @@
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.serialNo }}</td>
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.startNo }}</td>
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.endNo }}</td>
-                  <td>
+                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">
                     <v-chip
                         :color="colors[item.status]"
                         label
-                        @click="detail(item.serialNo, item.startNo, item.endNo)"
                     ><v-icon left>{{ stateIcon[item.status] }}</v-icon>
-                    <span style="width:80px" class="text-center">{{ stateMatching[item.status]}}</span>
+                    <span style="width:40px" class="text-center">{{ stateMatching[item.status]}}</span>
                     </v-chip>
                   </td>
                   <td>
