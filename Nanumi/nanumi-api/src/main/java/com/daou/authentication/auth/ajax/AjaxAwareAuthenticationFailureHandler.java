@@ -43,7 +43,7 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
         response.setCharacterEncoding("utf-8");
 
         if (ex instanceof BadCredentialsException) {
-            mapper.writeValue(response.getWriter(), ErrorResponse.of("사용자 정보가 일치 하지 않음", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
+            mapper.writeValue(response.getWriter(), ErrorResponse.of("사용자 정보가 일치 하지 않음", ErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
         } else if (ex instanceof JwtExpiredTokenException) {
             mapper.writeValue(response.getWriter(), ErrorResponse.of("만료된 토큰", ErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
         } else if (ex instanceof AuthMethodNotSupportedException) {
