@@ -124,34 +124,10 @@
                 }
             ],
             localNumberList: [
-                {
-                    text: "031",
-                    value: "031"
-                }, {
-                    text: "0303",
-                    value: "0303"
-                }, {
-                    text: "02",
-                    value: "02"
-                }
+        
             ],
             baseNumberList: [
-                {
-                    text: "671",
-                    value: "671"
-                }, {
-                    text: "3441",
-                    value: "3441"
-                }, {
-                    text: "3442",
-                    value: "3442"
-                }, {
-                    text: "3443",
-                    value: "3443"
-                }, {
-                    text: "3444",
-                    value: "3444"
-                }
+               
             ],
             categoryList: [
                 {

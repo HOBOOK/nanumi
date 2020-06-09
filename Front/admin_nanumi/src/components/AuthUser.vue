@@ -210,6 +210,7 @@ import { mapGetters } from 'vuex';
       add (){
         axios_common.post('/api/admin/account',this.editedItem ,this.requestHeader)
           .then((res)=>{
+            console.log(res.data)
             this.editedItem = res.data;
             this.editedItem.pwd = '';
             this.items.push(this.editedItem)
