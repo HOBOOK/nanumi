@@ -15,8 +15,8 @@ const axios_common = axios.create({
   }
 });
 
-//초기 timout 대기시간 2.5초
-axios_common.defaults.timeout = 2500;
+//초기 timout 대기시간 10초
+axios_common.defaults.timeout = 10000;
 
 axios_common.interceptors.response.use(function (response) {
   return response;
@@ -29,9 +29,9 @@ axios_common.interceptors.response.use(function (response) {
     console.log("---------------------")
 
     //3번 시도 후 Alert로 표시
-    if(errorAPI.timeout <10000){
-      setTimeout(function () {
-        errorAPI.timeout *=2;
+    if(errorAPI.timeout <30000){
+      await setTimeout(function () {
+        errorAPI.timeout +=10000;
         return axios_common(errorAPI);
       }.bind(this), errorAPI.timeout);
     }
