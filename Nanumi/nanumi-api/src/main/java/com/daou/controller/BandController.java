@@ -107,6 +107,7 @@ public class BandController {
             }
             return new ResponseEntity<Object>(bandService.save(band), HttpStatus.OK);
         }catch (Exception e){
+            logger.error("대역 테이블 INSERT 과정에서 Rollback 발생");
             return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -128,6 +129,7 @@ public class BandController {
             bandService.updateByBandNumberRange(serialNo, band);
             return new ResponseEntity<Object>(band, HttpStatus.OK);
         }catch (Exception e){
+            logger.error("대역 테이블 UPDATE 과정에서 Rollback 발생");
             return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -60,15 +60,15 @@ Authorization: {{AccessToken}}
 }
 
 ### 대역 업데이트
-PUT {{Local}}/api/band/82-0303-3449
+PUT {{Local}}/api/band/82-0303-3440
 accept: application/json
 Content-Type: application/json
 Authorization: {{AccessToken}}
 
 {
-  "serialNo":"82-0303-3450",
+  "serialNo":"82-0303-3440",
   "startNo":"0000",
-  "endNo":"4000",
+  "endNo":"5000",
   "category":"FAX",
   "status": 0
 }

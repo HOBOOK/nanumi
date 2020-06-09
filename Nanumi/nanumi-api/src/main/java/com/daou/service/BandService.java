@@ -72,7 +72,7 @@ public class BandService {
 	}
 
 	//예외 발생시 bandRepository.save(band)와 bandLogRepository.save(bandLog) 모두 롤백 처리
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 	public void updateByBandNumberRange(String serialNo, Band band) {
 		Optional<Band> e = bandRepository.findBySerialNo(serialNo);
 
@@ -102,6 +102,7 @@ public class BandService {
 		bandLog.setDescription(str.toString());
 
 		bandLogRepository.save(bandLog);
+//		throw new RuntimeException();
 	}
 
 	// 모든 지번 조회
