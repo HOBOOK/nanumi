@@ -47,22 +47,29 @@ public class BandController {
     // 모든 대역 조회
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> getAllbands() {
-        List<Band> band = bandService.findAll();
-        if(band.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        try{
+            List<Band> band = bandService.findAll();
+            if(band.isEmpty()) {
+                return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<Object>(band, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     //serialNo로 대역번호 조회
     @GetMapping(value = "/{serialNo}",produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> getBand(@PathVariable("serialNo") String serialNo) {
-
-        Optional<Band> band = bandService.findBySerialNo(serialNo);
-        if(!band.isPresent()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+        try{
+            Optional<Band> band = bandService.findBySerialNo(serialNo);
+            if(!band.isPresent()) {
+                return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<Object>(band, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
     /**
@@ -73,15 +80,18 @@ public class BandController {
      */
     @GetMapping(value = "/category/{category}",produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> getBandFindCategory(@PathVariable("category") String category) {
+        try{
+            //입력 값 String category -> enum타입으로 변환하여 조회
+            com.daou.types.category category_enum = com.daou.types.category.valueOf(category);
+            List<Band> bands = bandService.findByCategory(category_enum);
 
-        //입력 값 String category -> enum타입으로 변환하여 조회
-        com.daou.types.category category_enum = com.daou.types.category.valueOf(category);
-        List<Band> bands = bandService.findByCategory(category_enum);
-
-        if(bands.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            if(bands.isEmpty()) {
+                return new ResponseEntity<Object>(ErrorResponse.of("조회된 대역이 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<Object>(bands, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(bands, HttpStatus.OK);
     }
 
     /**
@@ -90,12 +100,15 @@ public class BandController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(HttpServletRequest req, @RequestBody Band band){
-
-        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
-        {
-            return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+        try{
+            if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
+            {
+                return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_CREATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<Object>(bandService.save(band), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(bandService.save(band), HttpStatus.OK);
     }
 
 
@@ -104,17 +117,19 @@ public class BandController {
      */
     @PutMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> update(@PathVariable("serialNo") String serialNo, @RequestBody Band band) {
-        System.out.println(band.toString());
-        if(!bandService.findBySerialNo(serialNo).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.NO_CONTENT);
+        try{
+            if(!bandService.findBySerialNo(serialNo).isPresent()){
+                return new ResponseEntity<Object>(ErrorResponse.of("존재하지 않는 대역 입력", ErrorCode.FAIL_READ_BAND, HttpStatus.NO_CONTENT), HttpStatus.NO_CONTENT);
+            }
+            if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
+            {
+                return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_UPDATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
+            }
+            bandService.updateByBandNumberRange(serialNo, band);
+            return new ResponseEntity<Object>(band, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if(!validationCheck.validBandRange(band.getStartNo(), band.getEndNo()))
-        {
-            return new ResponseEntity<Object>(ErrorResponse.of("옳바르지 않은 데이터 포맷", ErrorCode.FAIL_UPDATE_BAND, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
-        }
-        bandService.updateByBandNumberRange(serialNo, band);
-        return new ResponseEntity<Object>(band, HttpStatus.OK);
     }
 
 
@@ -123,8 +138,12 @@ public class BandController {
      */
     @DeleteMapping(value = "/{serialNo}")
     public ResponseEntity<Object> delete(@PathVariable("serialNo") String serialNo, @RequestBody Band band){
-        bandService.deleteBand(serialNo);
-        return new ResponseEntity<Object>(band, HttpStatus.OK);
+        try{
+            bandService.deleteBand(serialNo);
+            return new ResponseEntity<Object>(band, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
@@ -138,30 +157,42 @@ public class BandController {
     // 모든 대역 로그 출력
     @GetMapping(value = "/log", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> getAllbandLogs() {
-        List<BandLog> bandLogs = bandLogService.findAll();
+        try{
+            List<BandLog> bandLogs = bandLogService.findAll();
 
-        if(bandLogs.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            if(bandLogs.isEmpty()) {
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<Object>(bandLogs, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(bandLogs, HttpStatus.OK);
     }
 
     // 대역 로그 검색
     @GetMapping(value = "/log/{seqLogNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
-    public ResponseEntity<BandLog> getBandLog(@PathVariable("seqLogNo") Long seqLogNo) {
-        Optional<BandLog> bandLog = bandLogService.findBySeqLogNo(seqLogNo);
-        return new ResponseEntity<BandLog>(bandLog.get(), HttpStatus.OK);
+    public ResponseEntity<Object> getBandLog(@PathVariable("seqLogNo") Long seqLogNo) {
+        try{
+            Optional<BandLog> bandLog = bandLogService.findBySeqLogNo(seqLogNo);
+            return new ResponseEntity<Object>(bandLog.get(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // 대역 로그 상태 검색
     @GetMapping(value = "/log/state/{revType}", produces = { MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<Object> getBand(@PathVariable("revType") BandLogType revType) {
-        List<BandLog> bandLog = bandLogService.findByRevType(revType);
+        try{
+            List<BandLog> bandLog = bandLogService.findByRevType(revType);
 
-        if(bandLog.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            if(bandLog.isEmpty()) {
+                return new ResponseEntity(ErrorResponse.of("대역 로그 없음", ErrorCode.FAIL_READ_BAND, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<Object>(bandLog, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<Object>(bandLog, HttpStatus.OK);
     }
 
 

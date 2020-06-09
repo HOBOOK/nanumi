@@ -33,14 +33,18 @@ public class AdminController {
     // 사용자 계정 추가 앤드 포인트
     @PostMapping(value="account")
     public ResponseEntity<Object> create(@RequestBody Account account){
-        if(accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("이미 존재 하는 계정 생성 시도", ErrorCode.FAIL_CREATE_ACCOUNT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+        try{
+            if(accountService.findById(account.getId()).isPresent()){
+                return new ResponseEntity<Object>(ErrorResponse.of("이미 존재 하는 계정 생성 시도", ErrorCode.FAIL_CREATE_ACCOUNT_EXIST, HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+            }
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            account.setPwd(encoder.encode(account.getPwd()));
+            accountService.save(account);
+            account = accountService.findById(account.getId()).get();
+            return new ResponseEntity<Object>(account, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        account.setPwd(encoder.encode(account.getPwd()));
-        accountService.save(account);
-        account = accountService.findById(account.getId()).get();
-        return new ResponseEntity<Object>(account, HttpStatus.OK);
     }
 
     // 모든 사용자 조회 앤드 포인트
@@ -49,32 +53,43 @@ public class AdminController {
 //        API 요청수 증가 코드
 //        String requestId = nanumiDecoder.base64DecodeForRequestId(request.getHeader("Authorization"));
 //        accountService.saveRequestCount(requestId);
-        List<Account> accounts = accountService.findAll();
-        if(accounts.isEmpty()) {
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 조회", ErrorCode.FAIL_READ_ACCOUNT_NOT_EXIST, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
+        try{
+            List<Account> accounts = accountService.findAll();
+            if(accounts.isEmpty()) {
+                return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 조회", ErrorCode.FAIL_READ_ACCOUNT_NOT_EXIST, HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<Object>(accounts, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<Object>(accounts, HttpStatus.OK);
     }
 
     // 사용자 계정 수정 앤드 포인트
     @PutMapping(value = "account")
     public ResponseEntity<Object> update(@RequestBody Account account){
-        if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 수정", ErrorCode.FAIL_UPDATE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+        try{
+            if(!accountService.findById(account.getId()).isPresent()){
+                return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 수정", ErrorCode.FAIL_UPDATE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+            }
+            accountService.save(account);
+            return new ResponseEntity<Object>(account, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        accountService.save(account);
-        return new ResponseEntity<Object>(account, HttpStatus.OK);
+
     }
     
     // 사용자 계정 삭제 앤드 포인트
     @DeleteMapping(value="account")
     public ResponseEntity<Object> delete(@RequestBody Account account){
-        if(!accountService.findById(account.getId()).isPresent()){
-            return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 삭제", ErrorCode.FAIL_DELETE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+        try{
+            if(!accountService.findById(account.getId()).isPresent()){
+                return new ResponseEntity<Object>(ErrorResponse.of("존재 하지 않는 계정 삭제", ErrorCode.FAIL_DELETE_ACCOUNT_NOT_EXIST, HttpStatus.NO_CONTENT),HttpStatus.NO_CONTENT);
+            }
+            accountService.deleteById(account.getId());
+            return new ResponseEntity<Object>(account, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<Object>(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        accountService.deleteById(account.getId());
-        return new ResponseEntity<Object>(account, HttpStatus.OK);
     }
-
 }
