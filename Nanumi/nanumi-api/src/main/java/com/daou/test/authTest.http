@@ -109,7 +109,7 @@ Content-Type: application/json
 Authorization: {{AccessToken}}
 
 {
-  "serialNo":"82-0303-3440",
+  "serialNo":"82-0303-3441",
   "startNo":"4000",
   "endNo":"5000",
   "svcId":"nanumi"

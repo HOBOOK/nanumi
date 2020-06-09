@@ -137,7 +137,7 @@ export default {
     },
     errors: [],
     items: [
-        { text: '대시보드', icon: 'mdi-home',to:"test"},
+        { text: '메인화면', icon: 'mdi-home',to:"home"},
         { text: '사용자 인증 관리', icon: 'mdi-account-multiple',to:"authuser"},
         { text: '수신번호관리', icon: 'mdi-history', to:"receive"},
         { text: '번호대역관리', icon: 'mdi-home', to:"rgbandwidth"},

@@ -507,6 +507,7 @@
                   endNo:"",
                   svcId:"",
                 };
+                this.assignmentItems=[],
                 this.$nextTick(() => {
                     this.editedItem = Object.assign({}, this.defaultItem)
                     this.editedIndex = -1

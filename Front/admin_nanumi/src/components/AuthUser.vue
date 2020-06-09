@@ -41,7 +41,7 @@
                     <v-text-field :disabled="editedIndex!==-1" v-model="editedItem.id" label="사용자ID"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="editedIndex===-1">
-                    <v-text-field v-model="editedItem.pwd" label="비밀번호"></v-text-field>
+                    <v-text-field v-model="editedItem.pwd" type="password" label="비밀번호"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="editedItem.svcNm" label="업체"></v-text-field>
