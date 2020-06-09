@@ -70,13 +70,9 @@
             <v-icon>account_circle</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="title">tmddn1304</v-list-item-title>
-            <v-list-item-subtitle>com1304@daou.com</v-list-item-subtitle>
+            <v-list-item-title class="title">{{this.userId}}</v-list-item-title>
+            <v-list-item-subtitle>admin@daou.com</v-list-item-subtitle>
           </v-list-item-content>
-
-          <!-- <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action> -->
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
