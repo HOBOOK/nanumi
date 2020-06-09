@@ -6,6 +6,17 @@
                 <v-col cols="2">
                     <v-row class="pa-3">
                         <v-select
+                            :items="searchCategoryList"
+                            v-model="searchCategory"
+                            label="카테고리"
+                            dense="dense"
+                            outlined="outlined"></v-select>
+                    </v-row>
+                </v-col>
+                <!-- <v-row v-if="searchCategory === '대역번호'">              -->
+                <v-col cols="2" >
+                    <v-row class="pa-3">
+                        <v-select
                             :items="countryNumberList"
                             v-model="countryNumberFilterValue"
                             label="국제번호"
@@ -42,6 +53,8 @@
                     </v-row>
                 </v-col>
             </v-row>
+            <!-- </v-row> -->
+            
         </v-container>
         <v-data-table
             :headers="headers"
@@ -182,6 +195,8 @@
             ],
             showresult: false,
             items: [],
+            searchCategory:["대역번호","사용자"],
+            searchCategoryList:["대역번호","사용자"],
             filteritems: [],
             filters: {
                 category: [],
