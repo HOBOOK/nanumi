@@ -46,9 +46,23 @@ public class BandReceiveController {
 		}catch (Exception e){
 			return new ResponseEntity(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	//서비스 아이디에 할당된 수신번호 검색
+	@GetMapping(value = "svcUserId/{svcUserId}", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<List<BandReceive>> getReceptionsByfindBySvcUserId(@PathVariable("svcUserId") String svcUserId){
+		try{
+			List<BandReceive> bandReceives = bandReceiveService.findBySvcUserId(svcUserId);
+			if(bandReceives.isEmpty()) {
+				return new ResponseEntity(ErrorResponse.of("사용자에게 할당된 조회된 대역 정보 없음", ErrorCode.FAIL_READ_RECEIVING_NUMBER, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<List<BandReceive>>(bandReceives, HttpStatus.OK);
+		}catch (Exception e){
+			return new ResponseEntity(ErrorResponse.of("내부 서버 오류", ErrorCode.GLOBAL,HttpStatus.INTERNAL_SERVER_ERROR),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	}
-	
+
 	@GetMapping(value = "/{serialNo}", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<List<BandReceive>> getBandBySerialNo(@PathVariable("serialNo") String serialNo) {
 		try{

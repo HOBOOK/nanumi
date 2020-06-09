@@ -1,5 +1,6 @@
 package com.daou.service;
 
+import com.daou.entity.Band;
 import com.daou.entity.BandReceive;
 import com.daou.mapping.bandMapping;
 import com.daou.repository.BandReceiveRepository;
@@ -49,6 +50,13 @@ public class BandReceiveService {
 		bandReceiveRepository.findByReceiveNo(receiveNo).forEach(e -> BandReceives.add(e));
 		return BandReceives;
 	}
+
+	public List<BandReceive> findBySvcUserId(String svcUserId) {
+		List<BandReceive> svcBands = new ArrayList<>();
+		bandReceiveRepository.findBySvcUserId(svcUserId).forEach(e -> svcBands.add(e));
+		return svcBands;
+	}
+
 	@Transactional
 	public BandReceive save(BandReceive bandReceive) {
 		bandReceiveRepository.save(bandReceive);

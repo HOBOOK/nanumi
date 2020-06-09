@@ -9,7 +9,7 @@ import java.time.LocalDate;
  * @author Song
  */
 
-public interface bandMapping {
+public interface  bandMapping {
 
     Long getSeqNo();
 

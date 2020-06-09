@@ -2,6 +2,7 @@ package com.daou.repository;
 
 
 //import com.daou.Mapping.BandReceiveMapping;
+import com.daou.entity.Band;
 import com.daou.entity.BandReceive;
 import com.daou.mapping.bandMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +25,5 @@ public interface BandReceiveRepository extends JpaRepository<BandReceive, Long> 
 	public Optional<BandReceive> findBySeqNo(Long seqLogNo);
 	public List<BandReceive> findBySerialNo(String serialNo);
 	public List<BandReceive> findByReceiveNo(String receiveNo);
-
+	public List<BandReceive> findBySvcUserId(String svcUserId);
 }
