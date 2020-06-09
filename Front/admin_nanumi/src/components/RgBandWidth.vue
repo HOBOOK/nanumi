@@ -47,7 +47,8 @@
             :headers="headers"
             :items="filteritems"
             item-key="serialNo"
-            class="elevation-1">
+            class="elevation-1"
+            >
             
             <template v-slot:top>
                 <v-toolbar flat="flat" color="white">
@@ -194,11 +195,20 @@
             <template v-slot:body="{ items }">
               <tbody>
                 <tr v-for="item in items" :key="item.serialNo" >
+                    
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.category }}</td>
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.serialNo }}</td>
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.startNo }}</td>
                   <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.endNo }}</td>
-                  <td @click="detail(item.serialNo, item.startNo, item.endNo)">{{ item.status }}</td>
+                  <td>
+                    <v-chip
+                        :color="colors[item.status]"
+                        label
+                        @click="detail(item.serialNo, item.startNo, item.endNo)"
+                    ><v-icon left>{{ stateIcon[item.status] }}</v-icon>
+                    <span style="width:80px" class="text-center">{{ stateMatching[item.status]}}</span>
+                    </v-chip>
+                  </td>
                   <td>
                     <v-icon small="small" class="mr-2" @click="editItem(item)">
                     mdi-pencil
@@ -207,6 +217,7 @@
                     mdi-delete
                 </v-icon>
                   </td>
+                  
                 </tr>
               </tbody>
             </template>
@@ -242,6 +253,11 @@
             dialogInput: false,
             editedIndex: -1,
 
+
+            colors: ["#cce7e1","#e1d3f8","#ffccd1",],
+            stateMatching: ["정상","정지","대기"],
+            stateIcon: ["mdi-check-circle-outline","mdi-minus-circle","mdi-chart-donut"],
+
             assignmentItems:[],
             assignmentForm:{
               serialNo:"",
@@ -257,34 +273,8 @@
                 }
             ],
             localNumberList: [
-                {
-                    text: "031",
-                    value: "031"
-                }, {
-                    text: "0303",
-                    value: "0303"
-                }, {
-                    text: "02",
-                    value: "02"
-                }
             ],
             baseNumberList: [
-                {
-                    text: "3441",
-                    value: "3441"
-                }, {
-                    text: "3442",
-                    value: "3442"
-                }, {
-                    text: "3443",
-                    value: "3443"
-                }, {
-                    text: "3444",
-                    value: "3444"
-                }, {
-                    text: "671",
-                    value: "671"
-                }
             ],
             bandForm:{
               serialNo:"",
