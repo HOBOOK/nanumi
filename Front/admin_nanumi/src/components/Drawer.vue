@@ -10,8 +10,8 @@
             <v-icon>account_circle</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="title">tmddn1304</v-list-item-title>
-            <v-list-item-subtitle>com1304@daou.com</v-list-item-subtitle>
+            <v-list-item-title class="title">{{this.userId}}</v-list-item-title>
+            <v-list-item-subtitle>admin4@daou.com</v-list-item-subtitle>
           </v-list-item-content>
 
           <!-- <v-list-item-action>
@@ -73,9 +73,10 @@
     </v-navigation-drawer>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
     name: 'DashboardCoreDrawer',
-
+    
     data: () => ({
       selected: 0,
       items: [
@@ -87,6 +88,7 @@ export default {
     }),
 
     computed: {
+      ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
     },
 
     methods: {
