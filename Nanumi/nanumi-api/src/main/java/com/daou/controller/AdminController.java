@@ -39,6 +39,7 @@ public class AdminController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         account.setPwd(encoder.encode(account.getPwd()));
         accountService.save(account);
+        account = accountService.findById(account.getId()).get();
         return new ResponseEntity<Object>(account, HttpStatus.OK);
     }
 
