@@ -368,7 +368,7 @@
         }),
 
         computed: {
-            ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
+            ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'userRole']),
             formTitle() {
                 return this.editedIndex === -1? '신규대역 등록' : '번호대역 수정'
             },

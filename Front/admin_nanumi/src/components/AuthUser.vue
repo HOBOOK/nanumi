@@ -135,7 +135,7 @@ import { mapGetters } from 'vuex';
       'isAuthenticated',
       'requestHeader',
       'userId',
-      'username'
+      'userRole'
     ])
   ,
       formTitle () {

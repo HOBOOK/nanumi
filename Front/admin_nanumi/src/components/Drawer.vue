@@ -88,7 +88,7 @@ export default {
     }),
 
     computed: {
-      ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
+      ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'userRole']),
     },
 
     methods: {

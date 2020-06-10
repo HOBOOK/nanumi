@@ -13,9 +13,10 @@
                             outlined="outlined"></v-select>
                     </v-row>
                 </v-col>
-                <!-- <v-row v-if="searchCategory === '대역번호'">              -->
-                <v-col cols="2" >
-                    <v-row class="pa-3">
+                <v-row v-if="searchCategory === '대역번호'">
+                <v-col cols="1"></v-col>            
+                <v-col cols="1" >
+                    <v-row class="py-3">
                         <v-select
                             :items="countryNumberList"
                             v-model="countryNumberFilterValue"
@@ -24,7 +25,7 @@
                             outlined="outlined"></v-select>
                     </v-row>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="2" v-if="searchCategory === '대역번호'">
                     <v-row class="pa-3">
                         <v-select
                             :items="localNumberList"
@@ -36,7 +37,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col cols="2">
+                <v-col cols="2" v-if="searchCategory === '대역번호'">
                     <v-row class="pa-3">
                         <v-select
                             :items="baseNumberList"
@@ -47,13 +48,26 @@
                             ></v-select>
                     </v-row>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="2" v-if="searchCategory === '대역번호'">
                     <v-row class="pa-3">
                         <v-btn @click="filteredItems">검색</v-btn>
                     </v-row>
                 </v-col>
             </v-row>
-            <!-- </v-row> -->
+            <v-row >
+                <v-col cols="1"></v-col>
+                <v-col cols="4" v-if="searchCategory === '사용자'">
+                    <v-row class="pl-4" jutify="center">
+                        <v-text-field v-model="searchField" label="사용자ID" @keydown.enter="userSearch()"></v-text-field>
+                    </v-row>
+                </v-col>
+                <v-col cols="2" v-if="searchCategory === '사용자'">
+                    <v-row class="pa-3">
+                        <v-btn @click="userSearch">사용자검색</v-btn>
+                    </v-row>
+                </v-col>
+            </v-row>
+            </v-row>
             
         </v-container>
         <v-data-table
@@ -154,18 +168,7 @@
                     value: "MO"
                 }
             ],
-            serviceList: [
-                {
-                    text: "All",
-                    value: "none"
-                }, {
-                    text: "뿌리오",
-                    value: "뿌리오"
-                }, {
-                    text: "엔팩스",
-                    value: "엔팩스"
-                }
-            ],
+            searchField:'',
             countryNumberFilterValue: '82',
             localNumberFilterValue: 'none',
             baseNumberFilterValue: 'none',
@@ -224,7 +227,7 @@
         }),
 
         computed: {
-            ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'username']),
+            ...mapGetters(['isAuthenticated', 'requestHeader', 'userId', 'userRole']),
             formTitle() {
                 return this.editedIndex === -1? 'New Item' : 'Edit Item'
             }
@@ -245,6 +248,19 @@
             })
         },
         methods: {
+            userSearch(){
+                this.loading = true
+                axios_common.get('/api/receptions/svcUserId/' + this.searchField, this.requestHeader)
+                    .then((res) => {
+                        this.showresult = true
+                        this.filteritems = res.data
+                        console.log(res.data)
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                    })
+                    . finally(() => this.loading = false);
+            },
             changeLocalNumber(){
                 this.baseNumberFilterValue =""
                 axios_common.get("/api/band/base/"+this.localNumberFilterValue, this.requestHeader)

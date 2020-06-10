@@ -46,8 +46,8 @@ export default new Vuex.Store({
     userId: function(state){
       return state.token ? jwtDecode(state.token).sub : null
     },
-    username: function(state){
-      return state.token ? jwtDecode(state.token).sub : null
+    userRole: function(state){
+      return state.token ? jwtDecode(state.token).scopes : null
     },
   }
 

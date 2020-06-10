@@ -12,7 +12,7 @@
         <v-spacer></v-spacer>
                   
           <div v-if="isAuthenticated">
-            <span>{{username}}님 환영합니다. </span>
+            <span>{{userId}}님 환영합니다. </span>
             <v-btn class="ml-4" color="primary" @click="logout()">로그아웃</v-btn>
           </div>
 
@@ -82,15 +82,15 @@
         dense
       >
 
-        <v-list-item-group v-model="selected" color="primary">
+        <v-list-item-group v-model="selected" color="primary" >
           <v-list-item
             v-for="(item, i) in items"
             :key="i"
           >
-            <v-list-item-icon>
+            <v-list-item-icon v-if="role[item.role] <= role[userRole]">
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
-            <v-list-item-content>
+            <v-list-item-content v-if="role[item.role] <= role[userRole]">
               <v-list-item-title @click="switchPage(item.to)" v-text="item.text"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -116,10 +116,11 @@ export default {
       'isAuthenticated',
       'requestHeader',
       'userId',
-      'username'
+      'userRole'
     ])
   },
-
+  mounted(){
+  },
   data: () => ({
     drawer:false,
     selected: 0,
@@ -135,12 +136,13 @@ export default {
       username: '',
       password: ''
     },
+    role:{ROLE_USER : 1, ROLE_ADMIN : 2 },
     errors: [],
     items: [
-        { text: '메인화면', icon: 'mdi-home',to:"home"},
-        { text: '사용자 인증 관리', icon: 'mdi-account-multiple',to:"authuser"},
-        { text: '수신번호관리', icon: 'mdi-history', to:"receive"},
-        { text: '번호대역관리', icon: 'mdi-home', to:"rgbandwidth"},
+        { text: '메인화면', icon: 'mdi-home',to:"home", role:'ROLE_USER'},
+        { text: '수신번호관리', icon: 'mdi-history', to:"receive", role:'ROLE_USER'},
+        { text: '번호대역관리', icon: 'mdi-home', to:"rgbandwidth",role:'ROLE_USER'},
+        { text: '사용자 인증 관리', icon: 'mdi-account-multiple',to:"authuser", role:'ROLE_ADMIN'},
     ],
   }),
    methods: {
@@ -187,7 +189,11 @@ export default {
     
     logout(){
       this.$store.dispatch('logout')
-      this.$router.push('/')
+      this.$router.push('/').catch(error => {
+      if (error.name != "NavigationDuplicated") {
+      throw error;
+     }})
+      this.drawer = false;
     },
 
 
