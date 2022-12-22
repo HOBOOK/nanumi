@@ -13,7 +13,7 @@
     "core-js": "^3.6.4",
     "d3": "^5.16.0",
     "element-ui": "^2.4.5",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^2.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
